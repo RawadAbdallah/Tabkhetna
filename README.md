@@ -11,6 +11,8 @@
 
 ### User Stories
 
+#### User
+
 - As a user, I want to share live videos and events as a classes on the application.
 - As a user, I want to to share my recipes to everyone.
 - As a user, I want to participate in an events and challenges to gain more achievements to grab much more attention.
@@ -19,6 +21,8 @@
 - As a user, I want to contact the help supporters.
 
 <br>
+
+#### Admin
 
 - As a admin, I can ban users who violated the rules.
 - As a admin, I can approve or disapprove an event posted.
@@ -36,7 +40,7 @@
 
 | Login screen  | Register screen |  Landing screen |
 | ---| ---| ---|
-| ![Landing](./readme/demo/login_wireframe.png) | ![fsdaf](./readme/demo/register_wireframe.png) | ![fsdaf](./readme/demo/home_wireframe.png) |
+| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
 
 ### Mockups
 
