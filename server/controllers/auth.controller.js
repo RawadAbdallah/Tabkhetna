@@ -12,7 +12,7 @@ const login = async (req, res) => {
         return res.status(401).json({ error: "Password is required" });
     }
 
-    const user = await User.findOne({ email });
+    let user = await User.findOne({ email });
     if (!user) {
         return res.status(401).send({ error: "Invalid email/password" });
     }
@@ -22,6 +22,9 @@ const login = async (req, res) => {
     if (!isValidPassword) {
         return res.status(401).send({ error: "Invalid password" });
     }
+
+    await User.updateOne({ email }, { $set: { is_online: true } });
+    user = await User.findOne({ email });
 
     const { password: hashedPassword, ...userDetails } = user.toJSON();
 
@@ -92,5 +95,4 @@ const register = async (req, res) => {
 module.exports = {
     login,
     register,
-    changePassword,
 };
