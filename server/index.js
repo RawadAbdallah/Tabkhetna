@@ -12,7 +12,10 @@ app.use(express.json());
 app.use(cors());
 
 const authRoutes = require("./routes/auth.routes");
-app.use("/auth", authMiddleware, authRoutes);
+app.use("/auth", authRoutes);
+
+const userRoutes = require('./routes/user.routes')
+app.use('/cookmates', authMiddleware, userRoutes)
 
 app.listen(process.env.PORT, () => {
     console.log("Server listening on port: ", process.env.PORT);
