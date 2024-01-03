@@ -5,7 +5,7 @@ const addCookmate = async (req, res) => {
         const user = req.user;
         const { id } = req.params;
 
-        // Check for self addition
+        // Checking for self addition
         if (user._id.toString() === id) {
             return res
                 .status(400)
@@ -18,7 +18,7 @@ const addCookmate = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // Check if the user is already in pending_cookmates
+        // Checking if the user is already in pending_cookmates
         if (
             userToAdd.pending_cookmates.find((cookmate) =>
                 cookmate._id.equals(user._id)
@@ -29,7 +29,7 @@ const addCookmate = async (req, res) => {
             });
         }
 
-        // Check if the both users already cookmates
+        // Checking if the both users already cookmates
         if (
             userToAdd.cookmates.find((cookmate) =>
                 cookmate._id.equals(user._id)
@@ -55,17 +55,16 @@ const addCookmate = async (req, res) => {
 };
 
 const acceptCookmate = async (req, res) => {
-    const user = req.user;
-    const { id } = req.params;
-
     try {
+        const user = req.user;
+        const { id } = req.params;
         userToAccept = await User.findOne({ _id: id });
 
         if (!userToAccept) {
             return res.status(404).json({ error: "User not found." });
         }
 
-        // Checking if user is in pending_cookamtes
+        // Checkinging if user is in pending_cookamtes
         if (
             !user.pending_cookmates.find((cookmate) =>
                 cookmate._id.equals(userToAccept._id)
@@ -111,7 +110,41 @@ const acceptCookmate = async (req, res) => {
     }
 };
 
+const rejectCookmate = async (req, res) => {
+    try {
+        const user = req.user;
+        const { id } = req.params;
+
+        const userToReject = await User.findOne({ _id: id });
+
+        // Checking if the user is not in pending_cookmates
+        if (
+            !userToReject.pending_cookmates.find((cookmate) =>
+                cookmate._id.equals(user._id)
+            )
+        ) {
+            return res.status(409).json({
+                error: "User not found in your pending cookmates requests",
+            });
+        }
+
+        await User.updateOne(
+            { _id: user._id },
+            { $pull: { pending_cookmates: usertoReject._id } }
+        );
+
+        return res
+            .status(200)
+            .json({
+                message: "Cookmate request has been rejected successfully.",
+            });
+    } catch (e) {
+        res.status(500).json({ error: `Something went wrong! ${e}` });
+    }
+};
+
 module.exports = {
     addCookmate,
     acceptCookmate,
+    rejectCookmate
 };
