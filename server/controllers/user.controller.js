@@ -18,15 +18,26 @@ const addCookmate = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // Check if the user is already added
-        const isAlreadyAdded = userToAdd.pending_cookmates.find((cookmate) =>
-            cookmate._id.equals(user._id)
-        );
+        // Check if the user is already in pending_cookmates
+        if (
+            userToAdd.pending_cookmates.find((cookmate) =>
+                cookmate._id.equals(user._id)
+            )
+        ) {
+            return res.status(409).json({
+                error: "Cookmate request is already sent, waiting for the other user to accept.",
+            });
+        }
 
-        if (isAlreadyAdded) {
-            return res
-                .status(400)
-                .json({ error: "User is already added as a cookmate" });
+        // Check if the both users already cookmates
+        if (
+            userToAdd.cookmates.find((cookmate) =>
+                cookmate._id.equals(user._id)
+            )
+        ) {
+            return res.status(409).json({
+                error: "You are already cookmates",
+            });
         }
 
         await User.updateOne(
@@ -54,6 +65,7 @@ const acceptCookmate = async (req, res) => {
             return res.status(404).json({ error: "User not found." });
         }
 
+        // Checking if user is in pending_cookamtes
         if (
             !user.pending_cookmates.find((cookmate) =>
                 cookmate._id.equals(userToAccept._id)
@@ -64,33 +76,42 @@ const acceptCookmate = async (req, res) => {
                 .json({ error: "User not found in pending cookmates" });
         }
 
-        //moving user from pending cookmates to accepted cookmates        
+        // Check if the both users already cookmates
+        if (
+            userToAccept.cookmates.find((cookmate) =>
+                cookmate._id.equals(user._id)
+            )
+        ) {
+            return res.status(409).json({
+                error: "You are already cookmates",
+            });
+        }
+
+        // Moving user from pending cookmates to accepted cookmates
         await User.updateOne(
             { _id: user._id },
             { $pull: { pending_cookmates: userToAccept._id } }
         );
 
         await User.updateOne(
-            {_id: user._id},
-            {$push: { cookmates: userToAccept._id }}
-        )
+            { _id: user._id },
+            { $push: { cookmates: userToAccept._id } }
+        );
 
         await User.updateOne(
-            {_id: userToAccept._id},
-            {$push: {cookmates: user._id}}
-        )
-
-
+            { _id: userToAccept._id },
+            { $push: { cookmates: user._id } }
+        );
 
         return res
             .status(200)
             .json({ message: "Cookmate accepted successfully" });
     } catch (e) {
-        return res.status(500).json({error: "Something went wrong! " + e})
+        return res.status(500).json({ error: "Something went wrong! " + e });
     }
 };
 
 module.exports = {
     addCookmate,
-    acceptCookmate
+    acceptCookmate,
 };
