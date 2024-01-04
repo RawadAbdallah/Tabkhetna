@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const multer = require("multer");
 const { authMiddleware } = require("./middlewares/auth.middleware");
 const { connectToMongoDB } = require("./configs/mongodb.config");
 
