@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const { authMiddleware } = require("./middlewares/auth.middleware");
 const { connectToMongoDB } = require("./configs/mongodb.config");
+const upload = require("./configs/multer.config");
 
 require("dotenv").config();
 
@@ -13,7 +14,7 @@ app.use(cors());
 const authRoutes = require("./routes/auth.routes");
 app.use("/auth", authRoutes);
 
-const userRoutes = require('./routes/user.routes')
+const userRoutes = require('./routes/user.routes');
 app.use('/cookmates', authMiddleware, userRoutes)
 
 app.listen(process.env.PORT, () => {
