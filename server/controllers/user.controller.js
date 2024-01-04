@@ -1,5 +1,19 @@
 const User = require("../models/user.model");
 
+const getCookmates = async (req, res) => {
+    const user = req.user;
+
+    //get all cookmates from user.cookmates
+    try {
+        const { cookmates } = await User.findById(user._id).select("cookmates");
+        res.status(200).json({ _id: user._id, cookmates });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: "Error fetching cookmates" });
+    }
+    
+};
+
 const addCookmate = async (req, res) => {
     try {
         const user = req.user;
@@ -133,11 +147,9 @@ const rejectCookmate = async (req, res) => {
             { $pull: { pending_cookmates: usertoReject._id } }
         );
 
-        return res
-            .status(200)
-            .json({
-                message: "Cookmate request has been rejected successfully.",
-            });
+        return res.status(200).json({
+            message: "Cookmate request has been rejected successfully.",
+        });
     } catch (e) {
         res.status(500).json({ error: `Something went wrong! ${e}` });
     }
@@ -146,5 +158,6 @@ const rejectCookmate = async (req, res) => {
 module.exports = {
     addCookmate,
     acceptCookmate,
-    rejectCookmate
+    rejectCookmate,
+    getCookmates,
 };
