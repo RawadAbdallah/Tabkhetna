@@ -17,7 +17,11 @@ const postSchema = new mongoose.Schema(
         },
 
         media: {
-            type: [{ type: String }],
+            type: [
+                {
+                    type: String,
+                },
+            ],
         },
 
         posted_by: {
