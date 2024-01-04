@@ -1,15 +1,18 @@
+const express = require("express");
+const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
+const upload = require("../configs/multer.config");
 
 const login = async (req, res) => {
     const { email, password } = req.body;
     if (!email) {
-        return res.status(401).json({ error: "Email is required" });
+        return res.status(400).json({ error: "Email is required" });
     }
 
     if (!password) {
-        return res.status(401).json({ error: "Password is required" });
+        return res.status(400).json({ error: "Password is required" });
     }
 
     let user = await User.findOne({ email });
@@ -80,7 +83,28 @@ const register = async (req, res) => {
             lastname,
             password,
             country,
-            profile_pic,
+        });
+
+        upload.single("profile_pic")(req, res, async (error) => {
+            if (error) {
+                return res
+                    .status(500)
+                    .json({ error: "Error uploading profile_pic" });
+            }
+
+            if (req.file) {
+                user.profile_pic = req.file.path;
+            } else {
+                const defaultImagePath = path.join(
+                    __dirname,
+                    "..",
+                    "storage",
+                    "assets",
+                    "default_profile_pic.png"
+                );
+                user.profile_pic = defaultImagePath;
+            }
+
         });
 
         await user.save();
