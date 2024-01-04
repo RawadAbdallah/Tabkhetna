@@ -27,10 +27,8 @@ const postSchema = new mongoose.Schema(
 
         saved_by: [
             {
-                user: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: "User",
-                },
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "User",
             },
         ],
         cuisine: {
@@ -55,23 +53,21 @@ const postSchema = new mongoose.Schema(
                 ref: "User",
             },
         ],
-        comments: {
-            type: [
-                {
-                    text: {
-                        type: String,
-                        required: true,
-                    },
-                    user: {
-                        type: mongoose.Schema.Types.ObjectId,
-                        ref: "User",
-                    },
-                    comment_image: {
-                        type: String,
-                    },
+        comments: [
+            {
+                text: {
+                    type: String,
+                    required: true,
                 },
-            ],
-        },
+                user: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: "User",
+                },
+                comment_image: {
+                    type: String,
+                },
+            },
+        ],
     },
     {
         timestamps: true,
