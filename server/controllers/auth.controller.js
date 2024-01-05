@@ -104,7 +104,6 @@ const register = async (req, res) => {
                 );
                 user.profile_pic = defaultImagePath;
             }
-
         });
 
         await user.save();
@@ -113,6 +112,26 @@ const register = async (req, res) => {
             .json({ message: "User created successfully", user });
     } catch (e) {
         return res.status(500).json({ error: e });
+    }
+};
+
+const logout = async (req, res) => {
+    try {
+        const user = req.user;
+
+        if (!user.is_online) {
+            return res.status(401).json({ error: "User is already offline" });
+        }
+
+        // Setting offline status
+        await User.updateOne({ _id: user._id }, { $set: { is_online: false } });
+
+        return res
+            .status(200)
+            .json({ message: "Logout successful", invalidateToken: true });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
 };
 
