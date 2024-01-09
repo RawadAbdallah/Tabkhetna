@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
 import "./auth.css";
+import upload_icon from "../../assets/images/upload_icon.svg";
+import edit_icon from "../../assets/images/pen_icon.svg";
 
 const Auth: React.FC = () => {
     const [isLogin, setIsLogin] = useState<boolean>(true);
+    const [profilePic, setProfilePic] = useState<string | null>(null);
 
     const getInitialFormText = () => ({
         header_title: "Welcome Back! Let's Start Cooking",
@@ -37,6 +40,22 @@ const Auth: React.FC = () => {
         setIsLogin(!isLogin);
     };
 
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files && e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                const imageSrc = e.target?.result as string;
+                setProfilePic(imageSrc);
+                console.log(profilePic);
+            };
+
+            reader.readAsDataURL(file);
+        }
+    };
+
     return (
         <div
             className={
@@ -53,24 +72,57 @@ const Auth: React.FC = () => {
                 </div>
 
                 <div className="auth-body">
+                    {!isLogin && (
+                        <div className="profile_pic">
+                            <label htmlFor="profile_pic">
+                                <img
+                                    src={profilePic || upload_icon}
+                                    alt="upload pic"
+                                    className={
+                                        profilePic ? "profile_pic_selected" : ""
+                                    }
+                                />
+                            </label>
+                            <input
+                                type="file"
+                                name="profile_pic"
+                                id="profile_pic"
+                                onChange={handleImageChange}
+                                hidden={true}
+                            />
+                        </div>
+                    )}
+
                     <p>Enter your credentials</p>
                     <input type="email" required placeholder="Email Address" />
                     <input type="password" required placeholder="Password" />
-                    <div className="auth-body-footer">
-                        <div className="auth-body-footer-left">
-                            <input
-                                type="checkbox"
-                                name="keep-me-logged-in"
-                                id="keep-me-logged-in"
-                            />
-                            <label htmlFor="keep-me-logged-in">
-                                Keep me logged in
-                            </label>
+                    {!isLogin && 
+                        <input type="password" placeholder="Confirm password" id="confirm-password" name="confirm-password" />
+                    }
+
+                    {!isLogin && <>
+                        <div className="flex">
+                            <input type="text" placeholder="Firstname" id="firstname" name="firstname"/>
+                            <input type="text" placeholder="Lastname" id="lastname" name="lastname"/>
                         </div>
-                        <div className="auth-body-footer-right">
-                            <a href="#">Forgot Password?</a>
+                    </>}
+                    {isLogin && (
+                        <div className="auth-body-footer">
+                            <div className="auth-body-footer-left">
+                                <input
+                                    type="checkbox"
+                                    name="keep-me-logged-in"
+                                    id="keep-me-logged-in"
+                                />
+                                <label htmlFor="keep-me-logged-in">
+                                    Keep me logged in
+                                </label>
+                            </div>
+                            <div className="auth-body-footer-right">
+                                <a href="#">Forgot Password?</a>
+                            </div>
                         </div>
-                    </div>
+                    )}
 
                     <div className="auth-footer">
                         <button className="auth-submit-btn">
