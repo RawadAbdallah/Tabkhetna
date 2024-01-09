@@ -3,8 +3,6 @@
   width: 100%;
   height: 100vh;
   min-height: 600px;  
-  background-size: cover;
-  background-repeat: no-repeat;
   transition: all 0.25 ease-in-out;
 }
 
@@ -15,10 +13,14 @@
   width: inherit;
   height: inherit;
   min-height: inherit;
+  background-size: cover;
+  background-repeat: no-repeat;
   background-image: url("../../assets/images/login-background.png");
 }
 
 .auth-container.register::before{
+  background-size: cover;
+  background-repeat: no-repeat;
   background-image: url("../../assets/images/register-background.png");
 }
 
@@ -82,6 +84,31 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.auth-body .profile_pic {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 100px;
+  border: 1px solid var(--secondary-color);
+  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+}
+
+.auth-body .profile_pic img{
+  width: 100%;
+  transition: all 0.25s ease-in-out;
+  user-select: none;
+}
+
+.auth-body .profile_pic .profile_pic_selected:hover{
+  opacity: 0.4;
 }
 
 .auth-body input{
