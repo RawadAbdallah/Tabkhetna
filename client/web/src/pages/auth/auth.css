@@ -36,6 +36,10 @@
   transition: all 0.25s ease-in-out;
 }
 
+.auth-container.register .auth-form{
+  padding: 130px 75px;
+}
+
 .auth-form h1{
   width: 300px;
   font-size: 1.8rem;
