@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./auth.css";
 import upload_icon from "../../assets/images/upload_icon.svg";
-import edit_icon from "../../assets/images/pen_icon.svg";
+import edit_icon from "../../assets/images/edit_icon.svg";
 
 const Auth: React.FC = () => {
     const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -89,6 +89,7 @@ const Auth: React.FC = () => {
                                 id="profile_pic"
                                 onChange={handleImageChange}
                                 hidden={true}
+                                accept="image/png, image/jpeg"
                             />
                         </div>
                     )}
@@ -96,16 +97,33 @@ const Auth: React.FC = () => {
                     <p>Enter your credentials</p>
                     <input type="email" required placeholder="Email Address" />
                     <input type="password" required placeholder="Password" />
-                    {!isLogin && 
-                        <input type="password" placeholder="Confirm password" id="confirm-password" name="confirm-password" />
-                    }
+                    {!isLogin && (
+                        <input
+                            type="password"
+                            placeholder="Confirm password"
+                            id="confirm-password"
+                            name="confirm-password"
+                        />
+                    )}
 
-                    {!isLogin && <>
-                        <div className="flex">
-                            <input type="text" placeholder="Firstname" id="firstname" name="firstname"/>
-                            <input type="text" placeholder="Lastname" id="lastname" name="lastname"/>
-                        </div>
-                    </>}
+                    {!isLogin && (
+                        <>
+                            <div className="flex">
+                                <input
+                                    type="text"
+                                    placeholder="Firstname"
+                                    id="firstname"
+                                    name="firstname"
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Lastname"
+                                    id="lastname"
+                                    name="lastname"
+                                />
+                            </div>
+                        </>
+                    )}
                     {isLogin && (
                         <div className="auth-body-footer">
                             <div className="auth-body-footer-left">
