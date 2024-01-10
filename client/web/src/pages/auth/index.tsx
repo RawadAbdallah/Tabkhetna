@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./auth.css";
 import upload_icon from "../../assets/images/upload_icon.svg";
-import edit_icon from "../../assets/images/edit_icon.svg";
 
 const Auth: React.FC = () => {
     const [isLogin, setIsLogin] = useState<boolean>(true);
@@ -40,21 +39,53 @@ const Auth: React.FC = () => {
         setIsLogin(!isLogin);
     };
 
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0];
-
+    
         if (file) {
             const reader = new FileReader();
-
+    
             reader.onload = (e) => {
                 const imageSrc = e.target?.result as string;
-                setProfilePic(imageSrc);
-                console.log(profilePic);
-            };
+                const img = new Image();
+    
+                img.onload = () => {
+                    const aspectRatio = img.width / img.height;
+    
+                    let squareSize:number = img.width;
+                    let startX:number = 0;
+                    let startY:number = 0;
 
+                    //Converts image aspect ratio to 1:1 and centers it
+                    if (aspectRatio > 1) {
+                        squareSize = img.height;
+                        startX = (img.width - squareSize) / 2;
+                    } else {
+                        startY = (img.height - squareSize) / 2; 
+                    }
+    
+                    
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+    
+                    canvas.width = squareSize;
+                    canvas.height = squareSize;
+    
+                    ctx?.drawImage(img, startX, startY, squareSize, squareSize, 0, 0, squareSize, squareSize);
+    
+                    const croppedImageSrc = canvas.toDataURL();
+    
+                    setProfilePic(croppedImageSrc);
+                    console.log(profilePic);
+                };
+    
+                img.src = imageSrc;
+            };
+    
             reader.readAsDataURL(file);
         }
     };
+    
 
     return (
         <div
@@ -83,11 +114,12 @@ const Auth: React.FC = () => {
                                     }
                                 />
                             </label>
+                            
                             <input
                                 type="file"
                                 name="profile_pic"
                                 id="profile_pic"
-                                onChange={handleImageChange}
+                                onChange={handleProfilePicChange}
                                 hidden={true}
                                 accept="image/png, image/jpeg"
                             />
