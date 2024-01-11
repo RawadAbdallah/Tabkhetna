@@ -1,4 +1,4 @@
-export type Credentials = {
+type Credentials = {
   firstname: string;
   lastname: string;
   email: string;
@@ -7,3 +7,5 @@ export type Credentials = {
   profile_pic?: string | null;
   keep_me_logged_in?: boolean;
 };
+
+export default Credentials
