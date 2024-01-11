@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import "./auth.css";
 import upload_icon from "../../assets/images/upload_icon.svg";
-import { validateEmail } from "../../utils/helper";
+import { validateForm } from "../../utils/helper";
 
 type Credentials = {
     firstname: string;
@@ -10,7 +10,7 @@ type Credentials = {
     password: string;
     confirm_password: string;
     profile_pic?: string | null;
-    keep_me_logged_in: boolean;
+    keep_me_logged_in?: boolean;
 };
 
 const Auth: React.FC = () => {
@@ -32,7 +32,7 @@ const Auth: React.FC = () => {
         have_an_account: "Don't have an account?",
         go_to: "Register",
     });
-    const [isInvalid, setIsInvalid] = useState({
+    const [isInvalid, setIsInvalid] = useState<Credentials>({
         firstname: "",
         lastname: "",
         email: "",
@@ -126,55 +126,7 @@ const Auth: React.FC = () => {
             reader.readAsDataURL(file);
         }
     };
-
-    const validateForm = () => {
-        const { email, firstname, lastname, password, confirm_password } =
-            credentials;
-        //email validation
-        const emailError = validateEmail(email)
-        if(emailError){
-            setIsInvalid((prev) => ({...prev, email: emailError}) )
-        }
-
-        //password validation
-        if(!password){
-            setIsInvalid((prev) => ({...prev, password: "Password is missing"}) )
-        }
-
-        else if(password.length < 6 || password.length > 16){
-            setIsInvalid((prev) => ({...prev, password: "Password should be between 6 and 16 characters"}) )
-        }
-
-        //confirm password validation
-        if(!confirm_password){
-            setIsInvalid((prev) => ({...prev, confirm_password: "Confirm password is missing"}))
-        }
-        else if(confirm_password !== password){
-            setIsInvalid((prev) => ({...prev, confirm_password: "Passwords don't match"}))
-        }
-
-        //Firstname validation
-
-        if(!firstname){
-            setIsInvalid((prev) => ({...prev, firstname: "Firstname is missing"}))
-        }
-
-        else if(firstname.length <= 2){
-            setIsInvalid((prev) => ({...prev, firstname: "Firstname should be at least 2 characters"}))
-        }
-
-        // Lastname validation
-        if(!lastname){
-            setIsInvalid((prev) => ({...prev, lastname: "Lastname is missing"}))
-        }
-
-        else if(lastname.length <= 2){
-            setIsInvalid((prev) => ({...prev, lastname: "Lastname should be at least 2 characters"}))
-        }
-
-
-    };
-
+    
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
         setCredentials((prev) => ({ ...prev, [`${name}`]: e.target.value }));
@@ -183,7 +135,7 @@ const Auth: React.FC = () => {
     };
 
     const handleSubmit = () => {
-        validateForm();
+        validateForm(credentials, setIsInvalid);
     };
 
     return (
