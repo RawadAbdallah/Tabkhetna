@@ -2,9 +2,26 @@ import { useEffect, useState } from "react";
 import "./auth.css";
 import upload_icon from "../../assets/images/upload_icon.svg";
 
+type Credentials = {
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string,
+    confirm_password: string,
+    profilePic?: string 
+}
+
 const Auth: React.FC = () => {
     const [isLogin, setIsLogin] = useState<boolean>(true);
     const [profilePic, setProfilePic] = useState<string | null>(null);
+    const [credentials, setCredentials] = useState({
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        confirm_password: "",
+        profilePic: "",
+    })
 
     const getInitialFormText = () => ({
         header_title: "Welcome Back! Let's Start Cooking",
@@ -97,6 +114,7 @@ const Auth: React.FC = () => {
                 <div className="auth-header">
                     <div>
                         <h1>{formText.header_title}</h1>
+                        <br/>
                         <p>{formText.header_paragraph}</p>
                     </div>
                     <img src="logo.png" alt="Tabkhetna Logo" />
