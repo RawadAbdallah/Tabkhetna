@@ -177,6 +177,23 @@
     color: var(--teal-color);
 }
 
+/* Errors Styling */
+.login .field-missing{
+    color: rgb(165, 0, 0)
+}
+.field-missing{
+    color: rgb(255, 38, 0);
+}
+
+.login input.error{
+    outline:3px solid rgb(165, 0, 0);
+}
+
+input.error{
+    outline: 3px solid red;
+}
+
+
 /* Media Queries */
 
 /* Tablet or Small laptop Screens */
