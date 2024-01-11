@@ -2,16 +2,7 @@ import { useEffect, useState } from "react";
 import "./auth.css";
 import upload_icon from "../../assets/images/upload_icon.svg";
 import { validateForm } from "../../utils/helper";
-
-type Credentials = {
-    firstname: string;
-    lastname: string;
-    email: string;
-    password: string;
-    confirm_password: string;
-    profile_pic?: string | null;
-    keep_me_logged_in?: boolean;
-};
+import Credentials from '../../types/credentials'
 
 const Auth: React.FC = () => {
     //Use States
