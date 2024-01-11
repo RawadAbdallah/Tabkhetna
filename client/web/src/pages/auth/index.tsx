@@ -12,6 +12,8 @@ type Credentials = {
 }
 
 const Auth: React.FC = () => {
+
+    //Use States
     const [isLogin, setIsLogin] = useState<boolean>(true);
     const [profilePic, setProfilePic] = useState<string | null>(null);
     const [credentials, setCredentials] = useState({
@@ -22,8 +24,7 @@ const Auth: React.FC = () => {
         confirm_password: "",
         profilePic: "",
     })
-
-    const getInitialFormText = () => ({
+    const [formText, setFormText] = useState({
         header_title: "Welcome Back! Let's Start Cooking",
         header_paragraph: "Please login to continue",
         button: "Login",
@@ -31,7 +32,6 @@ const Auth: React.FC = () => {
         go_to: "Register",
     });
 
-    const [formText, setFormText] = useState(getInitialFormText());
 
     const getFormText = () => ({
         header_title: isLogin
