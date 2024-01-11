@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "./auth.css";
 import upload_icon from "../../assets/images/upload_icon.svg";
+import { request } from "../../services/request";
 
 type Credentials = {
     firstname: string;
@@ -31,6 +32,13 @@ const Auth: React.FC = () => {
         have_an_account: "Don't have an account?",
         go_to: "Register",
     });
+    const [isInvalid, setIsInvalid] = useState({
+        firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        confirm_password: "",
+    });
 
     const getFormText = () => ({
         header_title: isLogin
@@ -53,6 +61,11 @@ const Auth: React.FC = () => {
 
     const changeAuth = () => {
         setIsLogin(!isLogin);
+        setIsInvalid({ firstname: "",
+        lastname: "",
+        email: "",
+        password: "",
+        confirm_password: "",})
     };
 
     const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -114,10 +127,63 @@ const Auth: React.FC = () => {
         }
     };
 
-    const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const validateForm = () => {
+        const { email, firstname, lastname, password, confirm_password } =
+            credentials;
+        //email validation
+        const emailError = validateEmail(email)
+        if(emailError){
+            setIsInvalid((prev) => ({...prev, email: emailError}) )
+        }
+
+        //password validation
+        if(!password){
+            setIsInvalid((prev) => ({...prev, password: "Password is missing"}) )
+        }
+
+        else if(password.length < 6 || password.length > 16){
+            setIsInvalid((prev) => ({...prev, password: "Password should be between 6 and 16 characters"}) )
+        }
+
+        //confirm password validation
+        if(!confirm_password){
+            setIsInvalid((prev) => ({...prev, confirm_password: "Confirm password is missing"}))
+        }
+        else if(confirm_password !== password){
+            setIsInvalid((prev) => ({...prev, confirm_password: "Passwords don't match"}))
+        }
+
+        //Firstname validation
+
+        if(!firstname){
+            setIsInvalid((prev) => ({...prev, firstname: "Firstname is missing"}))
+        }
+
+        else if(firstname.length <= 2){
+            setIsInvalid((prev) => ({...prev, firstname: "Firstname should be at least 2 characters"}))
+        }
+
+        // Lastname validation
+        if(!lastname){
+            setIsInvalid((prev) => ({...prev, lastname: "Lastname is missing"}))
+        }
+
+        else if(lastname.length <= 2){
+            setIsInvalid((prev) => ({...prev, lastname: "Lastname should be at least 2 characters"}))
+        }
+
+
+    };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
         setCredentials((prev) => ({ ...prev, [`${name}`]: e.target.value }));
-        console.log(credentials);
+        setIsInvalid((prev) => ({ ...prev, [`${name}`]: "" }));
+        console.log(name)
+    };
+
+    const handleSubmit = () => {
+        validateForm();
     };
 
     return (
@@ -162,57 +228,84 @@ const Auth: React.FC = () => {
                         </div>
                     )}
                     <p>Enter your credentials</p>
+                    {isInvalid.email && (
+                        <span className="field-missing">{isInvalid.email}</span>
+                    )}  
                     <input
                         type="email"
                         name="email"
                         required
                         placeholder="Email Address"
-                        onChange={handleFormChange}
+                        onChange={handleChange}
+                        className={isInvalid.email ? "error" : ""}
                     />
+                     {isInvalid.password && (
+                        <span className="field-missing">{isInvalid.password}</span>
+                    )}  
+                    
                     <input
                         type="password"
                         name="password"
                         required
                         placeholder="Password"
-                        onChange={handleFormChange}
+                        onChange={handleChange}
+                        className={isInvalid.password ? "error" : ""}
                     />
                     {!isLogin && (
-                        <input
-                            type="password"
-                            placeholder="Confirm password"
-                            id="confirm-password"
-                            name="confirm-password"
-                            onChange={handleFormChange}
-                        />
-                    )}
-                    {!isLogin && (
                         <>
+                        {isInvalid.confirm_password && (
+                        <span className="field-missing">
+                        {isInvalid.confirm_password}
+                    </span>
+                    )} 
+                           
                             <input
                                 type="password"
                                 placeholder="Confirm password"
-                                id="confirm-password"
-                                name="confirm-password"
-                                onChange={handleFormChange}
+                                id="confirm_password"
+                                name="confirm_password"
+                                onChange={handleChange}
+                                className={isInvalid.confirm_password ? "error" : ""}
                             />
-                            <div className="flex">
-                                <input
-                                    type="text"
-                                    placeholder="Firstname"
-                                    id="firstname"
-                                    name="firstname"
-                                    onChange={handleFormChange}
-                                />
-                                <input
-                                    type="text"
-                                    placeholder="Lastname"
-                                    id="lastname"
-                                    name="lastname"
-                                    onChange={handleFormChange}
-                                />
-                            </div>
                         </>
                     )}
-                    //Conditional rendering on keep me logged in
+                    {!isLogin && (
+                        <div>
+                            <div className="flex">
+                                <div className="w-50">
+                                {isInvalid.firstname && (
+                        <span className="field-missing">
+                        {isInvalid.firstname}
+                    </span>
+                    )} 
+                                    <input
+                                        type="text"
+                                        placeholder="Firstname"
+                                        id="firstname"
+                                        name="firstname"
+                                        onChange={handleChange}
+                                        className={isInvalid.firstname ? "error" : ""}
+                                    />
+                                </div>
+                                <div className="w-50">
+                                {isInvalid.lastname && (
+                        <span className="field-missing">
+                        {isInvalid.lastname}
+                    </span>
+                    )} 
+                                    <input
+                                        type="text"
+                                        placeholder="Lastname"
+                                        id="lastname"
+                                        name="lastname"
+                                        onChange={handleChange}
+                                        className={isInvalid.lastname ? "error":""}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                    {/* Conditional rendering on keep me logged in */}
                     {isLogin && (
                         <div className="auth-body-footer">
                             <div className="auth-body-footer-left">
@@ -238,7 +331,10 @@ const Auth: React.FC = () => {
                         </div>
                     )}
                     <div className="auth-footer">
-                        <button className="auth-submit-btn">
+                        <button
+                            className="auth-submit-btn"
+                            onClick={handleSubmit}
+                        >
                             {formText.button}
                         </button>
                         <p>{formText.have_an_account}</p>
