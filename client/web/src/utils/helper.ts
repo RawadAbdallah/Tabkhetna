@@ -1,3 +1,4 @@
+//Auth Page helper functions
 export const validateEmail = (email:string):string => {
   if(!email){
     return "Email is missing"
@@ -9,3 +10,59 @@ export const validateEmail = (email:string):string => {
   }
   return ""
 }
+
+type Credentials = {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  confirm_password: string;
+  profile_pic?: string | null;
+  keep_me_logged_in: boolean;
+};
+
+export const validateForm = (credentials:Credentials,  setIsInvalid: React.Dispatch<React.SetStateAction<Partial<object>>>) => {
+  const { email, firstname, lastname, password, confirm_password } =
+      credentials;
+  //email validation
+  const emailError = validateEmail(email)
+  if(emailError){
+      setIsInvalid((prev) => ({...prev, email: emailError}) )
+  }
+
+  //password validation
+  if(!password){
+      setIsInvalid((prev) => ({...prev, password: "Password is missing"}) )
+  }
+
+  else if(password.length < 6 || password.length > 16){
+      setIsInvalid((prev) => ({...prev, password: "Password should be between 6 and 16 characters"}) )
+  }
+
+  //confirm password validation
+  if(!confirm_password){
+      setIsInvalid((prev) => ({...prev, confirm_password: "Confirm password is missing"}))
+  }
+  else if(confirm_password !== password){
+      setIsInvalid((prev) => ({...prev, confirm_password: "Passwords don't match"}))
+  }
+
+  //Firstname validation
+
+  if(!firstname){
+      setIsInvalid((prev) => ({...prev, firstname: "Firstname is missing"}))
+  }
+
+  else if(firstname.length <= 2){
+      setIsInvalid((prev) => ({...prev, firstname: "Firstname should be at least 2 characters"}))
+  }
+
+  // Lastname validation
+  if(!lastname){
+      setIsInvalid((prev) => ({...prev, lastname: "Lastname is missing"}))
+  }
+
+  else if(lastname.length <= 2){
+      setIsInvalid((prev) => ({...prev, lastname: "Lastname should be at least 2 characters"}))
+  }
+};
