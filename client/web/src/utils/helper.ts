@@ -1,4 +1,6 @@
 //Auth Page helper functions
+import Credentials from "../types/credentials";
+
 export const validateEmail = (email:string):string => {
   if(!email){
     return "Email is missing"
@@ -10,16 +12,6 @@ export const validateEmail = (email:string):string => {
   }
   return ""
 }
-
-type Credentials = {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  confirm_password: string;
-  profile_pic?: string | null;
-  keep_me_logged_in?: boolean;
-};
 
 export const validateForm = (credentials:Credentials,  setIsInvalid: React.Dispatch<React.SetStateAction<Credentials>>) => {
   const { email, firstname, lastname, password, confirm_password } =
