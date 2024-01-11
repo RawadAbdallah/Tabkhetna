@@ -18,10 +18,10 @@ type Credentials = {
   password: string;
   confirm_password: string;
   profile_pic?: string | null;
-  keep_me_logged_in: boolean;
+  keep_me_logged_in?: boolean;
 };
 
-export const validateForm = (credentials:Credentials,  setIsInvalid: React.Dispatch<React.SetStateAction<Partial<object>>>) => {
+export const validateForm = (credentials:Credentials,  setIsInvalid: React.Dispatch<React.SetStateAction<Credentials>>) => {
   const { email, firstname, lastname, password, confirm_password } =
       credentials;
   //email validation
