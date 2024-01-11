@@ -30,6 +30,7 @@
     padding: 160px 75px;
     gap: 20px;
     transition: all 0.25s ease-in-out;
+    overflow-x:hidden;
 }
 
 .auth-container.register .auth-form {
@@ -111,6 +112,7 @@
     width: 100%;
     transition: all 0.25s ease-in-out;
     user-select: none;
+    cursor: pointer;
 }
 
 .auth-body .profile_pic .profile_pic_selected:hover {
@@ -176,7 +178,6 @@
 }
 
 /* Media Queries */
-
 
 /* Tablet or Small laptop Screens */
 @media (max-width: 880px) {
