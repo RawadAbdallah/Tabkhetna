@@ -8,6 +8,7 @@ global styling for the whole app */
     --secondary-color: #f5f5dc;
     --teal-color: #2f4f4f;
     --login-color: rgba(255, 255, 255, 0.6);
+    --main-x-padding: 10%;
 }
 
 body {
@@ -27,4 +28,14 @@ body {
 
 .w-50{
   width:50%;
+}
+
+.gap-5{
+  gap: 20px;
+}
+
+@media (max-width: 880px) {
+  :root{
+    --main-x-padding: 5%;
+  }
 }
