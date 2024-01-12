@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./auth.css";
 import upload_icon from "../../assets/images/upload_icon.svg";
 import { validateForm } from "../../utils/helper";
-import Credentials from '../../types/credentials'
+import Credentials from "../../types/credentials";
 
 const Auth: React.FC = () => {
     //Use States
@@ -52,11 +52,13 @@ const Auth: React.FC = () => {
 
     const changeAuth = () => {
         setIsLogin(!isLogin);
-        setIsInvalid({ firstname: "",
-        lastname: "",
-        email: "",
-        password: "",
-        confirm_password: "",})
+        setIsInvalid({
+            firstname: "",
+            lastname: "",
+            email: "",
+            password: "",
+            confirm_password: "",
+        });
     };
 
     const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -117,12 +119,12 @@ const Auth: React.FC = () => {
             reader.readAsDataURL(file);
         }
     };
-    
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
         setCredentials((prev) => ({ ...prev, [`${name}`]: e.target.value }));
         setIsInvalid((prev) => ({ ...prev, [`${name}`]: "" }));
-        console.log(name)
+        console.log(name);
     };
 
     const handleSubmit = () => {
@@ -173,7 +175,7 @@ const Auth: React.FC = () => {
                     <p>Enter your credentials</p>
                     {isInvalid.email && (
                         <span className="field-missing">{isInvalid.email}</span>
-                    )}  
+                    )}
                     <input
                         type="email"
                         name="email"
@@ -182,10 +184,12 @@ const Auth: React.FC = () => {
                         onChange={handleChange}
                         className={isInvalid.email ? "error" : ""}
                     />
-                     {isInvalid.password && (
-                        <span className="field-missing">{isInvalid.password}</span>
-                    )}  
-                    
+                    {isInvalid.password && (
+                        <span className="field-missing">
+                            {isInvalid.password}
+                        </span>
+                    )}
+
                     <input
                         type="password"
                         name="password"
@@ -196,19 +200,21 @@ const Auth: React.FC = () => {
                     />
                     {!isLogin && (
                         <>
-                        {isInvalid.confirm_password && (
-                        <span className="field-missing">
-                        {isInvalid.confirm_password}
-                    </span>
-                    )} 
-                           
+                            {isInvalid.confirm_password && (
+                                <span className="field-missing">
+                                    {isInvalid.confirm_password}
+                                </span>
+                            )}
+
                             <input
                                 type="password"
                                 placeholder="Confirm password"
                                 id="confirm_password"
                                 name="confirm_password"
                                 onChange={handleChange}
-                                className={isInvalid.confirm_password ? "error" : ""}
+                                className={
+                                    isInvalid.confirm_password ? "error" : ""
+                                }
                             />
                         </>
                     )}
@@ -216,33 +222,37 @@ const Auth: React.FC = () => {
                         <div>
                             <div className="flex">
                                 <div className="w-50">
-                                {isInvalid.firstname && (
-                        <span className="field-missing">
-                        {isInvalid.firstname}
-                    </span>
-                    )} 
+                                    {isInvalid.firstname && (
+                                        <span className="field-missing">
+                                            {isInvalid.firstname}
+                                        </span>
+                                    )}
                                     <input
                                         type="text"
                                         placeholder="Firstname"
                                         id="firstname"
                                         name="firstname"
                                         onChange={handleChange}
-                                        className={isInvalid.firstname ? "error" : ""}
+                                        className={
+                                            isInvalid.firstname ? "error" : ""
+                                        }
                                     />
                                 </div>
                                 <div className="w-50">
-                                {isInvalid.lastname && (
-                        <span className="field-missing">
-                        {isInvalid.lastname}
-                    </span>
-                    )} 
+                                    {isInvalid.lastname && (
+                                        <span className="field-missing">
+                                            {isInvalid.lastname}
+                                        </span>
+                                    )}
                                     <input
                                         type="text"
                                         placeholder="Lastname"
                                         id="lastname"
                                         name="lastname"
                                         onChange={handleChange}
-                                        className={isInvalid.lastname ? "error":""}
+                                        className={
+                                            isInvalid.lastname ? "error" : ""
+                                        }
                                     />
                                 </div>
                             </div>
