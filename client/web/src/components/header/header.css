@@ -1,0 +1,15 @@
+.header-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px var(--main-x-padding);
+  background-color: white;
+}
+
+.logo-wrapper img{
+  width: 120px;
+}
+
+.header-wrapper .search-wrapper input{
+  width: 500px;
+}
