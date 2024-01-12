@@ -1,0 +1,15 @@
+.icon{
+  width: 55px;
+  height: 55px;
+  border-radius: 100px;
+  background-color: var(--teal-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.icon img{
+  width: 26px;
+  height: 26px;
+}
