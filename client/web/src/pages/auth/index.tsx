@@ -61,6 +61,7 @@ const Auth: React.FC = () => {
         });
     };
 
+    //Shows uploaded image
     const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files && e.target.files[0];
 
@@ -120,6 +121,7 @@ const Auth: React.FC = () => {
         }
     };
 
+    //Handles form change
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const name = e.target.name;
         setCredentials((prev) => ({ ...prev, [`${name}`]: e.target.value }));
@@ -144,7 +146,7 @@ const Auth: React.FC = () => {
                         <br />
                         <p>{formText.header_paragraph}</p>
                     </div>
-                    <img src="logo.png" alt="Tabkhetna Logo" />
+                    <img src="/logo.png" alt="Tabkhetna" />
                 </div>
 
                 <div className="auth-body">
@@ -220,7 +222,7 @@ const Auth: React.FC = () => {
                     )}
                     {!isLogin && (
                         <div>
-                            <div className="flex">
+                            <div className="flex gap-3">
                                 <div className="w-50">
                                     {isInvalid.firstname && (
                                         <span className="field-missing">
