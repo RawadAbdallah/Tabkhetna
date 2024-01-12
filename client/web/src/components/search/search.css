@@ -1,0 +1,20 @@
+#search{
+  background-color: var(--teal-color);
+  padding: 15px 50px;
+  border-radius: 24px;
+  border: none;
+  color: white;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+.search-wrapper{
+  display: flex;
+  position: relative;
+}
+
+.search-wrapper img{
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+}
