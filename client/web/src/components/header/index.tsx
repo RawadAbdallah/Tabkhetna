@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
 import Search from "../search";
-import Icon from '../icon'
-import bell_icon from '../../assets/images/bell_icon.svg'
-import message_icon from '../../assets/images/message_icon.svg'
-import default_profile_pic from '../../assets/images/default_profile_pic.png'
+import Icon from "../icon";
+import bell_icon from "../../assets/images/bell_icon.svg";
+import message_icon from "../../assets/images/message_icon.svg";
+import default_profile_pic from "../../assets/images/default_profile_pic.png";
 import "./header.css";
 
 const Header: React.FC = () => {
@@ -15,19 +15,23 @@ const Header: React.FC = () => {
             </div>
 
             <div className="search-wrapper">
-              <Search />
+                <Search />
             </div>
 
             <div className="icons-wrapper flex gap-5">
-            <Link to={"/"}>
-              <Icon img={bell_icon} alt={"notifications"}/>
-            </Link>
-            <Link to={"/"}>
-              <Icon img={message_icon} alt={"messages"}/>
-            </Link>
-            <Link to={"/"}>
-              <img className="icon" src={default_profile_pic} alt="profile" />
-            </Link>
+                <Link to={"/"}>
+                    <Icon img={bell_icon} alt={"notifications"} />
+                </Link>
+                <Link to={"/"}>
+                    <Icon img={message_icon} alt={"messages"} />
+                </Link>
+                <Link to={"/"}>
+                    <img
+                        className="icon"
+                        src={default_profile_pic}
+                        alt="profile"
+                    />
+                </Link>
             </div>
         </div>
     );
