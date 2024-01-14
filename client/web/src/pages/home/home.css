@@ -10,11 +10,3 @@
   flex: 1;
   background-color: var(--teal-color);
 }
-
-.sidebar-wrapper{
-  position: absolute;
-  height: 500px;
-  top:0;
-  left: 0;
-}
-
