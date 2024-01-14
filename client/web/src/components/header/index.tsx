@@ -4,7 +4,6 @@ import Search from "../search";
 import Icon from "../icon";
 import bell_icon from "../../assets/images/bell_icon.svg";
 import message_icon from "../../assets/images/message_icon.svg";
-
 import default_profile_pic from "../../assets/images/default_profile_pic.png";
 import "./header.css";
 
