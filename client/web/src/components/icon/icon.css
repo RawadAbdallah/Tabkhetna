@@ -1,6 +1,8 @@
 .icon{
   width: 55px;
   height: 55px;
+  min-height: 55px;
+  min-width: 55px;
   border-radius: 100px;
   background-color: var(--teal-color);
   display: flex;
