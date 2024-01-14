@@ -10,7 +10,6 @@
   display: flex;
   flex: 1;
   background-color: var(--teal-color);
-  padding: 0 var(--main-x-padding)
 }
 
 .main-section{
