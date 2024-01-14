@@ -1,3 +1,25 @@
 .error-container{
   height: 100vh;
 }
+
+.error-container h1{
+  font-size: 3rem;
+}
+
+.error-container p{
+  font-size: 1.2rem;
+}
+
+.error-container button{
+  background-color: var(--teal-color);
+  color: white;
+  padding: 10px 30px;
+  font-family: 'Poppins', Arial;
+  font-weight: 700;
+  border-radius: 12px;
+  transition: all 0.15s ease-in-out;
+}
+
+.error-container button:hover{
+  transform: scale(1.05)
+}
