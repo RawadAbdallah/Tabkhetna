@@ -7,10 +7,7 @@ type errorProps = {
     errorMessage: string;
 };
 
-const Error: React.FC<errorProps> = ({
-    statusCode,
-    errorMessage,
-}) => {
+const Error: React.FC<errorProps> = ({ statusCode, errorMessage }) => {
     return (
         <>
             <div className=" flex flex-column">
