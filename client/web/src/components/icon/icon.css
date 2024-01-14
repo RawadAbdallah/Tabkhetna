@@ -11,6 +11,10 @@
   cursor: pointer;
 }
 
+.transparent-icon{
+  background-color: transparent;
+}
+
 .icon img{
   width: 26px;
   height: 26px;
