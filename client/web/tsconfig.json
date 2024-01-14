@@ -21,10 +21,7 @@
         "noFallthroughCasesInSwitch": true,
 
         "paths": {
-          "@pages/*": ["./src/pages/*"],
-          "@services/*": ["./src/service/*"],
-          "@components/*": ["./src/components/*"],
-          "@utils/*": ["./src/utils/*"]
+            "@pages/*": ["./pages/*"]
         }
     },
     "include": ["src"],
