@@ -1,7 +1,8 @@
 .home {
-  min-height: 100vh; 
+  height: 100vh; 
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .home-main {
@@ -9,4 +10,10 @@
   display: flex;
   flex: 1;
   background-color: var(--teal-color);
+  padding: 0 var(--main-x-padding)
+}
+
+.main-section{
+  flex: 2;
+  padding: 20px 0;
 }
