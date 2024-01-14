@@ -4,6 +4,7 @@ import Search from "../search";
 import Icon from "../icon";
 import bell_icon from "../../assets/images/bell_icon.svg";
 import message_icon from "../../assets/images/message_icon.svg";
+
 import default_profile_pic from "../../assets/images/default_profile_pic.png";
 import "./header.css";
 
@@ -11,7 +12,7 @@ const Header: React.FC = () => {
     return (
         <div className="header-wrapper">
             <div className="logo-wrapper">
-                <img src="logo.png" alt="Tabkhetna" />
+                <img src="/logo.png" alt="Tabkhetna" />
             </div>
 
             <div className="search-wrapper">
