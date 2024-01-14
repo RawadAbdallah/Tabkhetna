@@ -9,10 +9,8 @@ const Home: React.FC = () => {
             <div className="home-main flex">
                 <Sidebar />
                 <section className="main-section">
-                    <CreatePost/>
-                    <div className="posts-container">
-                        
-                    </div>
+                    <CreatePost />
+                    <div className="posts-container"></div>
                 </section>
             </div>
         </div>
