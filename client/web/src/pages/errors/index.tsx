@@ -1,6 +1,6 @@
 import "../error.css";
-import Header from "../../../components/header";
-import { goBack } from "../../../utils/helper";
+import Header from "../../components/header";
+import { goBack } from "../../utils/helper";
 const Error404: React.FC = () => {
     return (
         <>
