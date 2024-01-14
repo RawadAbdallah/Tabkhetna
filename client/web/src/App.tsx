@@ -1,9 +1,22 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+
+import Auth from "./pages/auth"
+import Home from "./pages/home"
+
+
+import './styles/reset.css'
+import './styles/global.css'
+
 function App() {
 
+
   return (
-    <>
-      <h1>Hello</h1>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/auth" Component={Auth} />
+        <Route path="/" Component={Home} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
