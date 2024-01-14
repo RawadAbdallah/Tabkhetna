@@ -19,6 +19,10 @@ body {
   display: flex;
 }
 
+.flex-column{
+  flex-direction: column;
+}
+
 
 .flex input{
   width: 100%;
@@ -48,16 +52,32 @@ body {
   gap: 2px;
 }
 
-.align-items-left{
-  align-items: left;
+.align-start{
+  align-items: start;
 }
 
-.align-items-right{
-  align-items: right;
+.align-end{
+  align-items: end;
 }
 
-.align-items-center{
-  align-items: c;
+.align-center{
+  align-items: center;
+}
+
+.justify-center{
+  justify-content: center;
+}
+
+.justify-between{
+  justify-content: space-between;
+}
+
+.justify-around{
+  justify-content: space-around;
+}
+
+.justify-evenly{
+  justify-content: space-evenly;
 }
 
 .line-seperator{
