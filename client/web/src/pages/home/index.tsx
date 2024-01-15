@@ -66,7 +66,6 @@ const Home: React.FC = () => {
                     <div className="posts-container flex flex-column gap-5">
                         {posts.map((post, i) => {
                             return (
-                                <>
                                     <Post
                                         key={i}
                                         title={post.title}
@@ -80,7 +79,6 @@ const Home: React.FC = () => {
                                         ingredients={post.ingredients}
                                         instructions={post.instructions}
                                     />
-                                </>
                             );
                         })}
                     </div>
