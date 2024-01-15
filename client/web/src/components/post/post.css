@@ -1,0 +1,37 @@
+.post{
+  background: white;
+  border-radius: 12px;
+  padding: 15px;
+}
+
+.post-header .profile-pic{
+  width: 50px;
+  border: 1px solid;
+  border-radius: 100px;
+}
+
+.uploader-info p:first-child{
+  font-size: 1.2rem;
+}
+
+.uploader-info p:last-child{
+  color: var(--teal-color)
+}
+
+.post-content h2{
+  font-size: 1.3rem;
+}
+
+.media-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-media {
+  flex: 1;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover;
+  border-radius: 12px; 
+}
