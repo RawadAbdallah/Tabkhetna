@@ -1,6 +1,6 @@
 type SEOType = {
   title: string,
-  description: string,
+  description?: string,
 }
 
 export default SEOType
