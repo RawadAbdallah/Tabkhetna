@@ -19,7 +19,7 @@ function App() {
                     path="*"
                     element={
                         <Error
-                            statusCode={400}
+                            statusCode={404}
                             errorMessage="Oh no! It seems that someone ate this page. No worries,
                         we are here to guide you back to the feast."
                         />
