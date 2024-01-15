@@ -1,7 +1,7 @@
 import Sidebar from "../../components/sidebar";
 import Header from "../../components/header";
 import CreatePost from "../../components/create-post";
-import Cookmates from '../../components/cookmates'
+import CookmatesSidebar from '../../components/cookmates-sidebar'
 import Post from "../../components/post";
 import "./home.css";
 
@@ -80,7 +80,7 @@ const Home: React.FC = () => {
                         })}
                     </div>
                 </section>
-                <Cookmates />
+                <CookmatesSidebar        />
             </div>
         </div>
     );
