@@ -1,16 +1,18 @@
-.header-wrapper{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 15px var(--main-x-padding);
-  width: 100%;
-  background-color: white;
+.header-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px var(--main-x-padding);
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px 4px 50px 3px rgba(0, 0, 0, 0.25);
+    z-index: 1;
 }
 
-.logo-wrapper img{
-  width: 120px;
+.logo-wrapper img {
+    width: 120px;
 }
 
-.header-wrapper .search-wrapper input{
-  width: 500px;
+.header-wrapper .search-wrapper input {
+    width: 500px;
 }
