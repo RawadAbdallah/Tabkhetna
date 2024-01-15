@@ -1,0 +1,26 @@
+.cookmates{
+  flex: .8;
+  padding: 20px;
+  color: var(--secondary-color);
+  justify-content: space-evenly;
+}
+
+.cookmate{
+  font-size: 1.1rem;
+}
+
+.cookmate img{
+  width: 40px;
+  height: 40px;
+}
+
+.online-status{
+  margin-left: auto;
+}
+
+.online-circle{
+  width: 15px;
+  height: 15px;
+  border-radius: 100px;
+  background-color: var(--secondary-color);
+}
