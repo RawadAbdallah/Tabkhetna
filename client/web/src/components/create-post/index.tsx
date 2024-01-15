@@ -2,11 +2,11 @@ import Icon from "../icon";
 
 import "./create-post.css";
 
-import default_profile_pic from "../../assets/images/default_profile_pic.png";
-import book_icon from "../../assets/images/book_dark_icon.svg";
-import camera_icon from "../../assets/images/camera_icon.svg";
-import video_icon from "../../assets/images/video_icon.svg";
-import challenge_icon from "../../assets/images/challenge_dark_icon.svg";
+import default_profile_pic from "@images/default_profile_pic.png";
+import book_icon from "@images/book_dark_icon.svg";
+import camera_icon from "@images/camera_icon.svg";
+import video_icon from "@images/video_icon.svg";
+import challenge_icon from "@images/challenge_dark_icon.svg";
 
 const CreatePost: React.FC = () => {
     return (
