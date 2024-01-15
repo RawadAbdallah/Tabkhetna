@@ -14,7 +14,6 @@ function App() {
             <Routes>
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/" element={<Home />} />
-                {/* On the next line it is causing an error, since the Error element is expecting to pass props, but I can't pass props in the Component attribute */}
                 <Route
                     path="*"
                     element={
