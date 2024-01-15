@@ -1,6 +1,6 @@
 import "./error.css";
-import Header from "../header";
-import { goBack } from "../../utils/helper";
+import Header from "@components/header";
+import { goBack } from "@utils/helper";
 
 type errorProps = {
     statusCode: number;
