@@ -1,5 +1,5 @@
 import "./cookmates-sidebar.css";
-import Search from "../search";
+import Search from "@components/search";
 
 const cookmates = [
     {
