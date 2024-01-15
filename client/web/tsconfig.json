@@ -25,7 +25,6 @@
         "@/*": ["./src/*"],
         "@pages/*": ["./src/pages/*"],
         "@components/*": ["./src/components/*"],
-        "@types/*": ["./src/types/*"],
         "@utils/*": ["./src/utils/*"],
         "@images/*": ["./src/assets/images/*"],
         "@styles/*": ["./src/styles/*"],
