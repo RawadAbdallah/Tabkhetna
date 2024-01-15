@@ -1,9 +1,10 @@
-import Sidebar from "../../components/sidebar";
-import Header from "../../components/header";
-import CreatePost from "../../components/create-post";
-import CookmatesSidebar from '../../components/cookmates-sidebar'
-import Post from "../../components/post";
+import Sidebar from "@components/sidebar";
+import Header from "@components/header";
+import CreatePost from "@components/create-post";
+import CookmatesSidebar from '@components/cookmates-sidebar'
+import Post from "@components/post";
 import "./home.css";
+import SEO from "@/utils/seo";
 
 const posts = [
     {
@@ -51,6 +52,10 @@ const posts = [
 ];
 
 const Home: React.FC = () => {
+    SEO({
+        title: "Home | Tabkhetna",
+        description: "Tabkhetna's home page"
+    })
     return (
         <div className="home-page">
             <Header />
@@ -80,7 +85,7 @@ const Home: React.FC = () => {
                         })}
                     </div>
                 </section>
-                <CookmatesSidebar        />
+                <CookmatesSidebar />
             </div>
         </div>
     );
