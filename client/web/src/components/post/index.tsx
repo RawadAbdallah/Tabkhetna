@@ -49,7 +49,7 @@ const Post: React.FC<PostType> = ({
                             </>
                         }
                     </div>
-                    <div className="flex flex-column align-center gapp-5">
+                    <div className="flex flex-column align-center gap-5">
                     {
                             instructions ? <p>{instructions}</p> : <>
                             <p>Instructions not posted?</p>
@@ -66,7 +66,7 @@ const Post: React.FC<PostType> = ({
                             <img src={"src/assets/images/heart_icon.svg"} />{" "}
                             {likes}
                         </button>
-                        <button className="flex gap-3 align-centerx`">
+                        <button className="flex gap-3 align-center">
                             <img src={"src/assets/images/comment_icon.svg"} />{" "}
                             {comments.length}
                         </button>
