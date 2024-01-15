@@ -1,7 +1,7 @@
 .post{
   background: white;
   border-radius: 12px;
-  padding: 15px;
+  padding: 30px;
 }
 
 .post-header .profile-pic{
@@ -34,4 +34,66 @@
   max-height: 100%;
   object-fit: cover;
   border-radius: 12px; 
+}
+
+.post-description{
+  font-size: 1.1rem;
+  padding: 20px 0;
+}
+
+.post-description button{ 
+  padding: 10px;
+  font-size: 1rem;
+  background-color: var(--teal-color);
+  color: white;
+  font-weight: bold;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  border-radius: 12px;
+}
+
+.post-actions-wrapper{
+  display: flex;
+  padding: 10px 0;
+}
+
+.post-actions{
+  padding: 10px 0;
+}
+
+.post-add-comment input{
+  background-color: var(--teal-color);
+  color: white;
+  padding: 15px 30px;
+  font-size: 1rem;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  border: none;
+  border-radius: 100px;
+}
+
+.comments{
+  border-top: 2px solid var(--teal-color);
+  padding: 20px 0;
+}
+
+.comment{
+  max-width: 500px;
+}
+
+.comment-pic{
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  border: 1px solid var(--teal-color)
+}
+
+.comment-info{
+  background-color: var(--teal-color);
+  border-radius: 12px;
+  padding: 5px 15px;
+  color: white;
+  width: fit-content;
+}
+
+.comment-info p:first-child{
+  font-weight: bold;
 }
