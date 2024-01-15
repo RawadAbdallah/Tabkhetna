@@ -3,6 +3,7 @@ import "./auth.css";
 import upload_icon from "@images/upload_icon.svg";
 import { validateForm } from "@utils/helper";
 import Credentials from "@/types/credentials";
+import SEO from "@/utils/seo";
 
 const Auth: React.FC = () => {
     //Use States
@@ -132,6 +133,10 @@ const Auth: React.FC = () => {
     const handleSubmit = () => {
         validateForm(credentials, setIsInvalid);
     };
+
+    SEO({
+        title: "Tabkhetna | Login or Register",
+    })
 
     return (
         <div
