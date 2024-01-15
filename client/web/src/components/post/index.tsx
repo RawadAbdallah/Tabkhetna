@@ -1,5 +1,5 @@
 import React from "react";
-import PostType from "../../types/post";
+import PostType from "@/types/post";
 import "./post.css";
 
 const Post: React.FC<PostType> = ({
