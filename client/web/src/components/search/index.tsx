@@ -1,4 +1,4 @@
-import search_icon from "../../assets/images/search_icon.svg";
+import search_icon from "@images/search_icon.svg";
 import "./search.css";
 
 type Props = {
