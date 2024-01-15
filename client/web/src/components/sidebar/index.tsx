@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 
-import Icon from "../../components/icon";
-import home_icon from "../../assets/images/home_icon.svg";
-import question_icon from "../../assets/images/question_icon.svg";
-import book_icon from "../../assets/images/book_icon.svg";
-import cookmates_icon from "../../assets/images/cookmates_icon.svg";
-import challenge_icon from "../../assets/images/challenge_icon.svg";
-import calendar_icon from "../../assets/images/calendar_icon.svg";
+import Icon from "@components/icon";
+import home_icon from "@images/home_icon.svg";
+import question_icon from "@images/question_icon.svg";
+import book_icon from "@images/book_icon.svg";
+import cookmates_icon from "@images/cookmates_icon.svg";
+import challenge_icon from "@images/challenge_icon.svg";
+import calendar_icon from "@images/calendar_icon.svg";
 
 import "./sidebar.css";
 
