@@ -10,11 +10,10 @@ type PostType = {
   title: string;
   media?: string[];
   created_at: string;
-  recipe?: string;
+  ingredients?: string;
   instructions?: string;
   likes: number;
   saves: number;
-  comments_count: number;
   comments: CommentType[];
 };
 export default PostType
