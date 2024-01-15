@@ -19,7 +19,9 @@
 }
 
 .post-content h2{
-  font-size: 1.3rem;
+  font-size: 1.2rem;
+  color: var(--teal-color);
+  font-weight: 400; 
 }
 
 .media-container {
