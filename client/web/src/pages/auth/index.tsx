@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "./auth.css";
-import upload_icon from "../../assets/images/upload_icon.svg";
-import { validateForm } from "../../utils/helper";
-import Credentials from "../../types/credentials";
+import upload_icon from "@images/upload_icon.svg";
+import { validateForm } from "@utils/helper";
+import Credentials from "@/types/credentials";
 
 const Auth: React.FC = () => {
     //Use States
