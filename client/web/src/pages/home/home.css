@@ -1,18 +1,21 @@
-.home {
+.home-page {
     height: 100vh;
     display: flex;
     flex-direction: column;
-    overflow: hidden;
 }
 
 .home-main {
     position: relative;
     display: flex;
     flex: 1;
-    background-color: var(--teal-color);
+    background: linear-gradient(110deg, #2F4F4F -0.46%, #1F2222 91.99%);
+    padding: 0 30px;
+    height: 100%;
+    overflow: hidden;
 }
 
 .main-section {
-    flex: 2;
+    flex:1;
     padding: 20px 0;
+    overflow-y: auto;
 }
