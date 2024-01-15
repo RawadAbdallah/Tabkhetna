@@ -15,7 +15,7 @@ const Header: React.FC = () => {
             </div>
 
             <div className="search-wrapper">
-                <Search />
+                <Search placeholder="Search for recipes, cookmates and cuisines"/>
             </div>
 
             <div className="icons-wrapper flex gap-5">
