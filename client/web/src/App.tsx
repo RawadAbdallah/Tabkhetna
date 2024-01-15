@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Auth from "./pages/auth";
-import Home from "./pages/home";
+import Auth from "@pages/auth";
+import Home from "@pages/home";
 
-import Error from "./components/error";
+import Error from "@components/error";
 
-import "./styles/reset.css";
-import "./styles/global.css";
+import "@styles/reset.css";
+import "@styles/global.css";
 
 function App() {
     return (
@@ -22,6 +22,7 @@ function App() {
                             errorMessage="Oh no! It seems that someone ate this page. No worries,
                         we are here to guide you back to the feast."
                         />
+                        
                     }
                 />
             </Routes>
