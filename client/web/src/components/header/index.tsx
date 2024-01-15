@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 
-import Search from "../search";
-import Icon from "../icon";
-import bell_icon from "../../assets/images/bell_icon.svg";
-import message_icon from "../../assets/images/message_icon.svg";
-import default_profile_pic from "../../assets/images/default_profile_pic.png";
+import Search from "@components/search";
+import Icon from "@components/icon";
+import bell_icon from "@images/bell_icon.svg";
+import message_icon from "@images/message_icon.svg";
+import default_profile_pic from "@images/default_profile_pic.png";
 import "./header.css";
 
 const Header: React.FC = () => {
