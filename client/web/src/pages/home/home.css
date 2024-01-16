@@ -19,3 +19,9 @@
     padding: 20px 0;
     overflow-y: auto;
 }
+
+@media (max-width: 880px){
+    .home-main{
+        padding: 0 8px;
+    }
+}
