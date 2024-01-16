@@ -6,17 +6,22 @@ import bell_icon from "@images/bell_icon.svg";
 import message_icon from "@images/message_icon.svg";
 import default_profile_pic from "@images/default_profile_pic.png";
 import "./header.css";
+import { useState } from "react";
 
 const Header: React.FC = () => {
+    const [isMenuClicked, setIsMenuClicked] = useState<boolean>(true)
+
+    const showMenu = () => {
+        setIsMenuClicked(!isMenuClicked)
+    }
+
     return (
         <div className="header-wrapper">
             <div className="logo-wrapper">
                 <img src="/logo.png" alt="Tabkhetna" />
             </div>
 
-            <div className="search-wrapper">
-                <Search placeholder="Search for recipes, cookmates and cuisines"/>
-            </div>
+            <Search placeholder="Search for recipes, cookmates and cuisines" />
 
             <div className="icons-wrapper flex gap-5">
                 <Link to={"/"}>
@@ -32,6 +37,12 @@ const Header: React.FC = () => {
                         alt="profile"
                     />
                 </Link>
+            </div>
+
+            <div className={`hamburger-menu ${isMenuClicked ? "clicked":""}`} onClick={showMenu}>
+                <span></span>
+                <span></span>
+                <span></span>
             </div>
         </div>
     );
