@@ -5,8 +5,8 @@
   font-family: 'Poppins', Arial, Helvetica, sans-serif;
   color: white;
 }
-.cookmates-wrapper .search-wrapper #search{
-  max-width: 200px;
+.cookmates-page .search-wrapper{
+  max-width: 600px;
 }
 
 .user-card{
@@ -28,4 +28,21 @@
 .cookmate-link{
   font-size: .9rem;
   text-decoration: underline;
+}
+
+.no-cookmates{
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+}
+
+@media (max-width: 880px){
+  .user-card h2{
+    font-size: 1.3rem
+  }
+
+  .cookmate-link{
+    font-size: 1.2rem;
+  }
 }
