@@ -45,7 +45,7 @@ const Post: React.FC<PostType> = ({
                         {
                             ingredients ? <p>{ingredients}</p> : <>
                             <p>Ingredients not posted?</p>
-                            <button>Generate it!</button>
+                            <button className="generate-btn">Generate it!</button>
                             </>
                         }
                     </div>
@@ -53,7 +53,7 @@ const Post: React.FC<PostType> = ({
                     {
                             instructions ? <p>{instructions}</p> : <>
                             <p>Instructions not posted?</p>
-                            <button>Generate it!</button>
+                            <button className="generate-btn">Generate it!</button>
                             </>
                         }
                     </div>
