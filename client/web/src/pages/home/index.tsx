@@ -53,7 +53,7 @@ const posts = [
 
 const Home: React.FC = () => {
     SEO({
-        title: "Home | Tabkhetna",
+        title: "Tabkhetna",
         description: "Tabkhetna's home page"
     })
     return (
