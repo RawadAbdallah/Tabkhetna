@@ -60,7 +60,7 @@ const Home: React.FC = () => {
         <div className="home-page">
             <Header />
             <div className="home-main flex">
-                <Sidebar />
+                <Sidebar current_page="home"/>
                 <section className="main-section flex flex-column gap-5">
                     <CreatePost />
                     <div className="posts-container flex flex-column gap-5">
