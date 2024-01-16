@@ -1,101 +1,136 @@
-.post{
-  background: white;
-  border-radius: 12px;
-  padding: 30px;
+.post {
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
 }
 
-.post-header .profile-pic{
-  width: 50px;
-  border: 1px solid;
-  border-radius: 100px;
+.post-header .profile-pic {
+    width: 50px;
+    border: 1px solid;
+    border-radius: 100px;
 }
 
-.uploader-info p:first-child{
-  font-size: 1.2rem;
+.uploader-info p:first-child {
+    font-size: 1.2rem;
 }
 
-.uploader-info p:last-child{
-  color: var(--teal-color)
+.uploader-info p:last-child {
+    color: var(--teal-color);
 }
 
-.post-content h2{
-  font-size: 1.2rem;
-  color: var(--teal-color);
-  font-weight: 400; 
+.post-content h2 {
+    font-size: 1.2rem;
+    color: var(--teal-color);
+    font-weight: 400;
 }
 
 .media-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .post-media {
-  flex: 1;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
-  border-radius: 12px; 
+    flex: 1;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
 }
 
-.post-description{
-  font-size: 1.1rem;
-  padding: 20px 0;
+.post-description {
+    font-size: 1.1rem;
+    padding: 20px 0;
 }
 
-.post-description button{ 
-  padding: 10px;
-  font-size: 1rem;
-  background-color: var(--teal-color);
-  color: white;
-  font-weight: bold;
-  font-family: 'Poppins', Arial, Helvetica, sans-serif;
-  border-radius: 12px;
+.post-description button {
+    padding: 10px;
+    font-size: 1rem;
+    background-color: var(--teal-color);
+    color: white;
+    font-weight: bold;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+    border-radius: 12px;
 }
 
-.post-actions-wrapper{
-  display: flex;
-  padding: 10px 0;
+.post-actions-wrapper {
+    display: flex;
+    padding: 10px 0;
 }
 
-.post-actions{
-  padding: 10px 0;
+.post-actions {
+    padding: 10px 0;
 }
 
-.post-add-comment input{
-  background-color: var(--teal-color);
-  color: white;
-  padding: 15px 30px;
-  font-size: 1rem;
-  font-family: 'Poppins', Arial, Helvetica, sans-serif;
-  border: none;
-  border-radius: 100px;
+.post-add-comment input {
+    background-color: var(--teal-color);
+    color: white;
+    padding: 15px 30px;
+    font-size: 1rem;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+    border: none;
+    border-radius: 100px;
 }
 
-.comments{
-  border-top: 2px solid var(--teal-color);
-  padding: 20px 0;
+.comments {
+    border-top: 2px solid var(--teal-color);
+    padding: 20px 0;
 }
 
-.comment{
-  max-width: 500px;
+.comment {
+    max-width: 500px;
 }
 
-.comment-pic{
-  width: 40px;
-  height: 40px;
-  border-radius: 100px;
-  border: 1px solid var(--teal-color)
+.comment-pic {
+    width: 40px;
+    height: 40px;
+    border-radius: 100px;
+    border: 1px solid var(--teal-color);
 }
 
-.comment-info{
-  background-color: var(--teal-color);
-  border-radius: 12px;
-  padding: 5px 15px;
-  color: white;
-  width: fit-content;
+.comment-info {
+    background-color: var(--teal-color);
+    border-radius: 12px;
+    padding: 5px 15px;
+    color: white;
+    width: fit-content;
 }
 
-.comment-info p:first-child{
-  font-weight: bold;
+.comment-info p:first-child {
+    font-weight: bold;
+}
+
+.generate-btn {
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.25s ease-in-out;
+
+}
+
+.generate-btn:hover{
+  transform: scale(1.1);
+}
+
+.generate-btn:active{
+  transform: scale(1);
+}
+
+.generate-btn::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 10px;
+    height: 100px;
+    background-color: rgba(255, 255, 255, 0.492);
+    box-shadow: 0 0 5px 5px rgba(255, 255, 255, 0.492);
+    transform: skewX(-20deg) translateX(-100px);
+    animation: generate-btn 3s ease-in-out infinite;
+    transition: transform 0.25s ease-in-out;
+}
+
+@keyframes generate-btn {
+    to {
+        transform: skewX(-20deg) translateX(510px);
+    }
 }
