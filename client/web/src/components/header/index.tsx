@@ -9,11 +9,11 @@ import "./header.css";
 import { useState } from "react";
 
 const Header: React.FC = () => {
-    const [isMenuClicked, setIsMenuClicked] = useState<boolean>(true)
+    const [isMenuClicked, setIsMenuClicked] = useState<boolean>(false);
 
     const showMenu = () => {
-        setIsMenuClicked(!isMenuClicked)
-    }
+        setIsMenuClicked(!isMenuClicked);
+    };
 
     return (
         <div className="header-wrapper">
@@ -39,7 +39,10 @@ const Header: React.FC = () => {
                 </Link>
             </div>
 
-            <div className={`hamburger-menu ${isMenuClicked ? "clicked":""}`} onClick={showMenu}>
+            <div
+                className={`hamburger-menu ${isMenuClicked ? "clicked" : ""}`}
+                onClick={showMenu}
+            >
                 <span></span>
                 <span></span>
                 <span></span>
