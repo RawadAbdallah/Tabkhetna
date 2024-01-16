@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Auth from "@pages/auth";
 import Home from "@pages/home";
+import Cookmates from '@pages/cookmates'
 
 import Error from "@components/error";
 
@@ -14,6 +15,7 @@ function App() {
             <Routes>
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/" element={<Home />} />
+                <Route path="/cookmates" element={<Cookmates />} />
                 <Route
                     path="*"
                     element={
