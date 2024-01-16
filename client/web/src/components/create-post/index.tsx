@@ -23,7 +23,7 @@ const CreatePost: React.FC = () => {
 
             <div className="create-post-types-container">
                 <ul className="post-types flex justify-between">
-                    <li className="flex align-center gap-3">
+                    <li className="flex align-center gap-1">
                         <Icon
                             img={camera_icon}
                             alt="camera"
@@ -31,11 +31,11 @@ const CreatePost: React.FC = () => {
                         />
                         Go Live
                     </li>
-                    <li className="flex align-center gap-3">
+                    <li className="flex align-center gap-1">
                         <Icon img={book_icon} alt="book" noBackground={true} />
                         Recipe
                     </li>
-                    <li className="flex align-center gap-3">
+                    <li className="flex align-center gap-1">
                         <Icon
                             img={video_icon}
                             alt="video"
@@ -43,7 +43,7 @@ const CreatePost: React.FC = () => {
                         />
                         Video
                     </li>
-                    <li className="flex align-center gap-3">
+                    <li className="flex align-center gap-1">
                         <Icon
                             img={challenge_icon}
                             alt="challenges"
