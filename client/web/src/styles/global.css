@@ -85,9 +85,17 @@ body {
     background-color: white;
 }
 
+.flex-wrap{
+    flex-wrap: wrap;
+}
+
 @media (max-width: 880px) {
     :root {
         --main-x-padding: 5%;
         font-size: 12px;
+    }
+
+    h1{
+        font-size: 2rem;
     }
 }
