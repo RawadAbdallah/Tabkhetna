@@ -79,19 +79,41 @@ const Cookmates: React.FC = () => {
                         <Search />
                         <div className="cookmates-wrapper">
                             <ul className="flex flex-wrap justify-center">
-                              {cookmates ? cookmates.map(cookmate => {
-                                return <li key={cookmate.id} >
-                                    <div className="user-card">
-                                      <img src={cookmate.profile_pic} alt="" />
-                                      <h2>{cookmate.firstname} {cookmate.lastname}</h2>
-                                      <Link to={`/profile/${cookmate.id}`} className={"cookmate-link"} >
-                                        view profile
-                                      </Link>
+                                {cookmates.length > 0 ? (
+                                    cookmates.map((cookmate) => {
+                                        return (
+                                            <li key={cookmate.id}>
+                                                <div className="user-card">
+                                                    <img
+                                                        src={
+                                                            cookmate.profile_pic
+                                                        }
+                                                        alt={
+                                                            cookmate.firstname +
+                                                            "'s profile pic"
+                                                        }
+                                                    />
+                                                    <h2>
+                                                        {cookmate.firstname}{" "}
+                                                        {cookmate.lastname}
+                                                    </h2>
+                                                    <Link
+                                                        to={`/profile/${cookmate.id}`}
+                                                        className={
+                                                            "cookmate-link"
+                                                        }
+                                                    >
+                                                        view profile
+                                                    </Link>
+                                                </div>
+                                            </li>
+                                        );
+                                    })
+                                ) : (
+                                    <div className="no-cookmates">
+                                        <h1>You have no cookmates YET!</h1>
                                     </div>
-                                  </li>;
-                              }) : <>
-                                <h1>You have no cookmates YET!</h1>
-                              </>}
+                                )}
                             </ul>
                         </div>
                     </div>
