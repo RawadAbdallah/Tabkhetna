@@ -23,7 +23,7 @@ const login = async (req, res) => {
     const isValidPassword = await bcrypt.compare(password, user.password);
 
     if (!isValidPassword) {
-        return res.status(401).send({ error: "Invalid password" });
+        return res.status(401).send({ error: "Invalid email/password" });
     }
 
     await User.updateOne({ email }, { $set: { is_online: true } });
