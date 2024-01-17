@@ -6,7 +6,7 @@ import Post from "@components/post";
 import { Link } from "react-router-dom";
 
 const data = {
-  id: 1,
+    id: 1,
     profile_pic: "./src/assets/images/default_profile_pic.png",
     firstname: "Rawad",
     lastname: "Abdallah",
@@ -54,7 +54,7 @@ const data = {
             ],
         },
     ],
-    achievements: [],
+    achievements: ['cookester', 'event master', 'challenger', 'recipe streaker'],
     cookmates: [
         {
             id: "1",
@@ -120,7 +120,7 @@ const data = {
 
 const Profile: React.FC = () => {
     return (
-        <div className="home-page">
+        <div className="profile-page">
             <Header />
             <main className="home-main flex">
                 <Sidebar />
@@ -131,7 +131,8 @@ const Profile: React.FC = () => {
                             {data.firstname} {data.lastname}
                         </h2>
                     </div>
-                    <div className="achievements-wrapper flex align-center">
+
+                    <div className="achievements-wrapper flex align-center gap-5">
                         <div className="flex flex-column align-center">
                             <img
                                 src={"src/assets/images/star_icon.svg"}
@@ -149,6 +150,7 @@ const Profile: React.FC = () => {
                             <p>Haven't achieved any yet!</p>
                         )}
                     </div>
+
                     <div className="profile-main gap-5">
                         <div className="posts-container flex flex-column gap-5">
                             {data.posts.map((post, i) => {
@@ -181,26 +183,33 @@ const Profile: React.FC = () => {
                                 <p>{data.cookmates.length} cookmates</p>
                             </div>
                             {data.cookmates.length > 0 ? (
-                                    <ul className="profile-cookmates-list">
-                                        {data.cookmates.map((cookmate, index) => {
-                                            return (
-                                                <li key={index}>
-                                                    <Link
-                                                        to={`/user/${cookmate.id}`}
-                                                        className="flex align-center"
-                                                    >
-                                                      <img src={cookmate.profile_pic} alt="pic"/>
-                                                        {cookmate.firstname}{" "}
-                                                        {cookmate.lastname}
-                                                    </Link>
-                                                </li>
-                                            );
-                                        })}
-                                    </ul>
+                                <ul className="profile-cookmates-list">
+                                    {data.cookmates.map((cookmate, index) => {
+                                        return (
+                                            <li key={index}>
+                                                <Link
+                                                    to={`/user/${cookmate.id}`}
+                                                    className="flex align-center"
+                                                >
+                                                    <img
+                                                        src={
+                                                            cookmate.profile_pic
+                                                        }
+                                                        alt="pic"
+                                                    />
+                                                    {cookmate.firstname}{" "}
+                                                    {cookmate.lastname}
+                                                </Link>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
                             ) : (
                                 <p> No cookmates yet!</p>
                             )}
-                            <Link to={`/profile/${data.id}/cookmates`}>See All {'>'}</Link>
+                            <Link to={`/profile/${data.id}/cookmates`}>
+                                See All {">"}
+                            </Link>
                         </div>
                     </div>
                 </section>
