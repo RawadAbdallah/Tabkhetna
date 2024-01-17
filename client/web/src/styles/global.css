@@ -89,6 +89,14 @@ body {
     flex-wrap: wrap;
 }
 
+.flex-row-reverse{
+    flex-direction: row-reverse;
+}
+
+.flex-column-reverse{
+    flex-direction: row-reverse;
+}
+
 @media (max-width: 880px) {
     :root {
         --main-x-padding: 5%;
