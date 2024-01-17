@@ -1,48 +1,48 @@
-.cookmates-page{
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  font-family: 'Poppins', Arial, Helvetica, sans-serif;
-  color: white;
+.cookmates-page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+    color: white;
 }
-.cookmates-page .search-wrapper{
-  max-width: 600px;
-}
-
-.user-card{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: white;
+.cookmates-page .search-wrapper {
+    max-width: 600px;
 }
 
-.user-card h2{
-  color: white;
-  font-size: 1rem;
+.user-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
 }
 
-.user-card img{
-  width: 200px;
+.user-card h2 {
+    color: white;
+    font-size: 1rem;
 }
 
-.cookmate-link{
-  font-size: .9rem;
-  text-decoration: underline;
+.user-card img {
+    width: 200px;
 }
 
-.no-cookmates{
-  height: 500px;
-  display: flex;
-  align-items: center;
-  justify-content: center;  
+.cookmate-link {
+    font-size: 0.9rem;
+    text-decoration: underline;
 }
 
-@media (max-width: 880px){
-  .user-card h2{
-    font-size: 1.3rem
-  }
+.no-cookmates {
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-  .cookmate-link{
-    font-size: 1.2rem;
-  }
+@media (max-width: 880px) {
+    .user-card h2 {
+        font-size: 1.3rem;
+    }
+
+    .cookmate-link {
+        font-size: 1.2rem;
+    }
 }
