@@ -28,6 +28,7 @@
         "@utils/*": ["./src/utils/*"],
         "@images/*": ["./src/assets/images/*"],
         "@styles/*": ["./src/styles/*"],
+        "@services/*": ["./src/services/*"],
       }
     },
     "include": ["**/*.ts", "**/*.tsx"],
