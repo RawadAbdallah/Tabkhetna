@@ -1,12 +1,17 @@
 import { useEffect, useState } from "react";
 import "./auth.css";
 import upload_icon from "@images/upload_icon.svg";
-import { validateForm } from "@utils/helper";
+
 import Credentials from "@/types/credentials";
+
+import { validateForm } from "@utils/helper";
 import SEO from "@/utils/seo";
+
+import { request } from "@services/request";
 
 const Auth: React.FC = () => {
     //Use States
+    const [count, setCount] = useState<number>(0);
     const [isLogin, setIsLogin] = useState<boolean>(true);
     const [credentials, setCredentials] = useState<Credentials>({
         firstname: "",
@@ -49,7 +54,7 @@ const Auth: React.FC = () => {
     useEffect(() => {
         setFormText(getFormText);
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLogin]);
+    }, [isLogin, isInvalid]);
 
     const changeAuth = () => {
         setIsLogin(!isLogin);
@@ -130,13 +135,46 @@ const Auth: React.FC = () => {
         console.log(name);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         validateForm(credentials, setIsInvalid);
+        setCount(prev => prev + 1)
+        // validity checks only on email and password
+        if (
+            count > 0 &&
+            (isLogin && isInvalid.email.length === 0) &&
+            isInvalid.password.length === 0
+        ) {
+            const response = await request({
+                route: "/auth/login",
+                body: {
+                    email: credentials.email,
+                    password: credentials.password,
+                },
+                method: "POST",
+            });
+
+            //Error handling
+            if (response && response.status === 200) {
+                alert("logged in succesfully");
+            } else if (response && response.status === 401) {
+                setIsInvalid((prev) => ({
+                    ...prev,
+                    email: "Invalid email/password",
+                }));
+            } else {
+                console.log("Bad request, something is missing");
+            }
+        } else {
+            //validity checking on all fields
+            if (!isInvalid) {
+                //Register
+            }
+        }
     };
 
     SEO({
         title: "Tabkhetna | Login or Register",
-    })
+    });
 
     return (
         <div
