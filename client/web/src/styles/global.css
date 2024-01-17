@@ -100,7 +100,7 @@ body {
 @media (max-width: 880px) {
     :root {
         --main-x-padding: 5%;
-        font-size: 12px;
+        font-size: 14px;
     }
 
     h1{
