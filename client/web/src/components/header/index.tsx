@@ -17,9 +17,11 @@ const Header: React.FC = () => {
 
     return (
         <div className="header-wrapper">
-            <div className="logo-wrapper">
-                <img src="/logo.png" alt="Tabkhetna" />
-            </div>
+            <Link to={"/"} className="logo-wrapper">
+                <div>
+                    <img src="/logo.png" alt="Tabkhetna" />
+                </div>
+            </Link>
 
             <Search placeholder="Search for recipes, cookmates and cuisines" />
 
