@@ -20,6 +20,11 @@
     overflow-y: auto;
 }
 
+.posts-container{
+    overflow-y: auto;
+    border-radius: 12px;
+  }
+
 @media (max-width: 880px){
     .home-main{
         padding: 0 8px;
