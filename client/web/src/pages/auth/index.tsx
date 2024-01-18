@@ -1,17 +1,15 @@
 import "./auth.css";
 
 import { useEffect, useState } from "react";
-
+import { useDispatch } from "react-redux";
 import Loader from "@components/loader";
-
 import upload_icon from "@images/upload_icon.svg";
-
 import Credentials from "@/types/credentials";
-
 import { validateForm } from "@utils/helper";
 import SEO from "@/utils/seo";
-
 import { request } from "@services/request";
+import { setUser } from "@/redux/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const Auth: React.FC = () => {
     //Use States
@@ -42,6 +40,8 @@ const Auth: React.FC = () => {
         confirm_password: "",
     });
 
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const getFormText = () => ({
         header_title: isLogin
             ? "Welcome Back! Let's Start Cooking"
@@ -162,7 +162,19 @@ const Auth: React.FC = () => {
                 setIsLoading(true);
                 //Error handling
                 if (response && response.status === 200) {
-                    alert("logged in succesfully");
+                    const { token } = response.data;
+                    const { firstname, lastname, email, profile_pic } =
+                        response.data.user;
+                    dispatch(
+                        setUser({
+                            token,
+                            firstname,
+                            lastname,
+                            email,
+                            profile_pic,
+                        })
+                    );
+                    console.log('logged in')
                 } else if (response && response.status === 401) {
                     setIsInvalid((prev) => ({
                         ...prev,
