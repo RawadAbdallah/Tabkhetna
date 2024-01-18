@@ -42,9 +42,8 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-    const { email, password, firstname, lastname, profile_pic, country } =
-        req.body;
-
+    const { email, password, firstname, lastname, profile_pic, country } = req.body;
+        console.log(email, password, firstname, lastname, country)
     if (!email) {
         return res.status(400).json({ error: "Email field cannot be empty." });
     }
@@ -84,7 +83,6 @@ const register = async (req, res) => {
             password,
             country,
         });
-
         upload.single("profile_pic")(req, res, async (error) => {
             if (error) {
                 return res
