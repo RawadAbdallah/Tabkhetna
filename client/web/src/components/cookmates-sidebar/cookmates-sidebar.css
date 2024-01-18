@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-evenly;
     flex-direction: column;
-    flex: 0.8;
+    flex: 0.6;
     padding: 20px;
     color: var(--secondary-color);
     justify-content: space-evenly;
