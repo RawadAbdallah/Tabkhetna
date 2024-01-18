@@ -174,7 +174,7 @@ const Auth: React.FC = () => {
                             profile_pic,
                         })
                     );
-                    console.log('logged in')
+                    navigate('/')
                 } else if (response && response.status === 401) {
                     setIsInvalid((prev) => ({
                         ...prev,
