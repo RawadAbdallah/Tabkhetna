@@ -1,5 +1,9 @@
-import { useEffect, useState } from "react";
 import "./auth.css";
+
+import { useEffect, useState } from "react";
+
+import Loader from "@components/loader";
+
 import upload_icon from "@images/upload_icon.svg";
 
 import Credentials from "@/types/credentials";
@@ -11,6 +15,7 @@ import { request } from "@services/request";
 
 const Auth: React.FC = () => {
     //Use States
+    const [isLoading, setIsLoading] = useState(false);
     const [count, setCount] = useState<number>(0);
     const [isLogin, setIsLogin] = useState<boolean>(true);
     const [credentials, setCredentials] = useState<Credentials>({
@@ -137,38 +142,86 @@ const Auth: React.FC = () => {
 
     const handleSubmit = async () => {
         validateForm(credentials, setIsInvalid);
-        setCount(prev => prev + 1)
-        // validity checks only on email and password
-        if (
-            count > 0 &&
-            (isLogin && isInvalid.email.length === 0) &&
-            isInvalid.password.length === 0
-        ) {
-            const response = await request({
-                route: "/auth/login",
-                body: {
-                    email: credentials.email,
-                    password: credentials.password,
-                },
-                method: "POST",
-            });
-
-            //Error handling
-            if (response && response.status === 200) {
-                alert("logged in succesfully");
-            } else if (response && response.status === 401) {
-                setIsInvalid((prev) => ({
-                    ...prev,
-                    email: "Invalid email/password",
-                }));
+        setCount((prev) => prev + 1);
+        // login
+        try {
+            if (
+                count > 0 &&
+                isLogin &&
+                isInvalid.email.length === 0 &&
+                isInvalid.password.length === 0
+            ) {
+                const response = await request({
+                    route: "/auth/login",
+                    body: {
+                        email: credentials.email,
+                        password: credentials.password,
+                    },
+                    method: "POST",
+                });
+                setIsLoading(true);
+                //Error handling
+                if (response && response.status === 200) {
+                    alert("logged in succesfully");
+                } else if (response && response.status === 401) {
+                    setIsInvalid((prev) => ({
+                        ...prev,
+                        email: "Invalid email/password",
+                    }));
+                } else {
+                    setIsInvalid((prev) => ({
+                        ...prev,
+                        email: "Something went wrong. Try refreshing the page",
+                    }));
+                }
             } else {
-                console.log("Bad request, something is missing");
+                //Register & validity checking on all fields
+                const {
+                    email,
+                    password,
+                    confirm_password,
+                    lastname,
+                    firstname,
+                } = isInvalid;
+                if (
+                    !email &&
+                    !password &&
+                    !confirm_password &&
+                    !lastname &&
+                    !firstname &&
+                    count > 0
+                ) {
+                    console.log("register");
+                    const response = await request({
+                        route: "/auth/register",
+                        body: credentials,
+                        method: "POST",
+                    });
+                    setIsLoading(true);
+                    if (response && response.status === 200) {
+                        console.log("registered successfully");
+                    } else if (response && response.status === 400) {
+                        console.log("something went wrong");
+                    } else if (response && response.status === 409) {
+                        setIsInvalid((prev) => ({
+                            ...prev,
+                            email: "Email already registered",
+                        }));
+                    } else {
+                        setIsInvalid((prev) => ({
+                            ...prev,
+                            email: "Something went wrong, try refreshing",
+                        }));
+                    }
+                }
             }
-        } else {
-            //validity checking on all fields
-            if (!isInvalid) {
-                //Register
-            }
+        } catch (e) {
+            setIsInvalid((prev) => ({
+                ...prev,
+                email: "Something went wrong, try refreshing",
+            }));
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -182,6 +235,9 @@ const Auth: React.FC = () => {
                 isLogin ? "auth-container login" : "auth-container register"
             }
         >
+            {/* Loader rendering */}
+            {isLoading && <Loader />}
+
             <div className="auth-form">
                 <div className="auth-header">
                     <div>
