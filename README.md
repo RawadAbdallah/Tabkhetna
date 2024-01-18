@@ -46,8 +46,7 @@
 
 | Home screen  | Menu Screen | Order Screen |
 | ---| ---| ---|
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
-
+| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) 
 <br><br>
 
 <!-- Implementation -->
@@ -57,11 +56,13 @@
 
 ### User Screens (Web)
 
-| Login screen  | Register screen | Landing screen | Loading screen |
-| ---| ---| ---| ---|
-| ![Landing](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) |
-| Home screen  | Menu Screen | Order Screen | Checkout Screen |
-| ![Landing](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) | ![fsdaf](https://placehold.co/900x1600) |
+| Login screen  | Register screen |
+| ---| ---|
+| ![Login](./readme/demo/login.png) | ![register](./readme/demo/register.png) |
+| Home screen  | Profile screen |
+| ![Home](./readme/demo/home.png) | ![profile](./readme/demo/profile.png) |
+| Loading screen |
+| ![Loading](./readme/demo/loading.png) |
 
 ### Admin Screens (Web)
 
