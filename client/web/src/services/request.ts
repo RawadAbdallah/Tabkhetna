@@ -7,21 +7,21 @@ type RequestOptions = {
     route: string;
     method?: string;
     body?: any;
+    headers?: any;
 };
 
 export const request = async ({
     route,
     method = "GET",
     body,
+    headers = { "Content-type": "application/json" },
 }: RequestOptions): Promise<AxiosResponse | undefined> => {
     try {
         const response = await axios.request({
             url: route,
             method: method,
             data: body,
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers: headers,
         });
 
         return response;
@@ -31,7 +31,9 @@ export const request = async ({
             if (axiosError.response) {
                 // There is a response from the server
                 const { status, data } = axiosError.response;
-                console.log(`Error in API Request - Status: ${status}, Message: ${data}`);
+                console.log(
+                    `Error in API Request - Status: ${status}, Message: ${data}`
+                );
                 return axiosError.response;
             } else {
                 // The error is not a server response error
