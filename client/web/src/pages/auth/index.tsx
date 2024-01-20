@@ -6,7 +6,7 @@ import Loader from "@components/loader";
 import upload_icon from "@images/upload_icon.svg";
 import Credentials from "@/types/credentials";
 import { validateForm } from "@utils/helper";
-import SEO from "@/utils/seo";
+import SEO from "@utils/seo";
 import { request } from "@services/request";
 import { setUser } from "@/redux/userSlice";
 import { useNavigate } from "react-router-dom";
@@ -14,7 +14,6 @@ import { useNavigate } from "react-router-dom";
 const Auth: React.FC = () => {
     //Use States
     const [isLoading, setIsLoading] = useState(false);
-    const [count, setCount] = useState<number>(0);
     const [isLogin, setIsLogin] = useState<boolean>(true);
     const [credentials, setCredentials] = useState<Credentials>({
         firstname: "",
@@ -116,16 +115,29 @@ const Auth: React.FC = () => {
                         squareSize
                     );
 
-                    const croppedImageSrc = canvas.toDataURL();
+                    canvas.toBlob((blob) => {
+                        if (blob) {
+                            const croppedFile = new File(
+                                [blob],
+                                "profile_pic.png",
+                                { type: "image/png" }
+                            );
+                            console.log(croppedFile);
 
-                    setCredentials((prev) => ({
-                        ...prev,
-                        profile_pic: croppedImageSrc,
-                    }));
-                    console.log(credentials.profile_pic);
+                            setCredentials((prev) => ({
+                                ...prev,
+                                profile_pic: croppedFile,
+                            }));
+                        }
+                    }, "image/png");
                 };
-
                 img.src = imageSrc;
+                setCredentials((prev) => {
+                    return {
+                        ...prev,
+                        profileSrc: img.src,
+                    };
+                });
             };
 
             reader.readAsDataURL(file);
@@ -140,17 +152,17 @@ const Auth: React.FC = () => {
         console.log(name);
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = async (e: React.FormEvent<HTMLButtonElement>) => {
+        e.preventDefault();
         validateForm(credentials, setIsInvalid);
-        setCount((prev) => prev + 1);
         // login
         try {
             if (
-                count > 0 &&
                 isLogin &&
                 isInvalid.email.length === 0 &&
                 isInvalid.password.length === 0
             ) {
+                setIsLoading(true);
                 const response = await request({
                     route: "/auth/login",
                     body: {
@@ -159,7 +171,6 @@ const Auth: React.FC = () => {
                     },
                     method: "POST",
                 });
-                setIsLoading(true);
                 //Error handling
                 if (response && response.status === 200) {
                     const { token } = response.data;
@@ -200,16 +211,34 @@ const Auth: React.FC = () => {
                     !password &&
                     !confirm_password &&
                     !lastname &&
-                    !firstname &&
-                    count > 0
+                    !firstname
                 ) {
-                    console.log("register");
+                    const formData = new FormData();
+                    formData.append("email", credentials.email);
+                    formData.append("password", credentials.password);
+                    formData.append("firstname", credentials.firstname);
+                    formData.append("lastname", credentials.lastname);
+
+                    if (credentials.profile_pic instanceof File) {
+                        formData.append(
+                            "profile_pic",
+                            credentials.profile_pic,
+                            "profile_pic.png"
+                        );
+                    }
+
+                    setIsLoading(true);
                     const response = await request({
                         route: "/auth/register",
-                        body: credentials,
+                        body: formData,
                         method: "POST",
+                        headers: {
+                            'Content-Type': 'multipart/form-data'
+                        }
+                        
                     });
-                    setIsLoading(true);
+
+                    console.log("Form data after request", formData);
                     if (response && response.status === 200) {
                         console.log("registered successfully");
                         setIsLogin(true);
@@ -251,7 +280,11 @@ const Auth: React.FC = () => {
             {/* Loader rendering */}
             {isLoading && <Loader />}
 
-            <div className="auth-form">
+            <form
+                className="auth-form"
+                method="POST"
+                encType="multipart/form-data"
+            >
                 <div className="auth-header">
                     <div>
                         <h1>{formText.header_title}</h1>
@@ -266,7 +299,7 @@ const Auth: React.FC = () => {
                         <div className="profile_pic">
                             <label htmlFor="profile_pic">
                                 <img
-                                    src={credentials.profile_pic || upload_icon}
+                                    src={credentials.profileSrc || upload_icon}
                                     alt="upload pic"
                                     className={
                                         credentials.profile_pic
@@ -410,7 +443,7 @@ const Auth: React.FC = () => {
                         </a>
                     </div>
                 </div>
-            </div>
+            </form>
         </div>
     );
 };
