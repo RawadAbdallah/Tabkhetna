@@ -9,6 +9,7 @@ import Error from "@components/error";
 
 import "@styles/reset.css";
 import "@styles/global.css";
+import AdminPage from "./pages/admin";
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/cookmates" element={<Cookmates />} />
                 <Route path="/profile" element={<Profile />}/>
+                <Route path="/admin" element={<AdminPage/>} />
                 <Route
                     path="*"
                     element={
