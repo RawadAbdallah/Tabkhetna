@@ -21,7 +21,7 @@ const Auth: React.FC = () => {
         email: "",
         password: "",
         confirm_password: "",
-        profile_pic: null,
+        profile_pic: undefined,
         keep_me_logged_in: false,
     });
     const [formText, setFormText] = useState({
