@@ -174,7 +174,7 @@ const Auth: React.FC = () => {
                             profile_pic,
                         })
                     );
-                    navigate('/')
+                    navigate("/");
                 } else if (response && response.status === 401) {
                     setIsInvalid((prev) => ({
                         ...prev,
@@ -212,6 +212,7 @@ const Auth: React.FC = () => {
                     setIsLoading(true);
                     if (response && response.status === 200) {
                         console.log("registered successfully");
+                        setIsLogin(true);
                     } else if (response && response.status === 400) {
                         console.log("something went wrong");
                     } else if (response && response.status === 409) {
