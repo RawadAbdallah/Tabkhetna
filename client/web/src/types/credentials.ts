@@ -4,8 +4,9 @@ type Credentials = {
   email: string;
   password: string;
   confirm_password: string;
-  profile_pic?: string | null;
+  profile_pic?: File;
   keep_me_logged_in?: boolean;
+  profileSrc?: string,
 };
 
 export default Credentials
