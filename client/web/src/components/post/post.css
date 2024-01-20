@@ -76,6 +76,9 @@
 .comments {
     border-top: 2px solid var(--teal-color);
     padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 .comment {
