@@ -1,0 +1,172 @@
+.admin-page {
+    margin: 0 auto;
+    padding: 20px;
+    background-color: var(--teal-color);
+    min-height: 100vh;
+    color: white;
+}
+
+.section {
+    position: relative;
+    overflow: hidden;
+    background-color: #fff;
+    margin-bottom: 20px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(178, 235, 255, 0.1),
+        inset 0 0 10px rgba(255, 255, 255, 0.363);
+    background-color: transparent;
+    border-radius: 12px;
+}
+
+.admin-page h2 {
+    color: #fff;
+    text-shadow: 0 0 7px #ffffff3c, 0 0 42px #00ffff3c, 0 0 92px #fff,
+        0 0 151px #fff;
+}
+
+/* FAQ Section Styles */
+
+.faqs-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.faq {
+    width: 50%;
+    padding: 10px;
+}
+
+.faq h4 {
+    color: #4285f4;
+}
+
+.circular-bar-container {
+    text-align: center;
+}
+
+.live-events-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.live-event {
+    width: 50%;
+    padding: 10px;
+}
+
+.live-event p {
+    margin: 0;
+}
+
+.live-event button {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+/* User Feed Section Styles */
+
+.user-feed-container {
+    padding: 10px;
+}
+
+.user-feed input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+.user {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #fff;
+}
+
+/* Circular Bar Section Styles */
+
+.gender-percentage-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.male-square {
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    background-color: blue;
+}
+
+.female-square {
+    display: inline-block;
+    width: 20px;
+    height: 10px;
+    background-color: rgb(255, 147, 129);
+}
+
+.faq-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.faqs-section button {
+    background-color: white;
+    padding: 10px;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.15s ease-in-out;
+    min-width: 100px;
+}
+
+.faqs-section button:hover {
+    transform: scale(1.06);
+}
+
+.faqs-section button:active {
+    transform: scale(1);
+}
+
+.add-faq-section {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    background-color: rgba(11, 11, 11, 0.395);
+    backdrop-filter: blur(3px);
+    top: 0;
+    left: 0;
+}
+
+.add-faq-section input {
+    background-color: var(--teal-color);
+    color: white;
+    font-size: 1rem;
+    border-radius: 12px;
+    border: none;
+    max-width: 500px;
+    padding: 10px;
+}
+
+.events-section button{
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-weight: 800;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+.accept-btn{
+  background: rgb(157, 255, 157);
+}
+
+.stop-btn{
+  background-color: rgb(255, 104, 104);
+}
