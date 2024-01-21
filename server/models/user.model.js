@@ -55,6 +55,18 @@ const userSchema = new mongoose.Schema({
             ref: "Post",
         },
     ],
+    achievements: [
+        {
+            title: {
+                type: String,
+                required: true,
+            },
+            description: {
+                type: String,
+                required: true,
+            },
+        }
+    ],
     role: {
         type: Number,
         default: 1,
