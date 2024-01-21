@@ -1,0 +1,37 @@
+.create-post-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 25px;
+}
+
+.create-post-container img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100px;
+}
+
+.create-post-container input {
+    background-color: var(--teal-color);
+    color: white;
+    border-radius: 122px;
+    padding: 10px 30px;
+    border: none;
+    font-size: 1.1rem;
+}
+
+.post-types{
+  border-top: 1px solid var(--teal-color);
+  padding: 20px 0 10px 0;
+}
+
+.post-types img {
+    width: 30px;
+    height: 30px;
+    border-radius: 0;
+}
+
+@media (max-width: 1500px){
+    .post-types li{
+        flex-direction: column;
+    }
+}
