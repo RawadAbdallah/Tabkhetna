@@ -9,7 +9,7 @@
     max-width: 600px;
 }
 
-.pending-cookmates-link{
+.pending-cookmates-link {
     padding: 10px 20px;
     color: var(--secondary-color);
     font-weight: 800;
@@ -19,11 +19,11 @@
     transition: all 0.25s ease-in-out;
 }
 
-.pending-cookmates-link:hover{
+.pending-cookmates-link:hover {
     box-shadow: inset 0 0 5px 10px rgba(54, 54, 54, 0.462);
 }
 
-.pending-cookmates-link:active{
+.pending-cookmates-link:active {
     box-shadow: inset 0 0 10px 15px rgba(41, 41, 41, 0.782);
 }
 
@@ -31,37 +31,37 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    color: var(--teal-color);
-    background-color: white;
-    border-radius: 28px;
-    overflow: hidden;
-    width: 200px;
-}
-
-.user-card h2 {
-    font-size: 1rem;
     background-color: var(--teal-color);
-    color: white;
-    width:100%;
-    text-align: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.306);
+    border: 1px solid white;
+    border-radius: 28px;
+    width: 200px;
+    padding: 10px;
 }
 
 .user-card img {
     width: 90%;
     min-width: 150px;
     border-radius: 100px;
+    border: 1px solid white;
     margin: 10px;
 }
 
-.cookmate-link {
-    font-size: 0.9rem;
-    text-decoration: underline;
+.user-card h2 {
+    font-size: 1rem;
     background-color: var(--teal-color);
-    color: white;
     width: 100%;
     text-align: center;
-    padding: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.306);
+}
+
+.cookmate-link {
+    margin-top: 5px;
+    font-size: 0.9rem;
+    text-align: center;
+    background-color: white;
+    color: var(--teal-color);
+    padding: 5px 10px;
+    border-radius: 12px;
 }
 
 .no-cookmates {
