@@ -55,6 +55,12 @@ const userSchema = new mongoose.Schema({
             ref: "Post",
         },
     ],
+    saved_recipes: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Post",
+        },
+    ],
     achievements: [
         {
             title: {
@@ -65,7 +71,7 @@ const userSchema = new mongoose.Schema({
                 type: String,
                 required: true,
             },
-        }
+        },
     ],
     role: {
         type: Number,
@@ -76,6 +82,12 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    completed_challenges: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Challenge",
+        },
+    ],
 });
 
 userSchema.pre(
