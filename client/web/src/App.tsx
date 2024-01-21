@@ -5,7 +5,7 @@ import Auth from "@pages/auth";
 import Home from "@pages/home";
 import Cookmates from "@pages/cookmates";
 import Profile from "@pages/profile";
-
+import Support from '@pages/support';
 import Error from "@components/error";
 
 // importing styles
@@ -20,7 +20,7 @@ const AuthenticatedHome = withAuthentication(Home);
 const AuthenticatedCookmates = withAuthentication(Cookmates);
 const AuthenticatedProfile = withAuthentication(Profile);
 const AuthenticatedAdminPage = withAuthentication(AdminPage);
-
+const AuthenticatedSupportPage = withAuthentication(Support);
 function App() {
     return (
         <BrowserRouter>
@@ -30,6 +30,7 @@ function App() {
                 <Route path="/cookmates" element={<AuthenticatedCookmates />} />
                 <Route path="/profile" element={<AuthenticatedProfile />} />
                 <Route path="/admin" element={<AuthenticatedAdminPage />} />
+                <Route path="/support" element={<AuthenticatedSupportPage />} />
                 <Route
                     path="/unauthorized"
                     element={
