@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import Loader from "@components/loader";
 import upload_icon from "@images/upload_icon.svg";
 import Credentials from "@/types/credentials";
-import { getUser, saveUser, validateForm } from "@/utils/helpers";
+import { getUser, saveUser} from "@/utils/helpers";
 import SEO from "@utils/seo";
 import { request } from "@services/request";
 import { setUser } from "@/redux/userSlice";
