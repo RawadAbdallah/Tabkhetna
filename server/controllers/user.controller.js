@@ -1,25 +1,101 @@
 const User = require("../models/user.model");
 
+//All functions in this file use the Express request and response objects (req, res).
+
+/**
+ * Get the profile of the currently authenticated user.
+ */
+
+const getCurrentUserProfile = async (req, res) => {
+    const user = req.user;
+
+    try {
+        const userData = await User.findById(user._id).select("-password -cookmates");
+        if (!userData) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        return res.status(200).json(userData);
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Something went wrong" });
+    }
+};
+
+/**
+ * Get the profile of a user specified by userId.
+ */
+const getOtherUserProfile = async (req, res) => {
+    const { userId } = req.params;
+    try {
+        const userData = await User.findById(userId).select("-password");
+        if (!userData)
+            return res.status(404).json({ message: "User not found" });
+        return res.status(200).json(userData);
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({ message: "Something went wrong" });
+    }
+};
+
+/**
+ * Get the cookmates of the currently authenticated user.
+ */
 const getCookmates = async (req, res) => {
     const user = req.user;
 
-    //get all cookmates from user.cookmates
+    //Get all cookmates from user.cookmates
     try {
-        const { cookmates } = await User.findById(user._id).select("cookmates");
-        res.status(200).json({ _id: user._id, cookmates });
+        const { cookmates: cookmatesById } = await User.findById(
+            user._id
+        ).select("cookmates");
+        const cookmates = await Promise.all(
+            cookmatesById.map(async (cookmateId) => {
+                const cookmate = await User.findById(cookmateId).select(
+                    "_id firstname lastname email is_online profile_pic"
+                );
+                return cookmate;
+            })
+        );
+        res.status(200).json({ cookmates });
     } catch (e) {
         console.error(e);
         res.status(500).json({ error: "Error fetching cookmates" });
     }
-    
 };
 
+/**
+ * Get only max of 5 cookmates for the currently authenticated user
+ */
+const getTopCookmates = async (req, res) => {
+    const user = req.user;
+
+    // Get the top 5 cookmates' details directly from the database
+    try {
+        const userWithTopCookmates = await User.findById(user._id)
+            .select({ cookmates: { $slice: 5 } }) // Limit to the first 5 cookmates
+            .populate({
+                path: "cookmates",
+                select: "_id firstname lastname email is_online profile_pic",
+            });
+
+        const cookmates = userWithTopCookmates.cookmates;
+
+        res.status(200).json({ cookmates });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({ error: "Error fetching top cookmates" });
+    }
+};
+
+/**
+ * Add a user as a cookmate for the currently authenticated user.
+ */
 const addCookmate = async (req, res) => {
     try {
         const user = req.user;
         const { id } = req.params;
 
-        // Checking for self addition
+        // Check for self addition
         if (user._id.toString() === id) {
             return res
                 .status(400)
@@ -32,7 +108,7 @@ const addCookmate = async (req, res) => {
             return res.status(404).json({ error: "User not found" });
         }
 
-        // Checking if the user is already in pending_cookmates
+        // Check if the user is already in pending_cookmates
         if (
             userToAdd.pending_cookmates.find((cookmate) =>
                 cookmate._id.equals(user._id)
@@ -43,7 +119,7 @@ const addCookmate = async (req, res) => {
             });
         }
 
-        // Checking if the both users already cookmates
+        // Check if the both users already cookmates
         if (
             userToAdd.cookmates.find((cookmate) =>
                 cookmate._id.equals(user._id)
@@ -68,6 +144,9 @@ const addCookmate = async (req, res) => {
     }
 };
 
+/**
+ * Accept a cookmate request from another user.
+ */
 const acceptCookmate = async (req, res) => {
     try {
         const user = req.user;
@@ -78,7 +157,7 @@ const acceptCookmate = async (req, res) => {
             return res.status(404).json({ error: "User not found." });
         }
 
-        // Checkinging if user is in pending_cookamtes
+        // Check if user is in pending_cookamtes
         if (
             !user.pending_cookmates.find((cookmate) =>
                 cookmate._id.equals(userToAccept._id)
@@ -100,7 +179,7 @@ const acceptCookmate = async (req, res) => {
             });
         }
 
-        // Moving user from pending cookmates to accepted cookmates
+        // Move user from pending cookmates to accepted cookmates
         await User.updateOne(
             { _id: user._id },
             { $pull: { pending_cookmates: userToAccept._id } }
@@ -124,6 +203,9 @@ const acceptCookmate = async (req, res) => {
     }
 };
 
+/**
+ * Reject a cookmate request from another user.
+ */
 const rejectCookmate = async (req, res) => {
     try {
         const user = req.user;
@@ -131,7 +213,7 @@ const rejectCookmate = async (req, res) => {
 
         const userToReject = await User.findOne({ _id: id });
 
-        // Checking if the user is not in pending_cookmates
+        // Check if the user is not in pending_cookmates
         if (
             !userToReject.pending_cookmates.find((cookmate) =>
                 cookmate._id.equals(user._id)
@@ -160,4 +242,7 @@ module.exports = {
     acceptCookmate,
     rejectCookmate,
     getCookmates,
+    getCurrentUserProfile,
+    getOtherUserProfile,
+    getTopCookmates
 };
