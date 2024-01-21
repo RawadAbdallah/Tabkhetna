@@ -25,7 +25,7 @@ const Cookmates: React.FC = () => {
         const getCookmates = async () => {
             try {
                 if (user && user.token) {
-                    setIsLoading(true)
+                    setIsLoading(true);
                     const { token } = user;
                     const result = await request({
                         route: "/cookmates",
@@ -37,7 +37,7 @@ const Cookmates: React.FC = () => {
                     console.log(result?.data.cookmates);
                     // Update state with cookmates
                     setCookmates(result?.data.cookmates || []);
-                    setIsLoading(false)
+                    setIsLoading(false);
                 }
             } catch (e) {
                 console.log(e);
@@ -46,10 +46,10 @@ const Cookmates: React.FC = () => {
 
         getCookmates();
     }, [user]);
-
+    
     return (
         <div className="cookmates-page">
-            {isLoading && <Loader /> }
+            {isLoading && <Loader />}
             <Header />
             <div className="home-main flex">
                 <Sidebar current_page={"cookmates"} />
@@ -60,7 +60,7 @@ const Cookmates: React.FC = () => {
                             <Search />
                             <Link
                                 to="/pending-cookmates"
-                               className="pending-cookmates-link"
+                                className="pending-cookmates-link"
                             >
                                 Pending cookmates requests
                             </Link>
