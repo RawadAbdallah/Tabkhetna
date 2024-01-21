@@ -15,14 +15,10 @@ const challengeSchema = mongoose.Schema({
         required: true,
     },
     participants: [
-        {
+        {   
             user: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
-            },
-            isCompleted: {
-                type: Boolean,
-                default: false,
             },
         },
     ],
