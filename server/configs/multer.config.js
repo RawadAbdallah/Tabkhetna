@@ -1,7 +1,7 @@
 const multer = require("multer");
+const fs = require('fs')
 const path = require("path");
 
-// Function to determine the destination folder based on file type
 const getDestination = function (req, file, cb) {
     const allowedImageTypes = ["image/jpeg", "image/png", "image/gif"];
     const allowedVideoTypes = ["video/mp4", "video/webm"];
@@ -9,17 +9,22 @@ const getDestination = function (req, file, cb) {
     let destinationFolder;
 
     if (allowedImageTypes.includes(file.mimetype)) {
-        destinationFolder = "uploads/images/";
+        destinationFolder = "images";
     } else if (allowedVideoTypes.includes(file.mimetype)) {
-        destinationFolder = "uploads/videos/";
+        destinationFolder = "videos";
     } else {
-        destinationFolder = "uploads/others/";
+        destinationFolder = "others";
     }
 
-    cb(null, destinationFolder);
+    // Ensure that the destination folder exists
+    const fullPath = path.join(__dirname, "..", "storage", "uploads", destinationFolder);
+    if (!fs.existsSync(fullPath)) {
+        fs.mkdirSync(fullPath, { recursive: true });
+    }
+
+    cb(null, path.join("storage", "uploads", destinationFolder));
 };
 
-// Set up multer storage with dynamic destination
 const storage = multer.diskStorage({
     destination: getDestination,
     filename: function (req, file, cb) {
