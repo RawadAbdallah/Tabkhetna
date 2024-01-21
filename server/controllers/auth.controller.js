@@ -1,9 +1,7 @@
-const express = require("express");
 const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
-const upload = require("../configs/multer.config");
 
 const login = async (req, res) => {
     const { email, password } = req.body;
@@ -42,8 +40,9 @@ const login = async (req, res) => {
 };
 
 const register = async (req, res) => {
-    const { email, password, firstname, lastname, profile_pic, country } = req.body;
-        console.log(email, password, firstname, lastname, country)
+    const { email, password, firstname, lastname, country, profile_pic } =
+        req.body;
+
     if (!email) {
         return res.status(400).json({ error: "Email field cannot be empty." });
     }
@@ -83,32 +82,30 @@ const register = async (req, res) => {
             password,
             country,
         });
-        upload.single("profile_pic")(req, res, async (error) => {
-            if (error) {
-                return res
-                    .status(500)
-                    .json({ error: "Error uploading profile_pic" });
-            }
 
-            if (req.file) {
-                user.profile_pic = req.file.path;
-            } else {
-                const defaultImagePath = path.join(
-                    __dirname,
-                    "..",
-                    "storage",
-                    "assets",
-                    "default_profile_pic.png"
-                );
-                user.profile_pic = defaultImagePath;
-            }
-        });
+        // Handling the profile_pic
+        if (req.file) {
+            const profilePicFilename = req.file.filename;
+            user.profile_pic = profilePicFilename;
+        } else {
+            // If no profile_pic is provided, use a default image path
+            const defaultImagePath = path.join(
+                __dirname,
+                "..",
+                "storage",
+                "assets",
+                "default_profile_pic.png"
+            );
+            user.profile_pic = defaultImagePath;
+        }
 
         await user.save();
+
         return res
             .status(200)
             .json({ message: "User created successfully", user });
     } catch (e) {
+        console.log("error", e);
         return res.status(500).json({ error: e });
     }
 };
