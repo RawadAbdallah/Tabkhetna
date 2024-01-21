@@ -85,6 +85,8 @@ export const goBack = () => {
 
 // Setting and getting from localStorage
 export const saveUser = (
+    id: string,
+    email: string,
     firstname: string,
     lastname: string,
     profile_pic: File,
@@ -92,7 +94,7 @@ export const saveUser = (
 ) => {
     localStorage.setItem(
         "tabkhetna_user",
-        JSON.stringify({ firstname, lastname, profile_pic, token })
+        JSON.stringify({ id, email, firstname, lastname, profile_pic, token })
     );
 };
 
