@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type UserState = {
+    id: string | null,
     firstname: string | null;
     lastname: string | null;
     email: string | null;
@@ -9,6 +10,7 @@ type UserState = {
 }
 
 const initialState: UserState = {
+    id: null,
     firstname: null,
     lastname: null,
     email: null,
