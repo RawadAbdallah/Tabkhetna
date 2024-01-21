@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import Loader from "@components/loader";
 import upload_icon from "@images/upload_icon.svg";
 import Credentials from "@/types/credentials";
-import { validateForm } from "@utils/helper";
+import { getUser, saveUser, validateForm } from "@/utils/helpers";
 import SEO from "@utils/seo";
 import { request } from "@services/request";
 import { setUser } from "@/redux/userSlice";
@@ -56,6 +56,10 @@ const Auth: React.FC = () => {
     });
 
     useEffect(() => {
+        //Check if user is saved in localStorage
+        if(getUser()){
+            navigate("/");
+        }
         setFormText(getFormText);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isLogin, isInvalid]);
@@ -185,6 +189,7 @@ const Auth: React.FC = () => {
                             profile_pic,
                         })
                     );
+                    saveUser(firstname, lastname, profile_pic, token)
                     navigate("/");
                 } else if (response && response.status === 401) {
                     setIsInvalid((prev) => ({
@@ -238,7 +243,6 @@ const Auth: React.FC = () => {
                         
                     });
 
-                    console.log("Form data after request", formData);
                     if (response && response.status === 200) {
                         console.log("registered successfully");
                         setIsLogin(true);
