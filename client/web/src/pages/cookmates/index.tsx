@@ -11,10 +11,11 @@ import { RootState } from "@/store";
 
 import default_profile_pic from "@/assets/images/default_profile_pic.png";
 import Loader from "@/components/loader";
+import CookmateType from "@/types/cookmate";
 
 const Cookmates: React.FC = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const [cookmates, setCookmates] = useState([]);
+    const [cookmates, setCookmates] = useState<CookmateType[]>([]);
     const user = useSelector((state: RootState) => {
         return state.user;
     });
@@ -66,7 +67,7 @@ const Cookmates: React.FC = () => {
                         </div>
                         <div className="cookmates-wrapper">
                             <ul className="flex flex-wrap justify-center">
-                                {cookmates.length > 0 ? (
+                                {cookmates && cookmates.length > 0 ? (
                                     cookmates.map((cookmate) => {
                                         return (
                                             <li key={cookmate._id}>
