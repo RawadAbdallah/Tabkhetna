@@ -1,7 +1,7 @@
 import Sidebar from "@components/sidebar";
 import Header from "@components/header";
-import CreatePost from "@components/create-post";
-import CookmatesSidebar from '@components/cookmates-sidebar'
+import CreatePost from "@/components/createPost";
+import CookmatesSidebar from "@/components/cookmatesSidebar";
 import Post from "@components/post";
 import "./home.css";
 import SEO from "@/utils/seo";
@@ -25,6 +25,11 @@ const posts = [
                 profile_pic: "src/assets/images/default_profile_pic.png",
                 username: "Mohammad Ali",
                 comment: "Not bad",
+            },
+            {
+                profile_pic: "src/assets/images/default_profile_pic.png",
+                username: "Hussein Mokdad",
+                comment: "This is the best post I've ever seen.",
             },
         ],
     },
@@ -54,31 +59,31 @@ const posts = [
 const Home: React.FC = () => {
     SEO({
         title: "Tabkhetna",
-        description: "Tabkhetna's home page"
-    })
+        description: "Tabkhetna's home page",
+    });
     return (
         <div className="home-page">
             <Header />
             <div className="home-main flex">
-                <Sidebar current_page="home"/>
+                <Sidebar current_page="home" />
                 <section className="main-section flex flex-column gap-5">
                     <CreatePost />
                     <div className="posts-container flex flex-column gap-5">
                         {posts.map((post, i) => {
                             return (
-                                    <Post
-                                        key={i}
-                                        title={post.title}
-                                        uploader={post.uploader}
-                                        profile_pic={post.profile_pic}
-                                        created_at={post.created_at}
-                                        media={post.media}
-                                        likes={post.likes}
-                                        saves={post.saves}
-                                        comments={post.comments}
-                                        ingredients={post.ingredients}
-                                        instructions={post.instructions}
-                                    />
+                                <Post
+                                    key={i}
+                                    title={post.title}
+                                    uploader={post.uploader}
+                                    profile_pic={post.profile_pic}
+                                    created_at={post.created_at}
+                                    media={post.media}
+                                    likes={post.likes}
+                                    saves={post.saves}
+                                    comments={post.comments}
+                                    ingredients={post.ingredients}
+                                    instructions={post.instructions}
+                                />
                             );
                         })}
                     </div>
