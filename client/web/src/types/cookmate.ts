@@ -1,5 +1,5 @@
-type Cookmate = {
-  id: string,
+type CookmateType = {
+  _id: string,
   profile_pic: string,
   firstname: string,
   lastname: string,
@@ -7,4 +7,4 @@ type Cookmate = {
   last_online?: string | undefined
 }
 
-export default Cookmate
+export default CookmateType
