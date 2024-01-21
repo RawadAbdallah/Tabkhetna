@@ -1,0 +1,31 @@
+.cookmates-sidebar {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    flex: 0.6;
+    padding: 20px;
+    color: var(--secondary-color);
+    justify-content: space-evenly;
+}
+
+.cookmate {
+    font-size: 1.1rem;
+}
+
+.cookmate img {
+    width: 40px;
+    height: 40px;
+}
+
+.online-circle {
+    width: 15px;
+    height: 15px;
+    border-radius: 100px;
+    background-color: var(--secondary-color);
+}
+
+@media (max-width: 1300px) {
+    .cookmates-sidebar {
+      display: none;
+    }
+}
