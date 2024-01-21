@@ -7,10 +7,15 @@ import message_icon from "@images/message_icon.svg";
 import default_profile_pic from "@images/default_profile_pic.png";
 import "./header.css";
 import { useState } from "react";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
+import { serverURL } from "@/services/request";
 
 const Header: React.FC = () => {
     const [isMenuClicked, setIsMenuClicked] = useState<boolean>(false);
-
+    const user = useSelector((state: RootState) => {
+        return state.user;
+    });
     const showMenu = () => {
         setIsMenuClicked(!isMenuClicked);
     };
@@ -32,10 +37,10 @@ const Header: React.FC = () => {
                 <Link to={"/"}>
                     <Icon img={message_icon} alt={"messages"} />
                 </Link>
-                <Link to={"/"}>
+                <Link to={"/profile"}>
                     <img
                         className="icon"
-                        src={default_profile_pic}
+                        src={`${serverURL}uploads/images/${user.profile_pic}` || default_profile_pic}
                         alt="profile"
                     />
                 </Link>
