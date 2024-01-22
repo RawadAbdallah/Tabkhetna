@@ -22,6 +22,7 @@ const AuthenticatedHome = withAuthentication(Home);
 const AuthenticatedCookmates = withAuthentication(Cookmates);
 const AuthenticatedProfile = withAuthentication(Profile);
 const AuthenticatedAdminPage = withAuthentication(AdminPage);
+const AuthenticatedSavedRecipesPage = withAuthentication(SavedRecipes);
 const AuthenticatedChallengesPage = withAuthentication(Challenges);
 const AuthenticatedSupportPage = withAuthentication(Support);
 function App() {
@@ -35,6 +36,7 @@ function App() {
                 <Route path="/admin" element={<AuthenticatedAdminPage />} />
                 <Route path="/support" element={<AuthenticatedSupportPage />} />
                 <Route path="/challenges" element={<AuthenticatedChallengesPage />} />
+                <Route path="/savedRecipes" element={<AuthenticatedSavedRecipesPage/>} />
                 <Route
                     path="/unauthorized"
                     element={
