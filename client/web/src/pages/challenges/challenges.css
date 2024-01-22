@@ -1,0 +1,233 @@
+.challenges-page {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.main-challenges {
+    background-color: var(--teal-color);
+    padding: 0 0 0 30px;
+    background: linear-gradient(110deg, #2f4f4f -0.46%, #1f2222 91.99%);
+    flex: 1;
+    display: flex;
+    position: relative;
+    background: linear-gradient(110deg, #2f4f4f -0.46%, #1f2222 91.99%);
+    padding: 0 30px;
+    height: 100%;
+}
+
+.main-challenges h1 {
+    color: white;
+}
+
+.main-challenges-section {
+    padding: 20px 15px 0 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.challenge {
+    background-color: white;
+    border-radius: 24px;
+    padding: 10px;
+}
+
+.challenge-info .more-details-btn {
+    background-color: var(--teal-color);
+    padding: 10px 15px;
+    color: white;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+    border-radius: 24px;
+    width: 120px;
+}
+
+.challenge img {
+    object-fit: cover;
+    border-radius: 24px;
+}
+
+.challenge-img {
+    width: 150px;
+    height: 150px;
+}
+
+.challenger {
+    margin-left: auto;
+    text-align: center;
+    min-width: 150px;
+}
+
+.challenger-img {
+    width: 80px;
+    height: 80px;
+}
+
+.challenge-details {
+    position: absolute;
+    z-index: 10000;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.678);
+    box-shadow: inset 0 0 100px 100px rgba(0, 0, 0, 0.616);
+    gap: 50px;
+}
+
+.challenge-details-container {
+    position: relative;
+    background-color: var(--teal-color);
+    border-radius: 12px;
+    box-shadow: inset 0 0 20px 10px rgba(0, 0, 0, 0.336);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.challenge-details-img {
+    width: 100%;
+    max-width: 400px;
+    aspect-ratio: 1/1;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+.desc-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    list-style: disc;
+    max-width: 450px;
+    width: 75%;
+}
+
+.challenge-details-container {
+    background-color: #2f4f4f;
+    padding: 20px 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 600px; /* Adjust max-width as needed */
+    margin: 0 auto; /* Center the container */
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 5px;
+}
+
+.close-button span {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    border-radius: 100px;
+    margin: 6px 0;
+}
+
+.close-button span:first-child {
+    transform: rotate(45deg) translateY(6.5px);
+}
+
+.close-button span:last-child {
+    transform: rotate(-45deg) translateY(-6px);
+}
+
+.title {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+}
+
+.description-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.description-item {
+    margin-bottom: 8px;
+}
+
+.participate-btn {
+    width: 100%;
+    padding: 15px 30px;
+    background-color: rgb(100, 100, 100);
+    border-radius: 12px;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    color: white;
+    transition: all 0.25s ease-in-out;
+}
+
+.participate-btn:hover{
+  transform: scale(1.1);
+}
+
+.participate-btn:active{
+  transform: scale(1);
+}
+
+
+.more-details-footer{
+  padding: 30px 0;
+  border-top: 1px solid white;
+}
+
+.posted-by{
+  position: relative;
+}
+
+.posted-by::before{
+  content: 'Posted by';
+  position: absolute;
+  top: -25px;
+  left: 0;
+}
+
+.posted-by img {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 100px;
+    border: 1px solid white;
+}
+
+.posted-by div {
+    border: 1px solid white;
+    border-radius: 12px;
+    width: fit-content;
+    padding: 10px;
+}
+
+@media (max-width: 500px) {
+    .challenge {
+        flex-direction: column;
+    }
+
+    .challenger {
+        margin-left: 0;
+        flex-direction: row;
+        align-items: center;
+        width: 100%;
+        padding: 10px;
+    }
+    .challenge-details-img {
+        width: 80%;
+    }
+
+    .more-details-footer {
+      flex-direction: column-reverse;
+      gap: 40px;
+    }
+
+    .posted-by::before{
+      left: 50%;
+      transform: translate(-50%)
+    }
+
+}
