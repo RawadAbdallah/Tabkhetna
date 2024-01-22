@@ -1,11 +1,10 @@
 .cookmates-sidebar {
     display: flex;
-    justify-content: space-evenly;
     flex-direction: column;
     flex: 0.6;
     padding: 20px;
     color: var(--secondary-color);
-    justify-content: space-evenly;
+    gap:15px;
 }
 
 .cookmate {
@@ -15,6 +14,9 @@
 .cookmate img {
     width: 40px;
     height: 40px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 100px;
 }
 
 .online-circle {
