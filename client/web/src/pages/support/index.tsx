@@ -24,7 +24,7 @@ const Support = () => {
     return (
         <div className="support-page">
             <Header />
-            <div className="support-main flex">
+            <main className="support-main flex">
                 <Sidebar current_page="support" />
                 <section className="main-support-section">
                     <h1>Welcome to the Support page</h1>
@@ -63,7 +63,7 @@ const Support = () => {
                         </h3>
                     </footer>
                 </section>
-            </div>
+            </main>
         </div>
     );
 };
