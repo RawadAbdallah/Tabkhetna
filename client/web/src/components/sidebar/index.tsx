@@ -30,8 +30,8 @@ const Sidebar: React.FC<SidebarPropType> = ({current_page}) => {
                         Cookmates
                     </Link>
                 </li>
-                <li className={`sidebar-item ${current_page && current_page === "recipes" ? "active" : ""}`}>
-                    <Link to="/recipes/saved" className="sidebar-link">
+                <li className={`sidebar-item ${current_page && current_page === "savedRecipes" ? "active" : ""}`}>
+                    <Link to="/savedRecipes" className="sidebar-link">
                         <Icon img={book_icon} alt="recipes" />
                         Saved Recipes
                     </Link>
