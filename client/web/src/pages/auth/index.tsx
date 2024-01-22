@@ -178,12 +178,11 @@ const Auth: React.FC = () => {
                 //Error handling
                 if (response && response.status === 200) {
                     const { token } = response.data;
-                    const { firstname, lastname, email, profile_pic } =
+                    const { _id, firstname, lastname, email, profile_pic } =
                         response.data.user;
-                    const id = response.data._id
                     dispatch(
                         setUser({
-                            id,
+                            id:_id,
                             token,
                             firstname,
                             lastname,
@@ -191,7 +190,7 @@ const Auth: React.FC = () => {
                             profile_pic,
                         })
                     );
-                    saveUser(id, email, firstname, lastname, profile_pic, token)
+                    saveUser(_id, email, firstname, lastname, profile_pic, token)
                     navigate("/");
                 } else if (response && response.status === 401) {
                     setIsInvalid((prev) => ({
