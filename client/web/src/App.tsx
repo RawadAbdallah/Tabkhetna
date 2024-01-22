@@ -14,12 +14,15 @@ import "@styles/global.css";
 import AdminPage from "@pages/admin";
 
 import withAuthentication from "@utils/withAuthentication";
+import SavedRecipes from "./pages/savedRecipes";
+import Challenges from "./pages/challenges";
 
 // passing pages to the authentication HOC
 const AuthenticatedHome = withAuthentication(Home);
 const AuthenticatedCookmates = withAuthentication(Cookmates);
 const AuthenticatedProfile = withAuthentication(Profile);
 const AuthenticatedAdminPage = withAuthentication(AdminPage);
+const AuthenticatedChallengesPage = withAuthentication(Challenges);
 const AuthenticatedSupportPage = withAuthentication(Support);
 function App() {
     return (
@@ -28,9 +31,10 @@ function App() {
                 <Route path="/auth" element={<Auth />} />
                 <Route path="/" element={<AuthenticatedHome />} />
                 <Route path="/cookmates" element={<AuthenticatedCookmates />} />
-                <Route path="/profile" element={<AuthenticatedProfile />} />
+                <Route path="/profile/:userId" element={<AuthenticatedProfile />} />
                 <Route path="/admin" element={<AuthenticatedAdminPage />} />
                 <Route path="/support" element={<AuthenticatedSupportPage />} />
+                <Route path="/challenges" element={<AuthenticatedChallengesPage />} />
                 <Route
                     path="/unauthorized"
                     element={
