@@ -1,76 +1,48 @@
+import { request, serverURL } from "@/services/request";
 import "./cookmatesSidebar.css";
 import Search from "@components/search";
 import { Link } from "react-router-dom";
-
-const cookmates = [
-    {
-        id: "1",
-        profile_pic: "/src/assets/images/default_profile_pic.png",
-        firstname: "Ali",
-        lastname: "Abdallah",
-        is_online: true,
-        last_online: "",
-    },
-
-    {
-        id: "2",
-        profile_pic: "/src/assets/images/default_profile_pic.png",
-        firstname: "Mo",
-        lastname: "Salah",
-        is_online: false,
-        last_online: "10 min",
-    },
-
-    {
-        id: "3",
-        profile_pic: "/src/assets/images/default_profile_pic.png",
-        firstname: "Ammar",
-        lastname: "Zo",
-        is_online: true,
-    },
-
-    {
-        id: "4",
-        profile_pic: "/src/assets/images/default_profile_pic.png",
-        firstname: "Khaled",
-        lastname: "Chadad",
-        is_online: false,
-        last_online: "1 day",
-    },
-    {
-        id: "5",
-        profile_pic: "/src/assets/images/default_profile_pic.png",
-        firstname: "Mo",
-        lastname: "Salah",
-        is_online: false,
-        last_online: "10 min",
-    },
-
-    {
-        id: "6",
-        profile_pic: "/src/assets/images/default_profile_pic.png",
-        firstname: "Ammar",
-        lastname: "Zo",
-        is_online: true,
-    },
-
-    {
-        id: "7",
-        profile_pic: "/src/assets/images/default_profile_pic.png",
-        firstname: "Khaled",
-        lastname: "Chadad",
-        is_online: false,
-        last_online: "1 day",
-    },
-];
+import { useEffect, useState } from "react";
+import CookmateType from "@/types/cookmate";
+import { RootState } from "@/store";
+import { useSelector } from "react-redux";
 
 const CookmatesSidebar: React.FC = () => {
+    const [topCookmates, setTopCookmates] = useState<CookmateType[]>([]);
+    const user = useSelector((state: RootState) => {
+        return state.user;
+    });
+    const getTopCookmates = async () => {
+        try {
+            if (user && user.token) {
+                console.log("getting top cookmates");
+                const { token } = user;
+                const result = await request({
+                    route: `/cookmates/top/${user.id}`,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                });
+                setTopCookmates(result?.data.cookmates);
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+    // get user cookmates
+    useEffect(() => {
+       getTopCookmates();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user]);
+
     return (
         <div className="cookmates-sidebar">
             <Search />
             <h2>Cookmates</h2>
-            {cookmates &&
-                cookmates.map((cookmate, index) => {
+            {topCookmates &&
+                topCookmates.map((cookmate, index) => {
                     const username =
                         cookmate.firstname + " " + cookmate.lastname;
                     return (
@@ -78,10 +50,10 @@ const CookmatesSidebar: React.FC = () => {
                             className="cookmate flex align-center justify-between gap-5"
                             key={index}
                         >
-                            <Link to={`/profile/${cookmate.id}`}>
+                            <Link to={`/profile/${cookmate._id}`}>
                                 <div className="flex align-center gap-5">
                                     <img
-                                        src={cookmate.profile_pic}
+                                        src={`${serverURL}uploads/images/${cookmate.profile_pic}`}
                                         alt={username + "'s pic"}
                                     />
                                     <p>{username}</p>
