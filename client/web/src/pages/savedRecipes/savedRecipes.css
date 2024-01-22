@@ -1,0 +1,29 @@
+.saved-recipes-page{
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.main-saved-recipes {
+    background-color: var(--teal-color);
+    padding: 0 0 0 30px;
+    background: linear-gradient(110deg, #2f4f4f -0.46%, #1f2222 91.99%);
+    flex: 1;
+    display: flex;
+    position: relative;
+    background: linear-gradient(110deg, #2F4F4F -0.46%, #1F2222 91.99%);
+    padding: 0 30px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.main-saved-recipes h1 {
+  color: white;
+}
+
+.main-saved-recipes-section{
+  padding: 20px 15px 0 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
