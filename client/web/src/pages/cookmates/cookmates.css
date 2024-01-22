@@ -42,6 +42,8 @@
     width: 90%;
     min-width: 150px;
     border-radius: 100px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
     border: 1px solid white;
     margin: 10px;
 }
