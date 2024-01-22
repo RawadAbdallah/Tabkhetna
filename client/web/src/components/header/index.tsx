@@ -37,7 +37,7 @@ const Header: React.FC = () => {
                 <Link to={"/"}>
                     <Icon img={message_icon} alt={"messages"} />
                 </Link>
-                <Link to={"/profile"}>
+                <Link to={`/profile/${user.id}`}>
                     <img
                         className="icon"
                         src={`${serverURL}uploads/images/${user.profile_pic}` || default_profile_pic}
