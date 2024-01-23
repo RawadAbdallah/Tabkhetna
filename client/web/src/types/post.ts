@@ -1,14 +1,15 @@
 import CommentType from "./comment";
+import UserType from "./user";
 
 type PostType = {
   uploader: string;
-  profile_pic: string;
+  profile_pic?: string;
   title: string;
   media?: string[];
-  created_at: string;
+  updatedAt: string;
   ingredients?: string;
   instructions?: string;
-  likes: number;
+  likes: UserType[];
   saves: number;
   comments: CommentType[];
 };
