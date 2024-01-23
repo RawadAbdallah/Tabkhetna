@@ -15,11 +15,17 @@ const challengeSchema = mongoose.Schema({
         required: true,
     },
     participants: [
-        {   
+        {
             user: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: "User",
             },
+        },
+    ],
+    posts: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Post",
         },
     ],
     isActive: {
@@ -30,4 +36,4 @@ const challengeSchema = mongoose.Schema({
 
 const Challenge = mongoose.model("Challenge", challengeSchema);
 
-module.exports = Challenge
+module.exports = Challenge;
