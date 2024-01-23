@@ -40,9 +40,9 @@ const Support = () => {
                                                 key={question.id}
                                             >
                                                 <h1>
-                                                    Question:{question.question}
+                                                   {question.question}
                                                 </h1>
-                                                <p>Answer: {question.answer}</p>
+                                                <p>{question.answer}</p>
                                             </li>
                                         );
                                     })}
