@@ -1,7 +1,7 @@
 .challenges-page {
-    position: relative;
     height: 100vh;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
 }
 
 .main-challenges {
@@ -13,7 +13,8 @@
     position: relative;
     background: linear-gradient(110deg, #2f4f4f -0.46%, #1f2222 91.99%);
     padding: 0 30px;
-    height: 100%;
+    height: 100vh;
+    overflow: hidden;
 }
 
 .main-challenges h1 {
@@ -22,7 +23,7 @@
 
 .main-challenges-section {
     padding: 20px 15px 0 0;
-    flex: 1;
+    flex: 1.4;
     overflow-y: auto;
 }
 
@@ -30,6 +31,7 @@
     background-color: white;
     border-radius: 24px;
     padding: 10px;
+    max-width: 650px;
 }
 
 .challenge-info .more-details-btn {
@@ -65,8 +67,8 @@
 .challenge-details {
     position: absolute;
     z-index: 10000;
-    height: 100%;
     width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     background-color: rgba(0, 0, 0, 0.678);
@@ -74,19 +76,8 @@
     gap: 50px;
 }
 
-.challenge-details-container {
-    position: relative;
-    background-color: var(--teal-color);
-    border-radius: 12px;
-    box-shadow: inset 0 0 20px 10px rgba(0, 0, 0, 0.336);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .challenge-details-img {
-    width: 100%;
+    width: 55%;
     max-width: 400px;
     aspect-ratio: 1/1;
     margin-bottom: 20px;
@@ -98,19 +89,22 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    list-style: disc;
+    list-style: disc inside;
     max-width: 450px;
     width: 75%;
 }
 
 .challenge-details-container {
-    background-color: #2f4f4f;
+    position: relative;
     padding: 20px 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    max-width: 600px; /* Adjust max-width as needed */
-    margin: 0 auto; /* Center the container */
+    box-shadow: 5px 5px 15px 10px rgba(0, 0, 0, 0.281);
+    max-width: 600px; 
+    background-color: var(--teal-color);
+    border-radius: 12px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .close-button {
@@ -204,6 +198,10 @@
     padding: 10px;
 }
 
+.challenges-page .cookmates-sidebar{
+  flex:.8; 
+}
+
 @media (max-width: 500px) {
     .challenge {
         flex-direction: column;
@@ -215,9 +213,15 @@
         align-items: center;
         width: 100%;
         padding: 10px;
+    }   
+    
+    .challenge-details-container{
+        height:80%;
+        width:80%;
+        overflow-y:auto;
     }
     .challenge-details-img {
-        width: 80%;
+        width: 60%;
     }
 
     .more-details-footer {
@@ -230,4 +234,15 @@
       transform: translate(-50%)
     }
 
+}
+
+@media (max-height: 690px){
+    .challenge-details-container{
+        height:80%;
+        width:80%;
+        overflow-y:auto;
+    }
+    .challenge-details-img {
+        width: 60%;
+    }
 }
