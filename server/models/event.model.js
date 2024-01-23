@@ -24,6 +24,10 @@ const eventSchema = mongoose.Schema({
             ref: "User",
         },
     ],
+    status: {
+        type: String,
+        enum: ["pending", "active", "completed", "cancelled"],
+    }
 });
 
 const Event = mongoose.model("Event", eventSchema)
