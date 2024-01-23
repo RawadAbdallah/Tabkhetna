@@ -2,7 +2,7 @@ import "./profile.css";
 import Header from "@components/header";
 import Sidebar from "@components/sidebar";
 import Post from "@components/post";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
 import { useEffect, useState } from "react";
@@ -11,129 +11,13 @@ import Loader from "@/components/loader";
 import default_profile_pic from "@/assets/images/default_profile_pic.png";
 import UserType from "@/types/user";
 import CookmateType from "@/types/cookmate";
-
-const data = {
-    id: 1,
-    profile_pic: "./src/assets/images/default_profile_pic.png",
-    firstname: "Rawad",
-    lastname: "Abdallah",
-    posts: [
-        {
-            uploader: "Rawad Abdallah",
-            profile_pic: "src/assets/images/default_profile_pic.png",
-            created_at: "2 hours ago",
-            title: "This is a test post for the home page.",
-            ingredients: "This is a ingredients",
-            instructions: "Instructions are: cook and egg",
-            media: [
-                "src/assets/images/register-background.png",
-                "src/assets/images/login-background.png",
-            ],
-            likes: 10,
-            saves: 5,
-            comments: [
-                {
-                    profile_pic: "src/assets/images/default_profile_pic.png",
-                    username: "Mohammad Ali",
-                    comment: "Not bad",
-                },
-            ],
-        },
-
-        {
-            uploader: "Rawad Abdallah",
-            profile_pic: "src/assets/images/default_profile_pic.png",
-            created_at: "2 hours ago",
-            title: "This is a test post for the home page.",
-            instructions: "Instructions are: cook and egg",
-            media: [
-                "src/assets/images/register-background.png",
-                "src/assets/images/login-background.png",
-            ],
-            likes: 10,
-            saves: 5,
-            comments: [
-                {
-                    profile_pic: "src/assets/images/default_profile_pic.png",
-                    username: "Mohammad Ali",
-                    comment: "Not bad",
-                },
-            ],
-        },
-    ],
-    achievements: [
-        "cookester",
-        "event master",
-        "challenger",
-        "recipe streaker",
-    ],
-    cookmates: [
-        {
-            id: "1",
-            profile_pic: "/src/assets/images/default_profile_pic.png",
-            firstname: "Ali",
-            lastname: "Abdallah",
-            is_online: true,
-            last_online: "",
-        },
-
-        {
-            id: "2",
-            profile_pic: "/src/assets/images/default_profile_pic.png",
-            firstname: "Mo",
-            lastname: "Salah",
-            is_online: false,
-            last_online: "10 min",
-        },
-
-        {
-            id: "3",
-            profile_pic: "/src/assets/images/default_profile_pic.png",
-            firstname: "Ammar",
-            lastname: "Zo",
-            is_online: true,
-        },
-
-        {
-            id: "4",
-            profile_pic: "/src/assets/images/default_profile_pic.png",
-            firstname: "Khaled",
-            lastname: "Chadad",
-            is_online: false,
-            last_online: "1 day",
-        },
-        {
-            id: "5",
-            profile_pic: "/src/assets/images/default_profile_pic.png",
-            firstname: "Mo",
-            lastname: "Salah",
-            is_online: false,
-            last_online: "10 min",
-        },
-
-        {
-            id: "6",
-            profile_pic: "/src/assets/images/default_profile_pic.png",
-            firstname: "Ammar",
-            lastname: "Zo",
-            is_online: true,
-        },
-
-        {
-            id: "7",
-            profile_pic: "/src/assets/images/default_profile_pic.png",
-            firstname: "Khaled",
-            lastname: "Chadad",
-            is_online: false,
-            last_online: "1 day",
-        },
-    ],
-};
+import starIcon from "@images/star_icon.svg";
 
 const Profile: React.FC = () => {
     const user = useSelector((state: RootState) => {
         return state.user;
     });
+    const { userId } = useParams();
     const [profileData, setProfileData] = useState<UserType>({
         _id: "",
         firstname: "",
@@ -161,13 +45,17 @@ const Profile: React.FC = () => {
         try {
             if (user && user.token) {
                 setIsLoading(true);
-                // Fetch basic profile information first
+
+                // Use userId from params if available, otherwise use current user's ID
+                const idToFetch = userId;
+
                 const { token } = user;
                 const result = await request({
-                    route: "/profile/",
+                    route: `/profile/${idToFetch}`, // Use the appropriate route to fetch user data by ID
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
                     },
                 });
                 setProfileData(result?.data || []);
@@ -183,17 +71,16 @@ const Profile: React.FC = () => {
         try {
             if (user && user.token) {
                 setIsLoading(true);
-                console.log("getting top cookmates");
                 const { token } = user;
                 const result = await request({
-                    route: "/cookmates/top",
+                    route: `/cookmates/top/${userId}`,
                     headers: {
                         Authorization: `Bearer ${token}`,
                         "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
                     },
                 });
                 setTopCookmates(result?.data.cookmates);
-                console.log("Top cookmates", topCookmates);
                 setIsLoading(false);
             }
         } catch (e) {
@@ -205,6 +92,7 @@ const Profile: React.FC = () => {
     useEffect(() => {
         getProfileData();
         getTopCookmates();
+        console.log(topCookmates);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
@@ -218,10 +106,14 @@ const Profile: React.FC = () => {
                     <div className="profile-info-wrapper flex flex-column gap-3">
                         <img
                             className="profile-pic"
-                            src={
-                                `${serverURL}uploads/images/${profileData.profile_pic}` ||
-                                default_profile_pic
-                            }
+                            src={`${serverURL}uploads/images/${profileData.profile_pic}`}
+                            onError={(e) => {
+                                const imgElement = e.target as HTMLImageElement;
+                                if (imgElement) {
+                                    imgElement.onerror = null;
+                                    imgElement.src = default_profile_pic;
+                                }
+                            }}
                         />
                         <h2>
                             {profileData.firstname} {profileData.lastname}
@@ -230,22 +122,22 @@ const Profile: React.FC = () => {
 
                     <div className="achievements-wrapper flex align-center gap-5">
                         <div className="flex flex-column align-center">
-                            <img
-                                loading="lazy"
-                                src={"src/assets/images/star_icon.svg"}
-                                alt="⭐"
-                            />
+                            <img loading="lazy" src={starIcon} alt="⭐" />
                             <h2>Achievements</h2>
                         </div>
                         {profileData.achievements &&
                         profileData.achievements.length > 0 ? (
                             <ul className="achievements-list">
-                                {data.achievements.map((achievement, index) => {
-                                    return <li key={index}>{achievement}</li>;
-                                })}
+                                {profileData.achievements.map(
+                                    (achievement, index) => {
+                                        return (
+                                            <li key={index}>{achievement}</li>
+                                        );
+                                    }
+                                )}
                             </ul>
                         ) : (
-                            <p>Haven't achieved any yet!</p>
+                            <p>Hasn't achieved any yet!</p>
                         )}
                     </div>
 
@@ -271,8 +163,8 @@ const Profile: React.FC = () => {
                                     );
                                 })
                             ) : (
-                                <div className="no-posts-headline">
-                                    Haven't Posted Yet
+                                <div className="no-posts-headline flex align-center justify-center">
+                                    Hasn't Posted Yet
                                 </div>
                             )}
                         </div>
@@ -294,12 +186,22 @@ const Profile: React.FC = () => {
                                         return (
                                             <li key={cookmate._id}>
                                                 <Link
-                                                    to={`/user/${cookmate._id}`}
+                                                    to={`/profile/${cookmate._id}`}
                                                     className="flex align-center"
                                                 >
                                                     <img
                                                         loading="lazy"
                                                         src={`${serverURL}uploads/images/${cookmate.profile_pic}`}
+                                                        onError={(e) => {
+                                                            const imgElement =
+                                                                e.target as HTMLImageElement;
+                                                            if (imgElement) {
+                                                                imgElement.onerror =
+                                                                    null;
+                                                                imgElement.src =
+                                                                    default_profile_pic;
+                                                            }
+                                                        }}
                                                         alt="pic"
                                                     />
                                                     {cookmate.firstname}{" "}
@@ -312,9 +214,7 @@ const Profile: React.FC = () => {
                             ) : (
                                 <p> No cookmates yet!</p>
                             )}
-                            <Link to={`/cookmates`}>
-                                See All {">"}
-                            </Link>
+                            <Link to={`/cookmates`}>See All {">"}</Link>
                         </div>
                     </div>
                 </section>
