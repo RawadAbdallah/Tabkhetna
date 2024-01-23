@@ -89,9 +89,9 @@ const Profile: React.FC = () => {
         }
     };
     const getProfilePosts = async () => {
-        const {token} = user
-        try{
-            if(user && token){
+        const { token } = user;
+        try {
+            if (user && token) {
                 setIsLoading(true);
                 const result = await request({
                     route: `/post/${userId}`,
@@ -100,25 +100,23 @@ const Profile: React.FC = () => {
                         "Content-Type": "application/json",
                         "Access-Control-Allow-Origin": "*",
                     },
-                })
-                if(result && result.data){
-                    const {posts} = result.data
-                    if(posts.length > 0){
+                });
+                if (result && result.data) {
+                    const { posts } = result.data;
+                    if (posts.length > 0) {
                         setProfileData((prev) => {
-                            return ({
+                            return {
                                 ...prev,
                                 posts,
-                            })
-                        })
+                            };
+                        });
                     }
                 }
-                
-                
             }
         } catch (e) {
-            console.log(e)
-        } 
-    }
+            console.log(e);
+        }
+    };
     useEffect(() => {
         getProfileData();
         getTopCookmates();
@@ -134,42 +132,46 @@ const Profile: React.FC = () => {
             <main className="home-main flex">
                 <Sidebar />
                 <section className="profile-section flex flex-column gap-5">
-                    <div className="profile-info-wrapper flex flex-column gap-3">
-                        <img
-                            className="profile-pic"
-                            src={`${serverURL}uploads/images/${profileData.profile_pic}`}
-                            onError={(e) => {
-                                const imgElement = e.target as HTMLImageElement;
-                                if (imgElement) {
-                                    imgElement.onerror = null;
-                                    imgElement.src = default_profile_pic;
-                                }
-                            }}
-                        />
-                        <h2>
-                            {profileData.firstname} {profileData.lastname}
-                        </h2>
-                    </div>
-
-                    <div className="achievements-wrapper flex align-center gap-5">
-                        <div className="flex flex-column align-center">
-                            <img loading="lazy" src={starIcon} alt="⭐" />
-                            <h2>Achievements</h2>
-                        </div>
-                        {profileData.achievements &&
-                        profileData.achievements.length > 0 ? (
-                            <ul className="achievements-list">
-                                {profileData.achievements.map(
-                                    (achievement, index) => {
-                                        return (
-                                            <li key={index}>{achievement}</li>
-                                        );
+                    <div className="profile-info-wrapper flex gap-5">
+                        <div className="profile-pic-wrapper flex flex-column gap-3">
+                            <img
+                                className="profile-pic"
+                                src={`${serverURL}uploads/images/${profileData.profile_pic}`}
+                                onError={(e) => {
+                                    const imgElement =
+                                        e.target as HTMLImageElement;
+                                    if (imgElement) {
+                                        imgElement.onerror = null;
+                                        imgElement.src = default_profile_pic;
                                     }
-                                )}
-                            </ul>
-                        ) : (
-                            <p>Hasn't achieved any yet!</p>
-                        )}
+                                }}
+                            />
+                            <h2 className="profile-username">
+                                {profileData.firstname} {profileData.lastname}
+                            </h2>
+                        </div>
+                        <div className="achievements-wrapper flex align-center gap-5">
+                            <div className="flex flex-column align-center">
+                                <img loading="lazy" src={starIcon} alt="⭐" />
+                                <h2>Achievements</h2>
+                            </div>
+                            {profileData.achievements &&
+                            profileData.achievements.length > 0 ? (
+                                <ul className="achievements-list">
+                                    {profileData.achievements.map(
+                                        (achievement, index) => {
+                                            return (
+                                                <li key={index}>
+                                                    {achievement}
+                                                </li>
+                                            );
+                                        }
+                                    )}
+                                </ul>
+                            ) : (
+                                <p>Hasn't achieved any yet!</p>
+                            )}
+                        </div>
                     </div>
 
                     <div className="profile-main gap-5">
@@ -177,13 +179,23 @@ const Profile: React.FC = () => {
                             {profileData.posts &&
                             profileData.posts.length > 0 ? (
                                 profileData.posts.map((post, index) => {
-                                    console.log(post.updatedAt)
+                                    console.log(post.updatedAt);
                                     return (
                                         <Post
-                                            key={post.title + post.uploader + index}
+                                            key={
+                                                post.title +
+                                                post.uploader +
+                                                index
+                                            }
                                             title={post.title}
-                                            uploader={(profileData.firstname + " " + profileData.lastname)}
-                                            profile_pic={profileData.profile_pic}
+                                            uploader={
+                                                profileData.firstname +
+                                                " " +
+                                                profileData.lastname
+                                            }
+                                            profile_pic={
+                                                profileData.profile_pic
+                                            }
                                             updatedAt={post.updatedAt}
                                             media={post.media}
                                             likes={post.likes}
