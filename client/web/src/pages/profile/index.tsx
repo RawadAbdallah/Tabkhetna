@@ -88,10 +88,41 @@ const Profile: React.FC = () => {
             setIsLoading(false);
         }
     };
-
+    const getProfilePosts = async () => {
+        const {token} = user
+        try{
+            if(user && token){
+                setIsLoading(true);
+                const result = await request({
+                    route: `/post/${userId}`,
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "application/json",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                })
+                if(result && result.data){
+                    const {posts} = result.data
+                    if(posts.length > 0){
+                        setProfileData((prev) => {
+                            return ({
+                                ...prev,
+                                posts,
+                            })
+                        })
+                    }
+                }
+                
+                
+            }
+        } catch (e) {
+            console.log(e)
+        } 
+    }
     useEffect(() => {
         getProfileData();
         getTopCookmates();
+        getProfilePosts();
         console.log(topCookmates);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
@@ -145,14 +176,15 @@ const Profile: React.FC = () => {
                         <div className="posts-container flex flex-column gap-5">
                             {profileData.posts &&
                             profileData.posts.length > 0 ? (
-                                profileData.posts.map((post) => {
+                                profileData.posts.map((post, index) => {
+                                    console.log(post.updatedAt)
                                     return (
                                         <Post
-                                            key={post.title + post.uploader}
+                                            key={post.title + post.uploader + index}
                                             title={post.title}
-                                            uploader={post.uploader}
-                                            profile_pic={post.profile_pic}
-                                            created_at={post.created_at}
+                                            uploader={(profileData.firstname + " " + profileData.lastname)}
+                                            profile_pic={profileData.profile_pic}
+                                            updatedAt={post.updatedAt}
                                             media={post.media}
                                             likes={post.likes}
                                             saves={post.saves}
