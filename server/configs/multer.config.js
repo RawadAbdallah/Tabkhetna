@@ -40,4 +40,20 @@ const upload = multer({
     },
 });
 
-module.exports = upload;
+const mediaUpload = (req, res, next) => {
+    upload.array("media", 2)(req, res, (err) => {
+            if (err) {
+            console.error(err);
+
+            if (err instanceof multer.MulterError) {
+                return res.status(400).json({ error: err.message });
+            }
+
+            return res.status(500).json({ error: "Error uploading media files" });
+        }
+
+        next();
+    });
+};
+
+module.exports = {mediaUpload, upload};
