@@ -44,6 +44,9 @@
     padding: 20px 0;
 }
 
+.post-description div{
+    flex: 1;
+}
 .post-description button {
     padding: 10px;
     font-size: 1rem;
@@ -136,5 +139,11 @@
 @keyframes generate-btn {
     to {
         transform: skewX(-20deg) translateX(510px);
+    }
+}
+
+@media (max-width: 880px){
+    .post-actions-wrapper{
+        flex-direction: column;
     }
 }
