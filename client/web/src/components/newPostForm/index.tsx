@@ -4,11 +4,13 @@ import { request } from "@/services/request";
 import { useState } from "react";
 import PostDetails from "@/types/postDetails";
 
+import './newPostForm.css'
+
 const NewPostForm = () => {
     const user = useSelector((state: RootState) => state.user);
+    const [formError, setFormError] = useState<string>("")
     const [postDetails, setPostDetails] = useState<PostDetails>({
         title: "",
-        description: "",
         ingredients: "",
         instructions: "",
         cuisine: "",
@@ -72,6 +74,12 @@ const NewPostForm = () => {
             });
             
             console.log(result)
+            if(result && result.status === 201){
+              location.reload()
+            } else if(result && result.status === 400){
+              setFormError(result.data.error)  
+              setShowPreview(false)          
+            }
         } catch (error) {
             console.error("Error creating post:", error);
         }
@@ -83,7 +91,6 @@ const NewPostForm = () => {
                 <div className="post-preview">
                     <h2>Preview</h2>
                     <h3>{postDetails.title}</h3>
-                    <p>{postDetails.description}</p>
                     <p>{postDetails.cuisine} cuisine</p>
                     <div className="file-preview">
                         {postDetails.media?.slice(0, 2).map((file, index) => (
@@ -126,6 +133,9 @@ const NewPostForm = () => {
                 </div>
             ) : (
                 <div className="post-edit">
+                  { formError && <div className="new-post-error">
+                    <p> {formError}</p>
+                  </div>}
                     <input
                         type="text"
                         name="title"
@@ -134,14 +144,7 @@ const NewPostForm = () => {
                         value={postDetails.title}
                         onChange={handleInputChange}
                     />
-                    <input
-                        type="text"
-                        name="description"
-                        placeholder="Description"
-                        id="new-post-description"
-                        value={postDetails.description}
-                        onChange={handleInputChange}
-                    />
+                    <p className="form-tip">For Each instruction/ingredient item seperate it by a comma (i.e: eggs, flour)</p>
                     <input
                         type="text"
                         placeholder="Instructions List"
