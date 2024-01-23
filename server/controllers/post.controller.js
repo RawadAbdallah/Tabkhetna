@@ -1,4 +1,5 @@
 const Post = require("../models/post.model");
+const User = require("../models/user.model");
 // Function to add a new post
 const addPost = async (req, res) => {
     try {
@@ -6,26 +7,21 @@ const addPost = async (req, res) => {
             req.body;
 
         if(!title){
-            return res.status(400).json({message: "Title is required"})
-        }
-
-        if(!description){
-            return res.status(400).json({message: "Description is required"});
+            return res.status(400).json({error: "Title is required"})
         }
 
         if(!ingredients && !instructions){
-            return res.status(400).json({message:"Please provide either instructions, ingredients, or both; at least one input is required."});
+            return res.status(400).json({error:"Please provide either instructions, ingredients, or both; at least one input is required."});
         }
 
         if(!cuisine){
-            return res.status(400).json({message: "Cusine is required"})
+            return res.status(400).json({error: "Cuisine is required"})
         }
 
-        const media = req.files.map((file) => file.path);
-
+        const media = req.files.map((file) => (file.path.replace(/^storage\\/, '')))
+        console.log(media)
         const newPost = new Post({
             title,
-            description,
             ingredients,
             instructions,
             media,
@@ -46,11 +42,12 @@ const addPost = async (req, res) => {
 };
 
 const getUserPosts = async (req, res) => {
-    const {user} = req.params
+    const {id} = req.params
 
     try{
-        const posts = await Post.find({challenger: user}) 
-        return res.status(200).json({data: posts})
+        const user = await User.findById(id)
+        const posts = await Post.find({posted_by: user}) 
+        return res.status(200).json({posts})
     } catch (e) {
         return res.status(500).json({error: "Internal Server Error"})
     }
