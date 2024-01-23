@@ -26,7 +26,6 @@
 
 - As a admin, I can ban users who violated the rules.
 - As a admin, I can approve or disapprove an event posted.
-- As a admin, I can respond to support messages sent by the users.
 - As a admin, I can post FAQs in the Help & Support section.
 
 <br><br>
