@@ -7,6 +7,11 @@
     flex: 1;
 }
 
+.profile-pic-wrapper{
+    flex: .2;
+    align-items: center;
+}
+
 .profile-pic {
     width: 150px;
     height: 150px;
@@ -15,7 +20,7 @@
     border-radius: 24px;
 }
 
-.profile-info-wrapper h2 {
+.profile-username{
     color: white;
 }
 
@@ -25,6 +30,11 @@
     border-radius: 12px;
     padding: 40px;
     display: flex;
+    flex: 1;
+}
+
+.achievements-wrapper h2{
+    color: var(--teal-color)
 }
 
 .achievements-wrapper p {
@@ -104,9 +114,18 @@
     aspect-ratio: 1/1;
 }
 
+.profile-page .posts-container{
+    overflow-y: auto;
+}
+
 @media (max-width: 880px) {
+    .profile-info-wrapper{
+        flex-direction: column;
+        align-items: center;
+    }
     .achievements-wrapper {
         flex-direction: column;
+        align-self: stretch;
     }
     .profile-main {
         flex-direction: column-reverse;
