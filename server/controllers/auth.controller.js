@@ -1,4 +1,3 @@
-const path = require("path");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user.model");
@@ -8,9 +7,7 @@ const User = require("../models/user.model");
  */
 const login = async (req, res) => {
     const { email, password } = req.body;
-    console.log(req.body);
-
-    // Validation checks
+  try { // Validation checks
     if (!email) {
         return res.status(400).json({ error: "Email is required" });
     }
@@ -44,7 +41,9 @@ const login = async (req, res) => {
     return res.status(200).json({
         user: userDetails,
         token,
-    });
+    });} catch (e) {
+        return res.status(500).json({error: "Something went wrong"})
+    }
 };
 
 /**
