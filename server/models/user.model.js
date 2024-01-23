@@ -73,6 +73,11 @@ const userSchema = new mongoose.Schema({
             },
         },
     ],
+    gender: {
+        type: String,
+        enum: ['male', 'female'],
+        required: true
+    },
     role: {
         type: Number,
         default: 1,
@@ -94,8 +99,10 @@ userSchema.pre(
     "save",
     async function (next) {
         try {
-            const salt = await bcrypt.genSalt(10);
-            this.password = await bcrypt.hash(this.password, salt);
+            if (this.isModified("password")) {
+                const salt = await bcrypt.genSalt(10);
+                this.password = await bcrypt.hash(this.password, salt);
+            }
             next();
         } catch (e) {
             next(e);
