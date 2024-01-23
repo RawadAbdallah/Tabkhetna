@@ -45,6 +45,18 @@ const addPost = async (req, res) => {
     }
 };
 
+const getUserPosts = async (req, res) => {
+    const {user} = req.params
+
+    try{
+        const posts = await Post.find({challenger: user}) 
+        return res.status(200).json({data: posts})
+    } catch (e) {
+        return res.status(500).json({error: "Internal Server Error"})
+    }
+}
+
 module.exports = {
     addPost,
+    getUserPosts
 };
