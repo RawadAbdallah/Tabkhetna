@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosResponse, AxiosError } from "axios";
 
-axios.defaults.baseURL = "http://127.0.0.1:8000/api";
-export const serverURL = "http://127.0.0.1:8000/"
+axios.defaults.baseURL = "http://192.168.0.43:8000/api";
+export const serverURL = "http://192.168.0.43:8000/"
 type RequestOptions = {
     route: string;
     method?: string;
