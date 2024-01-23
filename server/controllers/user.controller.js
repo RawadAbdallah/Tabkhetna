@@ -68,22 +68,25 @@ const getCookmates = async (req, res) => {
  */
 const getTopCookmates = async (req, res) => {
     const user = req.user;
-
+    const {id} = req.params
     // Get the top 5 cookmates' details directly from the database
     try {
-        const userWithTopCookmates = await User.findById(user._id)
+        const userWithTopCookmates = await User.findById(id)
             .select({ cookmates: { $slice: 5 } }) // Limit to the first 5 cookmates
             .populate({
                 path: "cookmates",
                 select: "_id firstname lastname email is_online profile_pic",
             });
-
+        if(!userWithTopCookmates){
+            console.log("No cookmates")
+            return res.status(400).json({message: "No cookmates"})
+        }
         const cookmates = userWithTopCookmates.cookmates;
 
         res.status(200).json({ cookmates });
     } catch (e) {
         console.error(e);
-        res.status(500).json({ error: "Error fetching top cookmates" });
+        return res.status(500).json({ error: `Error fetching top cookmates: ${e}` });
     }
 };
 
