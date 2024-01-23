@@ -1,7 +1,8 @@
 .saved-recipes-page{
   position: relative;
+  display:flex;
+  flex-direction: column;
   height: 100vh;
-  overflow: hidden;
 }
 
 .main-saved-recipes {
@@ -13,7 +14,7 @@
     position: relative;
     background: linear-gradient(110deg, #2F4F4F -0.46%, #1F2222 91.99%);
     padding: 0 30px;
-    height: 100%;
+    height: 100vh;
     overflow: hidden;
 }
 
