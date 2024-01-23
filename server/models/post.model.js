@@ -9,7 +9,7 @@ const postSchema = new mongoose.Schema(
         description: {
             type: String,
         },
-        recipe: {
+        ingredients: {
             type: String,
         },
         instructions: {
@@ -38,14 +38,17 @@ const postSchema = new mongoose.Schema(
         cuisine: {
             type: String,
             enum: [
-                "Italian",
-                "Mexican",
-                "Indian",
-                "Chinese",
-                "Japanese",
-                "Middle Eastern",
-                "American",
-                "Other",
+                "italian",
+                "mexican",
+                "indian",
+                "chinese",
+                "japanese",
+                "lebanese",
+                "iraqi",
+                "french",
+                "saudi arabian",
+                "american",
+                "other",
             ],
 
             required: true,
