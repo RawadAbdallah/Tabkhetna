@@ -1,7 +1,7 @@
 .cookmates-sidebar {
     display: flex;
     flex-direction: column;
-    flex: 0.6;
+    flex: 0.4;
     padding: 20px;
     color: var(--secondary-color);
     gap:15px;
@@ -17,6 +17,10 @@
     aspect-ratio: 1/1;
     object-fit: cover;
     border-radius: 100px;
+}
+
+.cookmates-sidebar .search-wrapper{
+    max-width: 250px;
 }
 
 .online-circle {
