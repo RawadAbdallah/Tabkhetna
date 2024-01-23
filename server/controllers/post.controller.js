@@ -14,6 +14,14 @@ const addPost = async (req, res) => {
             return res.status(400).json({error:"Please provide either instructions, ingredients, or both; at least one input is required."});
         }
 
+        if(instructions && instructions.length < 12){
+            return res.status(400).json({error:"Instructions should be at least of 12 characters."});
+        }
+
+        if(ingredients && ingredients.length < 12){
+            return res.status(400).json({error:"Ingredients should be at least of 12 characters."});
+        }
+
         if(!cuisine){
             return res.status(400).json({error: "Cuisine is required"})
         }
