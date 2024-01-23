@@ -93,6 +93,10 @@ const userSchema = new mongoose.Schema({
             ref: "Challenge",
         },
     ],
+    is_banned: {
+        type: Boolean,
+        default: false
+    }
 });
 
 userSchema.pre(
