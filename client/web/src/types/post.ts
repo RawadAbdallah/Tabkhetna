@@ -1,8 +1,4 @@
-type CommentType = {
-  profile_pic: string;
-  username: string;
-  comment: string;
-};
+import CommentType from "./comment";
 
 type PostType = {
   uploader: string;
