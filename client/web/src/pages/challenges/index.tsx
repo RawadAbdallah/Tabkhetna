@@ -58,22 +58,106 @@ const data = [
         participants: [],
         __v: 0,
     },
+    {
+        title: "Shawarma Challenge",
+        challengeImg: "shawarma.jpg",
+        description:
+            "In this challenge you have to: - make the most traditional shawarma (don't use extra non-nessecary stuff) - Make the best Garlic(Toum) sauce - Make sure to add sidings to the plate (bonus).",
+        challenger: {
+            _id: "65a846b494edcc7e41b73882",
+            firstname: "Rawad",
+            lastname: "Abdallah",
+            email: "rawad3@gmail.com",
+            country: "Lebanon",
+            cookmates: ["65acfca124878fe79a6e376d"],
+            pending_cookmates: [],
+            posts: [],
+            role: 1,
+            is_online: true,
+            profile_pic: "84904014.jpg",
+            __v: 0,
+            achievements: [""],
+        },
+        isActive: true,
+        _id: "65ad9b0860225a1f2db286c0",
+        participants: [],
+        __v: 0,
+    },
+    {
+        title: "Shawarma Challenge",
+        challengeImg: "shawarma.jpg",
+        description:
+            "In this challenge you have to: - make the most traditional shawarma (don't use extra non-nessecary stuff) - Make the best Garlic(Toum) sauce - Make sure to add sidings to the plate (bonus).",
+        challenger: {
+            _id: "65a846b494edcc7e41b73882",
+            firstname: "Rawad",
+            lastname: "Abdallah",
+            email: "rawad3@gmail.com",
+            country: "Lebanon",
+            cookmates: ["65acfca124878fe79a6e376d"],
+            pending_cookmates: [],
+            posts: [],
+            role: 1,
+            is_online: true,
+            profile_pic: "84904014.jpg",
+            __v: 0,
+            achievements: [""],
+        },
+        isActive: true,
+        _id: "65ad9b0860225a1f2db286c0",
+        participants: [],
+        __v: 0,
+    },
+    {
+        title: "Shawarma Challenge",
+        challengeImg: "shawarma.jpg",
+        description:
+            "In this challenge you have to: - make the most traditional shawarma (don't use extra non-nessecary stuff) - Make the best Garlic(Toum) sauce - Make sure to add sidings to the plate (bonus).",
+        challenger: {
+            _id: "65a846b494edcc7e41b73882",
+            firstname: "Rawad",
+            lastname: "Abdallah",
+            email: "rawad3@gmail.com",
+            country: "Lebanon",
+            cookmates: ["65acfca124878fe79a6e376d"],
+            pending_cookmates: [],
+            posts: [],
+            role: 1,
+            is_online: true,
+            profile_pic: "84904014.jpg",
+            __v: 0,
+            achievements: [""],
+        },
+        isActive: true,
+        _id: "65ad9b0860225a1f2db286c0",
+        participants: [],
+        __v: 0,
+    },
 ];
 
 const Challenges = () => {
-    const [challengeDetails, setChallengeDetails] = useState<Challenge | object>({});
-    const showChallengeDetails = (challenge:Challenge) => {
+    const [isChallengeDetailsVisible, setIsChallengeDetailsVisible] =
+        useState<boolean>(false);
+    const [challengeDetails, setChallengeDetails] = useState<Challenge>({
+        title: "",
+        description: "",
+        _id: "",
+        challengeImg: "",
+        challenger: null,
+    });
+    const showChallengeDetails = (challenge: Challenge) => {
         setChallengeDetails(() => {
             return { ...challenge };
         });
+        setIsChallengeDetailsVisible(true);
     };
     const hideChallengeDetails = () => {
-        setChallengeDetails({});
+        setIsChallengeDetailsVisible(false);
     };
 
     return (
         <div className="challenges-page">
-            {Object.keys(challengeDetails).length > 0 && (
+            {isChallengeDetailsVisible && challengeDetails.challenger !== null && (
                 <div className="challenge-details flex align-center justify-center">
                     <div className="challenge-details-container">
                         <button
