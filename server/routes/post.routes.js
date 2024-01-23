@@ -1,6 +1,7 @@
 const express = require("express");
 const {
     addPost,
+    getUserPosts,
     // getPosts,
     // deletePost,
     // editPost,
@@ -14,8 +15,7 @@ const router = express.Router();
 
 // Define routes for the post controller
 router.post("/add", mediaUpload , addPost);
-// router.get("/", getPosts);
-// router.delete("/delete/:postId", deletePost);
+router.get("/:id", getUserPosts);
 // router.put("/edit/:postId", editPost);
 
 module.exports = router;
