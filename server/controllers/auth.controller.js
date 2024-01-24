@@ -50,7 +50,7 @@ const login = async (req, res) => {
  * Controller function for user registration.
  */
 const register = async (req, res) => {
-    const { email, password, firstname, lastname, country, profile_pic } =
+    const { email, password, firstname, lastname, country, profile_pic, gender } =
         req.body;
 
     // Validation checks
@@ -76,6 +76,12 @@ const register = async (req, res) => {
             .json({ error: "Lastname field cannot be empty." });
     }
 
+    if(!gender){
+        return res
+        .status(400)
+        .json({ error: "Gender is required" });
+    }
+
     // Check if email is already registered
     let user = await User.findOne({ email: email }).catch((e) => {
         console.log(e);
@@ -92,6 +98,7 @@ const register = async (req, res) => {
             lastname,
             password,
             country,
+            gender,
         });
 
         // Handling the profile_pic
