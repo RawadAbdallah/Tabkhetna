@@ -121,7 +121,6 @@ const Profile: React.FC = () => {
         getProfileData();
         getTopCookmates();
         getProfilePosts();
-        console.log(topCookmates);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
@@ -179,7 +178,9 @@ const Profile: React.FC = () => {
                             {profileData.posts &&
                             profileData.posts.length > 0 ? (
                                 profileData.posts.map((post, index) => {
-                                    console.log(post.updatedAt);
+                                    if(!post.ingredients && !post.instructions){
+                                        return null
+                                    }
                                     return (
                                         <Post
                                             key={
@@ -187,6 +188,7 @@ const Profile: React.FC = () => {
                                                 post.uploader +
                                                 index
                                             }
+                                            _id={post._id}
                                             title={post.title}
                                             uploader={
                                                 profileData.firstname +
@@ -196,7 +198,7 @@ const Profile: React.FC = () => {
                                             profile_pic={
                                                 profileData.profile_pic
                                             }
-                                            updatedAt={post.updatedAt}
+                                            createdAt={post.createdAt}
                                             media={post.media}
                                             likes={post.likes}
                                             saves={post.saves}
