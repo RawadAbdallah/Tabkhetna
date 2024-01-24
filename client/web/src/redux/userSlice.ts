@@ -1,21 +1,21 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type UserState = {
-    id: string | null,
-    firstname: string | null;
-    lastname: string | null;
-    email: string | null;
-    token: string | null;
-    profile_pic: string | null;
+    id?: string,
+    firstname?: string;
+    lastname?: string;
+    email?: string;
+    token?: string;
+    profile_pic?: string;
 }
 
 const initialState: UserState = {
-    id: null,
-    firstname: null,
-    lastname: null,
-    email: null,
-    token: null,
-    profile_pic: null,
+    id: undefined,
+    firstname: undefined,
+    lastname: undefined,
+    email: undefined,
+    token: undefined,
+    profile_pic: undefined,
 };
 
 const userSlice = createSlice({
