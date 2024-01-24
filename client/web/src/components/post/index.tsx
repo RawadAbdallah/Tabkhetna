@@ -31,7 +31,8 @@ const Post: React.FC<PostType> = ({
     const [comment, setComment] = useState<string>("");
     const [comments, setComments] = useState<CommentType[]>(initialComments);
     const [commentError, setCommentError] = useState<string>("");
-    const [likeCounter, setLikeCounter] = useState<number>(0);
+    const [likeCounter, setLikeCounter] = useState<number>(likes.length);
+    const [saveCounter, setSaveCounter] = useState<number>(0)
     const user = useSelector((state: RootState) => state.user);
 
     const getLikes = async () => {
@@ -43,21 +44,42 @@ const Post: React.FC<PostType> = ({
                     Authorization: `Bearer ${user.token}`,
                 },
             });
-            setLikeCounter(response.data)
+            if(response && response.status === 200)
+                setLikeCounter(response.data)
+            else
+                setLikeCounter(likes.length)
         } catch (e) {
             console.log(e);
         }
     };
+
+    const getSaves = async () => {
+        try {
+            const response = await request({
+                route: `/post/save/get/${_id}`,
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+            if(response && response.status === 200)
+                setSaveCounter(response.data)
+            else
+                setSaveCounter(saves.length)
+        } catch (e) {
+            console.log(e);
+        }
+    }
     useEffect(() => {
         const fetchUserDetailsForComments = async () => {
             const details = await fetchUserDetails(comments);
             setUserDetails(details);
         };
-
         getLikes();
+        getSaves();
         fetchUserDetailsForComments();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [comments, likeCounter]);
+    }, [comments, likeCounter, saveCounter]);
 
     const checkCommentKeyStrokes = (
         e: React.KeyboardEvent<HTMLInputElement>
@@ -175,14 +197,31 @@ const Post: React.FC<PostType> = ({
                     Authorization: `Bearer ${user.token}`,
                 },
             });
-            console.log(response);
-            if (response.status === 200) {
+            if (response && response.status === 200) {
                 setLikeCounter((prev) => prev + 1);
             }
         } catch (e) {
             console.log(e);
         }
     };
+
+    const handleSave = async() =>{
+        try{
+            const response = await request({
+                route: `/post/save/${_id}`,
+                method:"POST",
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            })
+            if(response && response.status === 200){
+                setSaveCounter((prev) => prev + 1)
+            }
+            console.log(response)
+        } catch (e) {
+            console.log(e);
+        }
+    }
     return (
         <div className="post flex flex-column gap-5">
             <div className="post-header flex align-center gap-5">
@@ -267,8 +306,8 @@ const Post: React.FC<PostType> = ({
                             <img src={CommentIcon} />{" "}
                             {comments && comments.length}
                         </button>
-                        <button className="flex gap-3 align-center">
-                            <img src={BookmarkIcon} /> {saves && saves.length}
+                        <button className="flex gap-3 align-center" onClick={handleSave}>
+                            <img src={BookmarkIcon} /> {saveCounter}
                         </button>
                     </div>
                     <div className="post-add-comment flex flex-column align-center">
@@ -290,7 +329,6 @@ const Post: React.FC<PostType> = ({
                 <div className="comments">
                     {comments &&
                         comments.map((comment, index) => {
-                            console.log("User detalis: ", userDetails);
                             const userCommentDetails = userDetails[index];
                             if (userCommentDetails) {
                                 return (
