@@ -1,5 +1,5 @@
 .post-item-list{
-  list-style: disc;
+  list-style: disc inside;
 }
 
 .ingredients p, .instructions p{
