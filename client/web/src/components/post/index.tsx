@@ -12,6 +12,7 @@ import CommentType from "@/types/comment";
 import UserDetailsType from "@/types/userDetailsType";
 
 import PostItemList from "../postItemList";
+import Loader from "../loader";
 
 const Post: React.FC<PostType> = ({
     _id,
@@ -19,20 +20,23 @@ const Post: React.FC<PostType> = ({
     profile_pic,
     createdAt,
     title,
-    ingredients,
-    instructions,
+    ingredients: ingredientList,
+    instructions: instructionsList,
     comments: initialComments,
     likes,
     saves,
     media,
 }) => {
-    const [commentsKey, setCommentsKey] = useState<number>(0); // Initialize with 0
+    const [commentsKey, setCommentsKey] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState(false);
+    const [ingredients, setIngredients] = useState(ingredientList);
+    const [instructions, setInstructions] = useState(instructionsList);
     const [userDetails, setUserDetails] = useState<UserDetailsType[]>([]);
     const [comment, setComment] = useState<string>("");
     const [comments, setComments] = useState<CommentType[]>(initialComments);
     const [commentError, setCommentError] = useState<string>("");
     const [likeCounter, setLikeCounter] = useState<number>(likes.length);
-    const [saveCounter, setSaveCounter] = useState<number>(0)
+    const [saveCounter, setSaveCounter] = useState<number>(0);
     const user = useSelector((state: RootState) => state.user);
 
     const getLikes = async () => {
@@ -44,10 +48,9 @@ const Post: React.FC<PostType> = ({
                     Authorization: `Bearer ${user.token}`,
                 },
             });
-            if(response && response.status === 200)
-                setLikeCounter(response.data)
-            else
-                setLikeCounter(likes.length)
+            if (response && response.status === 200)
+                setLikeCounter(response.data);
+            else setLikeCounter(likes.length);
         } catch (e) {
             console.log(e);
         }
@@ -62,14 +65,13 @@ const Post: React.FC<PostType> = ({
                     Authorization: `Bearer ${user.token}`,
                 },
             });
-            if(response && response.status === 200)
-                setSaveCounter(response.data)
-            else
-                setSaveCounter(saves.length)
+            if (response && response.status === 200)
+                setSaveCounter(response.data);
+            else setSaveCounter(saves.length);
         } catch (e) {
             console.log(e);
         }
-    }
+    };
     useEffect(() => {
         const fetchUserDetailsForComments = async () => {
             const details = await fetchUserDetails(comments);
@@ -79,7 +81,7 @@ const Post: React.FC<PostType> = ({
         getSaves();
         fetchUserDetailsForComments();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [comments, likeCounter, saveCounter]);
+    }, [comments, likeCounter, saveCounter, instructions, ingredients]);
 
     const checkCommentKeyStrokes = (
         e: React.KeyboardEvent<HTMLInputElement>
@@ -205,25 +207,52 @@ const Post: React.FC<PostType> = ({
         }
     };
 
-    const handleSave = async() =>{
-        try{
+    const handleSave = async () => {
+        try {
             const response = await request({
                 route: `/post/save/${_id}`,
-                method:"POST",
+                method: "POST",
                 headers: {
                     Authorization: `Bearer ${user.token}`,
                 },
-            })
-            if(response && response.status === 200){
-                setSaveCounter((prev) => prev + 1)
+            });
+            if (response && response.status === 200) {
+                setSaveCounter((prev) => prev + 1);
             }
-            console.log(response)
         } catch (e) {
             console.log(e);
         }
-    }
+    };
+
+    const generateMissingInfo = async () => {
+        const missing = instructions ? "ingredients" : "instructions";
+        const listOfCurrentInfo = instructions ? instructions : ingredients;
+        console.log("The missing info is: ", missing);
+        console.log("The list you have provided is: ", listOfCurrentInfo);
+        try {
+            setIsLoading(true);
+            const response = await request({
+                route: "/ai/generateRecipeMissingInfo",
+                body: { missing, listOfCurrentInfo, title },
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+            if (response && response.status === 200) {
+                if (!instructions) setInstructions(response.data.text);
+                else setIngredients(response.data.text);
+            }
+            console.log(response?.data.text);
+        } catch (e) {
+            console.log(e);
+        } finally {
+            setIsLoading(false);
+        }
+    };
     return (
         <div className="post flex flex-column gap-5">
+            {isLoading && <Loader />}
             <div className="post-header flex align-center gap-5">
                 <img
                     src={`${serverURL}uploads/images/${profile_pic}`}
@@ -270,7 +299,10 @@ const Post: React.FC<PostType> = ({
                         ) : (
                             <>
                                 <p>Ingredients not posted?</p>
-                                <button className="generate-btn">
+                                <button
+                                    className="generate-btn"
+                                    onClick={generateMissingInfo}
+                                >
                                     Generate it!
                                 </button>
                             </>
@@ -285,7 +317,10 @@ const Post: React.FC<PostType> = ({
                         ) : (
                             <>
                                 <p>Instructions not posted?</p>
-                                <button className="generate-btn">
+                                <button
+                                    className="generate-btn"
+                                    onClick={generateMissingInfo}
+                                >
                                     Generate it!
                                 </button>
                             </>
@@ -306,7 +341,10 @@ const Post: React.FC<PostType> = ({
                             <img src={CommentIcon} />{" "}
                             {comments && comments.length}
                         </button>
-                        <button className="flex gap-3 align-center" onClick={handleSave}>
+                        <button
+                            className="flex gap-3 align-center"
+                            onClick={handleSave}
+                        >
                             <img src={BookmarkIcon} /> {saveCounter}
                         </button>
                     </div>
