@@ -27,7 +27,6 @@ const addPost = async (req, res) => {
         }
 
         const media = req.files.map((file) => (file.path.replace(/^storage\\/, '')))
-        console.log(media)
         const newPost = new Post({
             title,
             ingredients,
@@ -38,6 +37,11 @@ const addPost = async (req, res) => {
         });
 
         await newPost.save();
+
+        await User.updateOne(
+            { _id: req.user._id },
+            { $push: { posts: newPost } }
+        );
 
         res.status(201).json({
             message: "Post created successfully",
@@ -61,7 +65,54 @@ const getUserPosts = async (req, res) => {
     }
 }
 
+const addComment = async (req, res) => {
+    const user = req.user;
+    const { comment, _id: post_id} = req.body;
+    try{
+        if(!comment){
+            return res.status(400).json({error: "Comment can't be empty."})
+        }
+
+        const post = await Post.findById(post_id)
+
+        if(!post){
+            console.log("Post not found. Could've been deleted.")
+            return res.status(400).json({error: "Post not found. Could've been deleted."})
+        }
+
+        await Post.updateOne(
+            { _id: post_id },
+            { $push: { comments: {user, comment} } }
+        );
+            console.log("comment added")
+        return res.status(200).json({message: "Comment added successfully"})
+
+
+
+    } catch(e) {
+        console.log(e)
+        return res.status(500).json({error: "Internal Server Error"})   
+    }
+}
+
+const addLike = async (req, res) => {
+
+}
+
+const removeLike = async (req, res) => {
+
+}
+
+const saveRecipe = async (req, res) => {
+
+}
+
+const unsaveRecipe = async (req, res) => {
+
+}
+
 module.exports = {
     addPost,
-    getUserPosts
+    getUserPosts,
+    addComment
 };
