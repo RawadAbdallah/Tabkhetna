@@ -11,6 +11,7 @@ const getCurrentUserProfile = async (req, res) => {
 
     try {
         const userData = await User.findById(user._id).select("-password -cookmates");
+        console.log(userData)
         if (!userData) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -28,6 +29,7 @@ const getOtherUserProfile = async (req, res) => {
     const { userId } = req.params;
     try {
         const userData = await User.findById(userId).select("-password");
+        console.log(userData)
         if (!userData)
             return res.status(404).json({ message: "User not found" });
         return res.status(200).json(userData);
@@ -36,6 +38,22 @@ const getOtherUserProfile = async (req, res) => {
         return res.status(500).json({ message: "Something went wrong" });
     }
 };
+
+const getProfileBasicInfo = async (req, res) =>{
+    const {id} = req.params;
+    try{
+        const userFound = await User.findById(id)
+        if(!userFound){
+            return res.status(404).json({error: "user not found"})
+        }
+        console.log("USER FOUND:" ,userFound)
+        const {firstname, lastname, profile_pic} = userFound 
+        console.log("RETURNED: ", firstname, lastname, profile_pic)
+        return res.status(200).json({firstname, lastname, profile_pic})
+    } catch (e) {
+        return res.status(500).json({message: "Something went wrong"})
+    }
+}
 
 /**
  * Get the cookmates of the currently authenticated user.
@@ -72,7 +90,7 @@ const getTopCookmates = async (req, res) => {
     // Get the top 5 cookmates' details directly from the database
     try {
         const userWithTopCookmates = await User.findById(id)
-            .select({ cookmates: { $slice: 5 } }) // Limit to the first 5 cookmates
+            .select({ cookmates: { $slice: 5 } })
             .populate({
                 path: "cookmates",
                 select: "_id firstname lastname email is_online profile_pic",
@@ -245,7 +263,7 @@ module.exports = {
     acceptCookmate,
     rejectCookmate,
     getCookmates,
-    getCurrentUserProfile,
     getOtherUserProfile,
+    getProfileBasicInfo,
     getTopCookmates
 };
