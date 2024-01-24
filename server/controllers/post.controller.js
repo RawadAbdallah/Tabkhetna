@@ -136,6 +136,33 @@ const getSaves = async (req, res) => {
     }
 };
 
+const getAllSavedPosts = async (req, res) => {
+    const user = req.user
+    try{
+        const savedPostsIds = await User.findById(user._id).select("saved_recipes")
+        const savedPosts = []
+        for (let i=0;i<savedPostsIds.saved_recipes.length; i++){
+            const savedPost = await Post.findById(savedPostsIds.saved_recipes[i])
+            if(!savedPost){
+                console.log('saved post not found')
+                continue
+            }
+            const savedPostUser = await User.findById(savedPost.posted_by)
+            const savedPostObject = savedPost.toObject();
+            savedPostObject.uploader = savedPostUser.firstname + " " + savedPostUser.lastname
+            savedPostObject.profile_pic = savedPostUser.profile_pic
+
+            console.log(savedPostObject)
+            savedPosts.push(savedPostObject)
+        }
+
+        return res.status(200).json(savedPosts)
+    } catch(e){
+        console.log(e);
+        return res.status(500).send('server error')
+    }
+}
+
 const addOrRemoveLike = async (req, res) => {
     const user = req.user;
     const { id } = req.params;
@@ -224,4 +251,5 @@ module.exports = {
     saveUnsaveBookmark,
     getLikes,
     getSaves,
+    getAllSavedPosts,
 };
