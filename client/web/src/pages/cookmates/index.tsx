@@ -66,7 +66,7 @@ const Cookmates: React.FC = () => {
                             </Link>
                         </div>
                         <div className="cookmates-wrapper">
-                            <ul className="flex flex-wrap justify-center">
+                            <ul className="flex flex-wrap">
                                 {cookmates && cookmates.length > 0 ? (
                                     cookmates.map((cookmate) => {
                                         return (
