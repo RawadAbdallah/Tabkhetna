@@ -6,27 +6,35 @@ const addPost = async (req, res) => {
         const { title, description, ingredients, instructions, cuisine } =
             req.body;
 
-        if(!title){
-            return res.status(400).json({error: "Title is required"})
+        if (!title) {
+            return res.status(400).json({ error: "Title is required" });
         }
 
-        if(!ingredients && !instructions){
-            return res.status(400).json({error:"Please provide either instructions, ingredients, or both; at least one input is required."});
+        if (!ingredients && !instructions) {
+            return res.status(400).json({
+                error: "Please provide either instructions, ingredients, or both; at least one input is required.",
+            });
         }
 
-        if(instructions && instructions.length < 12){
-            return res.status(400).json({error:"Instructions should be at least of 12 characters."});
+        if (instructions && instructions.length < 12) {
+            return res.status(400).json({
+                error: "Instructions should be at least of 12 characters.",
+            });
         }
 
-        if(ingredients && ingredients.length < 12){
-            return res.status(400).json({error:"Ingredients should be at least of 12 characters."});
+        if (ingredients && ingredients.length < 12) {
+            return res.status(400).json({
+                error: "Ingredients should be at least of 12 characters.",
+            });
         }
 
-        if(!cuisine){
-            return res.status(400).json({error: "Cuisine is required"})
+        if (!cuisine) {
+            return res.status(400).json({ error: "Cuisine is required" });
         }
 
-        const media = req.files.map((file) => (file.path.replace(/^storage\\/, '')))
+        const media = req.files.map((file) =>
+            file.path.replace(/^storage\\/, "")
+        );
         const newPost = new Post({
             title,
             ingredients,
@@ -54,65 +62,126 @@ const addPost = async (req, res) => {
 };
 
 const getUserPosts = async (req, res) => {
-    const {id} = req.params
+    const { id } = req.params;
 
-    try{
-        const user = await User.findById(id)
-        const posts = await Post.find({posted_by: user}).sort({ updatedAt: -1 })
-        return res.status(200).json({posts})
+    try {
+        const user = await User.findById(id);
+        const posts = await Post.find({ posted_by: user }).sort({
+            updatedAt: -1,
+        });
+        return res.status(200).json({ posts });
     } catch (e) {
-        return res.status(500).json({error: "Internal Server Error"})
+        return res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
 
 const addComment = async (req, res) => {
     const user = req.user;
-    const { comment, _id: post_id} = req.body;
-    try{
-        if(!comment){
-            return res.status(400).json({error: "Comment can't be empty."})
+    const { comment, _id: post_id } = req.body;
+    try {
+        if (!comment) {
+            return res.status(400).json({ error: "Comment can't be empty." });
         }
 
-        const post = await Post.findById(post_id)
+        const post = await Post.findById(post_id);
 
-        if(!post){
-            console.log("Post not found. Could've been deleted.")
-            return res.status(400).json({error: "Post not found. Could've been deleted."})
+        if (!post) {
+            console.log("Post not found. Could've been deleted.");
+            return res
+                .status(400)
+                .json({ error: "Post not found. Could've been deleted." });
         }
 
         await Post.updateOne(
             { _id: post_id },
-            { $push: { comments: {user, comment} } }
+            { $push: { comments: { user, comment } } }
         );
-            console.log("comment added")
-        return res.status(200).json({message: "Comment added successfully"})
-
-
-
-    } catch(e) {
-        console.log(e)
-        return res.status(500).json({error: "Internal Server Error"})   
+        console.log("comment added");
+        return res.status(200).json({ message: "Comment added successfully" });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
-}
+};
 
-const addLike = async (req, res) => {
+const addOrRemoveLike = async (req, res) => {
+    const user = req.user;
+    const {id} = req.params;
+    try {
+        const post = await Post.findById(id);
+        console.log("POST", post)
+        if (!post) {
+            console.log("Post not found. Could've been deleted.");
+            return res
+                .status(400)
+                .json({ error: "Post not found. Could've been deleted." });
+        }
 
-}
+        //Check if user already liked
+        
+        let userIndex = post.likes.indexOf(user._id);
+        if (userIndex === -1) {
+            //User has not yet liked the post so push to likes array
+            await Post.updateOne({ _id: id }, { $push: { likes: user._id } });
+            return res.status(200).json({ message: "Liked!" });
+        } else {
+            //User has already liked the post so remove from likes array
+            await Post.updateOne(
+                { _id: id },
+                { $pull: { likes: user._id, likeCount: 1 } }
+            );
+            return res.status(200).json({ message: "UnLiked!" });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err.toString() });
+    }
+};
 
-const removeLike = async (req, res) => {
+const saveUnsaveBookmark = async (req, res) => {
+    const user = req.user;
+    const {id} = req.params;
+    try {
+        const post = await Post.findById(id);
 
-}
+        if (!post) {
+            console.log("Post not found. Could've been deleted.");
+            return res
+                .status(400)
+                .json({ error: "Post not found. Could've been deleted." });
+        }
 
-const saveRecipe = async (req, res) => {
+        //Check if user already saved
+        let userIndex = post.saved_by.indexOf(user._id);
+        if (userIndex === -1) {
+            //User has not yet saved the post so push to saved array
+            await Post.updateOne({ _id: id }, { $push: { saved_by: user._id } });
+            await User.updateOne({ _id: user._id }, { $push: { saved_recipes: post._id } });
 
-}
+            return res.status(200).json({ message: "saved!" });
+        } else {
+            //User has already saved the post so remove from saved array
+            await Post.updateOne(
+                { _id: id },
+                { $pull: { saved_by: user._id } }
+            );
 
-const unsaveRecipe = async (req, res) => {
+            await User.updateOne(
+                {_id: user._id},
+                {$pull: {saved_recipes: post._id}}
+            )
 
-}
-
+            return res.status(200).json({ message: "unsaved!" });
+        }
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json({ error: err });
+    }
+};
 module.exports = {
     addPost,
     getUserPosts,
-    addComment
+    addComment,
+    addOrRemoveLike,
+    saveUnsaveBookmark,
 };
