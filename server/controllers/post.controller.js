@@ -104,12 +104,26 @@ const addComment = async (req, res) => {
     }
 };
 
+const getLikes = async (req, res) => {
+    const { id: postId } = req.params;
+    try {
+        let post = await Post.findById(postId);
+        if(!post){
+            return res.status(404).json({error: "Post not found. Could've been deleted."})
+        }
+        return res.status(200).json(post.likes.length);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json("Server Error");
+    }
+};
+
 const addOrRemoveLike = async (req, res) => {
     const user = req.user;
-    const {id} = req.params;
+    const { id } = req.params;
     try {
         const post = await Post.findById(id);
-        console.log("POST", post)
+        console.log("POST", post);
         if (!post) {
             console.log("Post not found. Could've been deleted.");
             return res
@@ -118,7 +132,7 @@ const addOrRemoveLike = async (req, res) => {
         }
 
         //Check if user already liked
-        
+
         let userIndex = post.likes.indexOf(user._id);
         if (userIndex === -1) {
             //User has not yet liked the post so push to likes array
@@ -140,7 +154,7 @@ const addOrRemoveLike = async (req, res) => {
 
 const saveUnsaveBookmark = async (req, res) => {
     const user = req.user;
-    const {id} = req.params;
+    const { id } = req.params;
     try {
         const post = await Post.findById(id);
 
@@ -155,8 +169,14 @@ const saveUnsaveBookmark = async (req, res) => {
         let userIndex = post.saved_by.indexOf(user._id);
         if (userIndex === -1) {
             //User has not yet saved the post so push to saved array
-            await Post.updateOne({ _id: id }, { $push: { saved_by: user._id } });
-            await User.updateOne({ _id: user._id }, { $push: { saved_recipes: post._id } });
+            await Post.updateOne(
+                { _id: id },
+                { $push: { saved_by: user._id } }
+            );
+            await User.updateOne(
+                { _id: user._id },
+                { $push: { saved_recipes: post._id } }
+            );
 
             return res.status(200).json({ message: "saved!" });
         } else {
@@ -167,9 +187,9 @@ const saveUnsaveBookmark = async (req, res) => {
             );
 
             await User.updateOne(
-                {_id: user._id},
-                {$pull: {saved_recipes: post._id}}
-            )
+                { _id: user._id },
+                { $pull: { saved_recipes: post._id } }
+            );
 
             return res.status(200).json({ message: "unsaved!" });
         }
@@ -184,4 +204,5 @@ module.exports = {
     addComment,
     addOrRemoveLike,
     saveUnsaveBookmark,
+    getLikes
 };
