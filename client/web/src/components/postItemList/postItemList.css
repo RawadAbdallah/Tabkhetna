@@ -1,0 +1,8 @@
+.post-item-list{
+  list-style: disc;
+}
+
+.ingredients p, .instructions p{
+  border-bottom: 2px solid var(--teal-color);
+  margin-bottom: 5px;
+}
