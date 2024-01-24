@@ -23,6 +23,7 @@
     font-size: 1.2rem;
     color: var(--teal-color);
     font-weight: 400;
+    margin-bottom: 15px;
 }
 
 .media-container {

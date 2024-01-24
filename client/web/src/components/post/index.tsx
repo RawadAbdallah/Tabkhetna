@@ -11,6 +11,8 @@ import { RootState } from "@/store";
 import CommentType from "@/types/comment";
 import UserDetailsType from "@/types/userDetailsType";
 
+import PostItemList from "../postItemList";
+
 const Post: React.FC<PostType> = ({
     _id,
     uploader,
@@ -190,7 +192,10 @@ const Post: React.FC<PostType> = ({
                 <div className="post-description flex align-center justify-between">
                     <div className="flex flex-column align-center gap-5">
                         {ingredients ? (
-                            <p>{ingredients}</p>
+                            <div className="ingredients">
+                                <p>Ingredients </p>
+                                <PostItemList inputString={ingredients} />
+                            </div>
                         ) : (
                             <>
                                 <p>Ingredients not posted?</p>
@@ -202,7 +207,10 @@ const Post: React.FC<PostType> = ({
                     </div>
                     <div className="flex flex-column align-center gap-5">
                         {instructions ? (
-                            <p>{instructions}</p>
+                            <div className="instructions">
+                                <p>Instructions </p>
+                                <PostItemList inputString={instructions} />
+                            </div>
                         ) : (
                             <>
                                 <p>Instructions not posted?</p>
@@ -225,7 +233,7 @@ const Post: React.FC<PostType> = ({
                             {comments && comments.length}
                         </button>
                         <button className="flex gap-3 align-center">
-                            <img src={BookmarkIcon} /> {saves}
+                            <img src={BookmarkIcon} /> {saves && saves.length}
                         </button>
                     </div>
                     <div className="post-add-comment flex flex-column align-center">
