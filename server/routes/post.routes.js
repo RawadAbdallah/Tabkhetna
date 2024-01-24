@@ -2,20 +2,23 @@ const express = require("express");
 const {
     addPost,
     getUserPosts,
-    // getPosts,
-    // deletePost,
-    // editPost,
+    addComment,
+    addOrRemoveLike,
+    saveUnsaveBookmark,
+    getLikes,
 } = require("../controllers/post.controller");
 const {mediaUpload} = require("../configs/multer.config");
 
 const router = express.Router();
 
-// Add authentication middleware to protect these routes
-// router.use(authMiddleware);
+
 
 // Define routes for the post controller
 router.post("/add", mediaUpload , addPost);
+router.post('/add-comment', addComment)
+router.post('/like/:id', addOrRemoveLike)
+router.post('/save/:id', saveUnsaveBookmark)
 router.get("/:id", getUserPosts);
-// router.put("/edit/:postId", editPost);
+router.get('/like/get/:id', getLikes)
 
 module.exports = router;
