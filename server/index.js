@@ -26,14 +26,21 @@ const userRoutes = require("./routes/user.routes");
 app.use("/api/", authMiddleware, userRoutes);
 
 // Challenge routes
-const challengeRoutes = require('./routes/challenge.routes')
-app.use('/api/challenge', authMiddleware, challengeRoutes)
+const challengeRoutes = require("./routes/challenge.routes");
+app.use("/api/challenge", authMiddleware, challengeRoutes);
 
 //Post routes
-const postRoutes = require('./routes/post.routes')
-app.use('/api/post', authMiddleware, postRoutes)
+const postRoutes = require("./routes/post.routes");
+app.use("/api/post", authMiddleware, postRoutes);
+
+//Gemeni route
+const gemeniRoute = require("./routes/gemeni.routes");
+app.use("/api/ai", gemeniRoute);
 
 app.listen(process.env.PORT, process.env.IP, () => {
-    console.log("Server listening on ip on port: ", process.env.PORT);
+    console.log(
+        "Server listening on ip" + process.env.IP + "on port: ",
+        process.env.PORT
+    );
     connectToMongoDB();
 });
