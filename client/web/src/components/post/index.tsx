@@ -55,9 +55,12 @@ const Post: React.FC<PostType> = ({
     const handleCommentSubmit = async () => {
         const { firstname, lastname, profile_pic } = user;
         if (!comment) {
-            alert("Comment cannot be empty");
+            setCommentError("Comment cannot be empty");
         } else {
-            setComments(prev => [{firstname, lastname, profile_pic, comment}, ...prev])
+            setComments((prev) => [
+                { firstname, lastname, profile_pic, comment },
+                ...prev,
+            ]);
             setCommentsKey((prevKey) => prevKey + 1);
             try {
                 const response = await request({
@@ -97,7 +100,7 @@ const Post: React.FC<PostType> = ({
 
     const fetchUserDetails = async (comments: CommentType[]) => {
         if (!comments) {
-            console.log("Comments array is undefined or null");
+            console.log("No comments");
             return [];
         }
 
@@ -161,7 +164,6 @@ const Post: React.FC<PostType> = ({
             </div>
             <div className="post-content">
                 <h2>{title}</h2>
-                {commentsKey}
                 <div className="media-container">
                     {media &&
                         media.map((mediaItem) => (
