@@ -1,4 +1,5 @@
 .post {
+    position: relative;
     background: white;
     border-radius: 12px;
     padding: 30px;
@@ -43,6 +44,7 @@
 .post-description {
     font-size: 1.1rem;
     padding: 20px 0;
+    gap: 20px;
 }
 
 .post-description div{
@@ -146,5 +148,12 @@
 @media (max-width: 880px){
     .post-actions-wrapper{
         flex-direction: column;
+    }
+}
+
+@media (max-width: 400px){
+    .post-description{
+        flex-direction: column;
+        gap: 20px;
     }
 }
