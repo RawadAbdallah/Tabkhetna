@@ -1,28 +1,120 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import PostType from "@/types/post";
 import HeartIcon from "@images/heart_icon.svg";
 import CommentIcon from "@images/comment_icon.svg";
 import BookmarkIcon from "@images/bookmark_icon.svg";
-import { serverURL } from "@/services/request";
+import { request, serverURL } from "@/services/request";
 
 import "./post.css";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import CommentType from "@/types/comment";
+import UserDetailsType from "@/types/userDetailsType";
 
 const Post: React.FC<PostType> = ({
+    _id,
     uploader,
     profile_pic,
-    updatedAt,
+    createdAt,
     title,
     ingredients,
     instructions,
-    comments,
+    comments: initialComments,
     likes,
     saves,
     media,
 }) => {
-    const getTimeDifference = (updatedAt: string): string => {
-        const now = new Date();
-        const postDate = new Date(updatedAt);
+    const [commentsKey, setCommentsKey] = useState<number>(0); // Initialize with 0
+    const [userDetails, setUserDetails] = useState<UserDetailsType[]>([]);
+    const [comment, setComment] = useState<string>("");
+    const [comments, setComments] = useState<CommentType[]>(initialComments);
+    const [commentError, setCommentError] = useState<string>("");
+    const user = useSelector((state: RootState) => state.user);
 
+    useEffect(() => {
+        const fetchUserDetailsForComments = async () => {
+            const details = await fetchUserDetails(comments);
+            setUserDetails(details);
+        };
+
+        fetchUserDetailsForComments();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [comments]);
+
+    const checkCommentKeyStrokes = (
+        e: React.KeyboardEvent<HTMLInputElement>
+    ) => {
+        if (e.code === "Enter" || e.keyCode === 13) {
+            handleCommentSubmit();
+        }
+    };
+    const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setComment(e.target.value);
+    };
+
+    const handleCommentSubmit = async () => {
+        const { firstname, lastname, profile_pic } = user;
+        if (!comment) {
+            alert("Comment cannot be empty");
+        } else {
+            setComments(prev => [{firstname, lastname, profile_pic, comment}, ...prev])
+            setCommentsKey((prevKey) => prevKey + 1);
+            try {
+                const response = await request({
+                    route: "/post/add-comment",
+                    method: "POST",
+                    body: { comment, _id },
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
+
+                if (response && response.status === 400)
+                    setCommentError(`Error: ${response?.data.error}`);
+            } catch (e) {
+                setCommentError(`Error: ${e}`);
+            }
+
+            setComment("");
+        }
+    };
+
+    const getUserInfo = async (userId: string) => {
+        try {
+            const response = await request({
+                route: `/profile/basicInfo/${userId}`,
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+            if (response) return response.data;
+            if (!response) return [];
+        } catch (e) {
+            console.log(e);
+            return null;
+        }
+    };
+
+    const fetchUserDetails = async (comments: CommentType[]) => {
+        if (!comments) {
+            console.log("Comments array is undefined or null");
+            return [];
+        }
+
+        const userDetailsArray = await Promise.all(
+            comments.map(async (comment) => {
+                if (comment.user) {
+                    const userCommentDetails = await getUserInfo(comment.user);
+                    return userCommentDetails;
+                }
+            })
+        );
+        console.log(userDetailsArray);
+        return userDetailsArray.filter(Boolean);
+    };
+    const getTimeDifference = (createdAt: string): string => {
+        const now = new Date();
+        const postDate = new Date(createdAt);
         const timeDifferenceInSeconds = Math.floor(
             (now.getTime() - postDate.getTime()) / 1000
         );
@@ -52,9 +144,8 @@ const Post: React.FC<PostType> = ({
         const fileExtension = mediaItem.split(".").pop();
         if (fileExtension)
             return imageExtensions.includes(fileExtension.toLowerCase());
-        return false
+        return false;
     };
-
     return (
         <div className="post flex flex-column gap-5">
             <div className="post-header flex align-center gap-5">
@@ -65,15 +156,16 @@ const Post: React.FC<PostType> = ({
                 />
                 <div className="uploader-info">
                     <p>{uploader}</p>
-                    <p>{getTimeDifference(updatedAt)}</p>
+                    <p>{getTimeDifference(createdAt)}</p>
                 </div>
             </div>
             <div className="post-content">
                 <h2>{title}</h2>
+                {commentsKey}
                 <div className="media-container">
                     {media &&
-                        media.map((mediaItem, index) => (
-                            <div key={mediaItem + index}>
+                        media.map((mediaItem) => (
+                            <div key={mediaItem + commentsKey}>
                                 {isImage(mediaItem) ? (
                                     <img
                                         src={`${serverURL}${mediaItem}`}
@@ -124,41 +216,61 @@ const Post: React.FC<PostType> = ({
                 <div className="post-actions-wrapper flex align-center justify-between">
                     <div className="post-actions flex gap-5">
                         <button className="flex gap-3 align-center">
-                            <img src={HeartIcon} /> {likes.length}
+                            <img src={HeartIcon} /> {likes && likes.length}
                         </button>
                         <button className="flex gap-3 align-center">
-                            <img src={CommentIcon} /> {comments.length}
+                            <img src={CommentIcon} />{" "}
+                            {comments && comments.length}
                         </button>
                         <button className="flex gap-3 align-center">
                             <img src={BookmarkIcon} /> {saves}
                         </button>
                     </div>
-                    <div className="post-add-comment">
+                    <div className="post-add-comment flex flex-column align-center">
+                        {commentError && (
+                            <p className="comment-error">
+                                Comment can't be empty!
+                            </p>
+                        )}
                         <input
                             type="text"
                             name="new-comment"
                             id="new-comment"
                             placeholder="Write a comment"
+                            onChange={handleCommentChange}
+                            onKeyDown={checkCommentKeyStrokes}
                         />
                     </div>
                 </div>
                 <div className="comments">
                     {comments &&
-                        comments.map((comment, index) => (
-                            <div key={index} className="comment flex gap-4">
-                                <img
-                                    src={comment.profile_pic}
-                                    alt={`${comment.firstname}'s profile`}
-                                    className="comment-pic"
-                                />
-                                <div className="comment-info flex flex-column gap-2">
-                                    <p>
-                                        {comment.firstname} {comment.lastname}
-                                    </p>
-                                    <p>{comment.comment} </p>
-                                </div>
-                            </div>
-                        ))}
+                        comments.map((comment, index) => {
+                            console.log("User detalis: ", userDetails);
+                            const userCommentDetails = userDetails[index];
+                            if (userCommentDetails) {
+                                return (
+                                    <div
+                                        key={index}
+                                        className="comment flex gap-4"
+                                    >
+                                        <img
+                                            src={`${serverURL}uploads/images/${userCommentDetails.profile_pic}`}
+                                            alt={`${userCommentDetails.firstname}'s profile`}
+                                            className="comment-pic"
+                                        />
+                                        <div className="comment-info flex flex-column gap-2">
+                                            <p>
+                                                {userCommentDetails.firstname}{" "}
+                                                {userCommentDetails.lastname}
+                                            </p>
+                                            <p>{comment.comment}</p>
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+                            return null;
+                        })}
                 </div>
             </div>
         </div>
