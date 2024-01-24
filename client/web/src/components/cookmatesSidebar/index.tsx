@@ -15,7 +15,6 @@ const CookmatesSidebar: React.FC = () => {
     const getTopCookmates = async () => {
         try {
             if (user && user.token) {
-                console.log("getting top cookmates");
                 const { token } = user;
                 const result = await request({
                     route: `/cookmates/top/${user.id}`,
