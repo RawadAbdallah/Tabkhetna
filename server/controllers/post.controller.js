@@ -108,10 +108,28 @@ const getLikes = async (req, res) => {
     const { id: postId } = req.params;
     try {
         let post = await Post.findById(postId);
-        if(!post){
-            return res.status(404).json({error: "Post not found. Could've been deleted."})
+        if (!post) {
+            return res
+                .status(404)
+                .json({ error: "Post not found. Could've been deleted." });
         }
         return res.status(200).json(post.likes.length);
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json("Server Error");
+    }
+};
+
+const getSaves = async (req, res) => {
+    const { id: postId } = req.params;
+    try {
+        let post = await Post.findById(postId);
+        if (!post) {
+            return res
+                .status(404)
+                .json({ error: "Post not found. Could've been deleted." });
+        }
+        return res.status(200).json(post.saved_by.length);
     } catch (err) {
         console.error(err);
         return res.status(500).json("Server Error");
@@ -204,5 +222,6 @@ module.exports = {
     addComment,
     addOrRemoveLike,
     saveUnsaveBookmark,
-    getLikes
+    getLikes,
+    getSaves,
 };
