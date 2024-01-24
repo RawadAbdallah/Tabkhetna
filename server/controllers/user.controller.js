@@ -3,33 +3,12 @@ const User = require("../models/user.model");
 //All functions in this file use the Express request and response objects (req, res).
 
 /**
- * Get the profile of the currently authenticated user.
- */
-
-const getCurrentUserProfile = async (req, res) => {
-    const user = req.user;
-
-    try {
-        const userData = await User.findById(user._id).select("-password -cookmates");
-        console.log(userData)
-        if (!userData) {
-            return res.status(404).json({ message: "User not found" });
-        }
-        return res.status(200).json(userData);
-    } catch (e) {
-        console.log(e);
-        return res.status(500).json({ message: "Something went wrong" });
-    }
-};
-
-/**
  * Get the profile of a user specified by userId.
  */
-const getOtherUserProfile = async (req, res) => {
+const getUserProfile = async (req, res) => {
     const { userId } = req.params;
     try {
         const userData = await User.findById(userId).select("-password");
-        console.log(userData)
         if (!userData)
             return res.status(404).json({ message: "User not found" });
         return res.status(200).json(userData);
@@ -46,9 +25,7 @@ const getProfileBasicInfo = async (req, res) =>{
         if(!userFound){
             return res.status(404).json({error: "user not found"})
         }
-        console.log("USER FOUND:" ,userFound)
         const {firstname, lastname, profile_pic} = userFound 
-        console.log("RETURNED: ", firstname, lastname, profile_pic)
         return res.status(200).json({firstname, lastname, profile_pic})
     } catch (e) {
         return res.status(500).json({message: "Something went wrong"})
@@ -263,7 +240,7 @@ module.exports = {
     acceptCookmate,
     rejectCookmate,
     getCookmates,
-    getOtherUserProfile,
+    getUserProfile,
     getProfileBasicInfo,
     getTopCookmates
 };
