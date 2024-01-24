@@ -22,3 +22,23 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Ignore virtual environment files
+venv/
+env/
+
+# Ignore package files
+*.zip
+*.tar.gz
+*.tar.xz
+
+# Ignore IDE and editor-specific files
+.idea/
+.vscode/
+
+# Ignore configuration files
+*.config
+*.conf
+
+# Ignore sensitive or environment-specific information
+.env
