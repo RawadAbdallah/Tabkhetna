@@ -6,6 +6,7 @@ const {
     addOrRemoveLike,
     saveUnsaveBookmark,
     getLikes,
+    getSaves
 } = require("../controllers/post.controller");
 const {mediaUpload} = require("../configs/multer.config");
 
@@ -20,5 +21,6 @@ router.post('/like/:id', addOrRemoveLike)
 router.post('/save/:id', saveUnsaveBookmark)
 router.get("/:id", getUserPosts);
 router.get('/like/get/:id', getLikes)
+router.get('/save/get/:id', getSaves)
 
 module.exports = router;
