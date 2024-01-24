@@ -222,9 +222,9 @@ const Challenges = () => {
                         <div className="challenges-container flex flex-column gap-5">
                             {data && data.length > 0 ? (
                                 <>
-                                    {data.map((challenge) => {
+                                    {data.map((challenge, index) => {
                                         return (
-                                            <div className="challenge flex align-center gap-5">
+                                            <div className="challenge flex align-center gap-5" key={challenge.title + index}>
                                                 <img
                                                     className={"challenge-img"}
                                                     src={`${serverURL}uploads/images/${challenge.challengeImg}`}
