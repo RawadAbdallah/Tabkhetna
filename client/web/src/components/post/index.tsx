@@ -31,17 +31,33 @@ const Post: React.FC<PostType> = ({
     const [comment, setComment] = useState<string>("");
     const [comments, setComments] = useState<CommentType[]>(initialComments);
     const [commentError, setCommentError] = useState<string>("");
+    const [likeCounter, setLikeCounter] = useState<number>(0);
     const user = useSelector((state: RootState) => state.user);
 
+    const getLikes = async () => {
+        try {
+            const response = await request({
+                route: `/post/like/get/${_id}`,
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+            setLikeCounter(response.data)
+        } catch (e) {
+            console.log(e);
+        }
+    };
     useEffect(() => {
         const fetchUserDetailsForComments = async () => {
             const details = await fetchUserDetails(comments);
             setUserDetails(details);
         };
 
+        getLikes();
         fetchUserDetailsForComments();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [comments]);
+    }, [comments, likeCounter]);
 
     const checkCommentKeyStrokes = (
         e: React.KeyboardEvent<HTMLInputElement>
@@ -102,7 +118,6 @@ const Post: React.FC<PostType> = ({
 
     const fetchUserDetails = async (comments: CommentType[]) => {
         if (!comments) {
-            console.log("No comments");
             return [];
         }
 
@@ -114,7 +129,6 @@ const Post: React.FC<PostType> = ({
                 }
             })
         );
-        console.log(userDetailsArray);
         return userDetailsArray.filter(Boolean);
     };
     const getTimeDifference = (createdAt: string): string => {
@@ -150,6 +164,24 @@ const Post: React.FC<PostType> = ({
         if (fileExtension)
             return imageExtensions.includes(fileExtension.toLowerCase());
         return false;
+    };
+
+    const handleLike = async () => {
+        try {
+            const response = await request({
+                route: `/post/like/${_id}`,
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+            console.log(response);
+            if (response.status === 200) {
+                setLikeCounter((prev) => prev + 1);
+            }
+        } catch (e) {
+            console.log(e);
+        }
     };
     return (
         <div className="post flex flex-column gap-5">
@@ -225,8 +257,11 @@ const Post: React.FC<PostType> = ({
             <div className="post-footer">
                 <div className="post-actions-wrapper flex align-center justify-between">
                     <div className="post-actions flex gap-5">
-                        <button className="flex gap-3 align-center">
-                            <img src={HeartIcon} /> {likes && likes.length}
+                        <button
+                            className="flex gap-3 align-center"
+                            onClick={handleLike}
+                        >
+                            <img src={HeartIcon} /> {likeCounter}
                         </button>
                         <button className="flex gap-3 align-center">
                             <img src={CommentIcon} />{" "}
