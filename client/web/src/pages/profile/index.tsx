@@ -209,7 +209,7 @@ const Profile: React.FC = () => {
                                     );
                                 })
                             ) : (
-                                <div className="no-posts-headline flex align-center justify-center">
+                                <div className="posts-container no-posts-headline flex align-center justify-center">
                                     Hasn't Posted Yet
                                 </div>
                             )}
