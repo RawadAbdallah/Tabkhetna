@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios, { AxiosResponse, AxiosError } from "axios";
 
-axios.defaults.baseURL = process.env.BASE_URL;
-export const serverURL = process.env.SERVER_URL
+
+axios.defaults.baseURL = `http://${import.meta.env.VITE_BASE_URL}/`;
+export const serverURL =  `http://${import.meta.env.VITE_SERVER_URL}/`;
+
+console.log(axios.defaults.baseURL)
 type RequestOptions = {
     route: string;
     method?: string;
