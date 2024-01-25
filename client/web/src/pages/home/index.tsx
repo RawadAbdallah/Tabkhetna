@@ -5,62 +5,47 @@ import CookmatesSidebar from "@/components/cookmatesSidebar";
 import Post from "@components/post";
 import "./home.css";
 import SEO from "@/utils/seo";
-
-const posts = [
-    {
-        uploader: "Rawad Abdallah",
-        profile_pic: "src/assets/images/default_profile_pic.png",
-        created_at: "2 hours ago",
-        title: "This is a test post for the home page.",
-        ingredients: "This is a ingredients",
-        instructions: "Instructions are: cook and egg",
-        media: [
-            "src/assets/images/register-background.png",
-            "src/assets/images/login-background.png",
-        ],
-        likes: 10,
-        saves: 5,
-        comments: [
-            {
-                profile_pic: "src/assets/images/default_profile_pic.png",
-                username: "Mohammad Ali",
-                comment: "Not bad",
-            },
-            {
-                profile_pic: "src/assets/images/default_profile_pic.png",
-                username: "Hussein Mokdad",
-                comment: "This is the best post I've ever seen.",
-            },
-        ],
-    },
-
-    {
-        uploader: "Rawad Abdallah",
-        profile_pic: "src/assets/images/default_profile_pic.png",
-        created_at: "2 hours ago",
-        title: "This is a test post for the home page.",
-        instructions: "Instructions are: cook and egg",
-        media: [
-            "src/assets/images/register-background.png",
-            "src/assets/images/login-background.png",
-        ],
-        likes: 10,
-        saves: 5,
-        comments: [
-            {
-                profile_pic: "src/assets/images/default_profile_pic.png",
-                username: "Mohammad Ali",
-                comment: "Not bad",
-            },
-        ],
-    },
-];
+import { useEffect, useState } from "react";
+import PostType from "@/types/post";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store";
+import { request } from "@/services/request";
 
 const Home: React.FC = () => {
     SEO({
         title: "Tabkhetna",
         description: "Tabkhetna's home page",
     });
+    const user = useSelector((state: RootState) => state.user);
+    const [scrollPage, setScrollPage] = useState<number>(1);
+    const [posts, setPosts] = useState<PostType[]>([]);
+    console.log(posts.length)
+    const getPosts = async () => {
+        try {
+            const response = await request({
+                route: `/post?page=${scrollPage}`,
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+
+            if (response && response.status === 200) {
+                setPosts((prev) => {
+                    const newPosts = [...prev]
+                    newPosts.push(...response.data.posts)
+                    return newPosts
+                 });
+            }
+
+            console.log("POSTS", [...posts])
+        } catch (e) {
+            return null;
+        }
+    };
+
+    useEffect(() => {
+        if (user.token) getPosts();
+    }, [user]);
     return (
         <div className="home-page">
             <Header />
@@ -69,23 +54,25 @@ const Home: React.FC = () => {
                 <section className="main-section flex flex-column gap-5">
                     <CreatePost />
                     <div className="posts-container flex flex-column gap-5">
-                        {posts.map((post, i) => {
-                            return (
-                                <Post
-                                    key={i}
-                                    title={post.title}
-                                    uploader={post.uploader}
-                                    profile_pic={post.profile_pic}
-                                    created_at={post.created_at}
-                                    media={post.media}
-                                    likes={post.likes}
-                                    saves={post.saves}
-                                    comments={post.comments}
-                                    ingredients={post.ingredients}
-                                    instructions={post.instructions}
-                                />
-                            );
-                        })}
+                        {posts && posts.length > 0 &&
+                            posts.map((post, i) => {
+                                return (
+                                    <Post
+                                        key={i}
+                                        _id={post._id}
+                                        title={post.title}
+                                        uploader={post.uploader}
+                                        profile_pic={post.profile_pic}
+                                        createdAt={post.createdAt}
+                                        media={post.media}
+                                        likes={post.likes}
+                                        saves={post.saves}
+                                        comments={post.comments}
+                                        ingredients={post.ingredients}
+                                        instructions={post.instructions}
+                                    />
+                                );
+                            })}
                     </div>
                 </section>
                 <CookmatesSidebar />
