@@ -4,6 +4,7 @@ import UserType from "./user";
 type PostType = {
   _id: string,
   uploader: string;
+  posted_by: string;
   profile_pic?: string;
   title: string;
   media?: string[];
@@ -11,7 +12,7 @@ type PostType = {
   ingredients?: string;
   instructions?: string;
   likes: UserType[];
-  saves: number;
+  saves: UserType[];
   comments: CommentType[];
 };
 export default PostType
