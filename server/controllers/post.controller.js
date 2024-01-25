@@ -33,7 +33,7 @@ const addPost = async (req, res) => {
         }
         console.log("BEFORE:", req.files)
         const media = req.files.map((file) =>
-            file.path.replace(/^storage\\/, "")
+            file.path.replace('storage\\', "")
         );
         console.log("AFTER:", req.files)
         const newPost = new Post({
