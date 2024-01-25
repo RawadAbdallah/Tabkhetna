@@ -1,0 +1,20 @@
+.cookmate-request-buttons{
+  margin: 15px 0;
+}
+.cookmate-request-buttons button{
+  padding: 10px 20px;
+  background-color: white;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  border-radius: 12px;
+  font-weight: bold;
+}
+
+.cookmate-request-buttons button:first-child{
+  background-color: rgb(69, 151, 69);
+  color: white;
+}
+
+.cookmate-request-buttons button:last-child{
+  background-color: rgb(255, 72, 72);
+  color: white;
+}
