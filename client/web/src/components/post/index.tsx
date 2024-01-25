@@ -272,7 +272,7 @@ const Post: React.FC<PostType> = ({
                             <div key={mediaItem + commentsKey}>
                                 {isImage(mediaItem) ? (
                                     <img
-                                        src={`${serverURL}${mediaItem}`}
+                                        src={`${serverURL}${mediaItem.replace('storage/', '')}`}
                                         alt={`Recipe Image: ${title}`}
                                         className="post-media"
                                     />
@@ -290,6 +290,7 @@ const Post: React.FC<PostType> = ({
                         ))}
                 </div>
                 <div className="post-description flex align-center justify-between">
+
                     <div className="flex flex-column align-center gap-5">
                         {ingredients ? (
                             <div className="ingredients">
