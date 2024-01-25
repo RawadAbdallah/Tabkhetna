@@ -27,7 +27,7 @@ app.use("/api/", authMiddleware, userRoutes);
 
 // Challenge routes
 const challengeRoutes = require("./routes/challenge.routes");
-app.use("/api/challenge", authMiddleware, challengeRoutes);
+app.use("/api/challenges", authMiddleware, challengeRoutes);
 
 //Post routes
 const postRoutes = require("./routes/post.routes");
