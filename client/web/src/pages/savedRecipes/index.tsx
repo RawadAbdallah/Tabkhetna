@@ -1,7 +1,7 @@
 import Header from "@/components/header";
 import "./savedRecipes.css";
 import Sidebar from "@/components/sidebar";
-import Post from "@/components/post";
+import Post from "@components/post";
 import CookmatesSidebar from "@/components/cookmatesSidebar";
 import PostType from "@/types/post";
 import { useEffect, useState } from "react";
@@ -54,6 +54,7 @@ const SavedRecipes = () => {
                                             key={i}
                                             _id={post._id}
                                             title={post.title}
+                                            posted_by={post.posted_by}
                                             uploader={post.uploader}
                                             profile_pic={post.profile_pic}
                                             createdAt={post.createdAt}
