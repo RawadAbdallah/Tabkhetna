@@ -118,6 +118,15 @@
     overflow-y: auto;
 }
 
+.add-cookmate-button{
+    width: 100%;
+    background-color: white;
+    padding: 10px;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    font-size: 100%;
+    border-radius: 12px;
+}
+
 @media (max-width: 880px) {
     .profile-info-wrapper{
         flex-direction: column;
