@@ -7,6 +7,7 @@ const User = require("../models/user.model");
  */
 const getUserProfile = async (req, res) => {
     const { userId } = req.params;
+    console.log(userId);
     try {
         const userData = await User.findById(userId).select("-password");
         if (!userData)
@@ -251,16 +252,46 @@ const rejectCookmate = async (req, res) => {
     }
 };
 
+const getPendingCookmates = async (req, res) => {
+    const user = req.user;
+    try {
+        
+        const { pending_cookmates } = await User.findById(
+            user._id,
+            "pending_cookmates"
+        );
+        const cookmates = await Promise.all(
+            pending_cookmates.map(async (cookmateId) => {
+                const cookmate = await User.findById(cookmateId).select(
+                    "_id firstname lastname email is_online profile_pic"
+                );
+                return cookmate;
+            })
+        );
+        if (cookmates && cookmates.length > 0) {
+            res.status(200).json(cookmates);
+        } else {
+            return res.status(200).json({ message: "No pending requests" });
+        }
+    } catch (e) {
+        return res.status(500).json({ error: `Something went wrong! ${e}` });
+    }
+};
+
 const checkCookmateStatus = async (req, res) => {
     const user = req.user;
     const otherUserId = req.query.userId;
     try {
-        const { cookmates, pending_cookmates } = await User.findById(user._id);
-        if (cookmates.includes(otherUserId)) {
+        const { cookmates, pending_cookmates } = await User.findById(
+            otherUserId
+        );
+        console.log("Cookmates: ", cookmates);
+        if (cookmates.includes(user._id)) {
             return res.status(200).json({ status: "cookmates" });
-        } else if (pending_cookmates.includes(otherUserId)) {
+        } else if (pending_cookmates.includes(user._id)) {
             return res.status(200).json({ status: "pending" });
         }
+        console.log("not cookmates");
         return res.status(200).json({ status: "not cookmates" });
     } catch (e) {
         console.log(e);
@@ -277,4 +308,5 @@ module.exports = {
     getProfileBasicInfo,
     getTopCookmates,
     checkCookmateStatus,
+    getPendingCookmates,
 };
