@@ -296,5 +296,4 @@ module.exports = {
     getSaves,
     getAllSavedPosts,
     getPosts,
-    getPostUploaderId,
 };
