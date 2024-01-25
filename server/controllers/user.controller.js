@@ -18,19 +18,19 @@ const getUserProfile = async (req, res) => {
     }
 };
 
-const getProfileBasicInfo = async (req, res) =>{
-    const {id} = req.params;
-    try{
-        const userFound = await User.findById(id)
-        if(!userFound){
-            return res.status(404).json({error: "user not found"})
+const getProfileBasicInfo = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const userFound = await User.findById(id);
+        if (!userFound) {
+            return res.status(404).json({ error: "user not found" });
         }
-        const {firstname, lastname, profile_pic} = userFound 
-        return res.status(200).json({firstname, lastname, profile_pic})
+        const { firstname, lastname, profile_pic } = userFound;
+        return res.status(200).json({ firstname, lastname, profile_pic });
     } catch (e) {
-        return res.status(500).json({message: "Something went wrong"})
+        return res.status(500).json({ message: "Something went wrong" });
     }
-}
+};
 
 /**
  * Get the cookmates of the currently authenticated user.
@@ -63,7 +63,7 @@ const getCookmates = async (req, res) => {
  */
 const getTopCookmates = async (req, res) => {
     const user = req.user;
-    const {id} = req.params
+    const { id } = req.params;
     // Get the top 5 cookmates' details directly from the database
     try {
         const userWithTopCookmates = await User.findById(id)
@@ -72,17 +72,33 @@ const getTopCookmates = async (req, res) => {
                 path: "cookmates",
                 select: "_id firstname lastname email is_online profile_pic",
             });
-        if(!userWithTopCookmates){
-            console.log("No cookmates")
-            return res.status(400).json({message: "No cookmates"})
+        if (!userWithTopCookmates) {
+            console.log("No cookmates");
+            return res.status(400).json({ message: "No cookmates" });
         }
         const cookmates = userWithTopCookmates.cookmates;
 
         res.status(200).json({ cookmates });
     } catch (e) {
         console.error(e);
-        return res.status(500).json({ error: `Error fetching top cookmates: ${e}` });
+        return res
+            .status(500)
+            .json({ error: `Error fetching top cookmates: ${e}` });
     }
+};
+
+const checkCookmate = async (req, res) => {
+    try {
+        const user = req.user;
+        const { id } = req.params;
+
+        // Check for self addition
+        if (user._id.toString() === id) {
+            return res
+                .status(400)
+                .json({ error: "Cannot add yourself as a cookmate" });
+        }
+    } catch (e) {}
 };
 
 /**
@@ -235,6 +251,23 @@ const rejectCookmate = async (req, res) => {
     }
 };
 
+const checkCookmateStatus = async (req, res) => {
+    const user = req.user;
+    const otherUserId = req.query.userId;
+    try {
+        const { cookmates, pending_cookmates } = await User.findById(user._id);
+        if (cookmates.includes(otherUserId)) {
+            return res.status(200).json({ status: "cookmates" });
+        } else if (pending_cookmates.includes(otherUserId)) {
+            return res.status(200).json({ status: "pending" });
+        }
+        return res.status(200).json({ status: "not cookmates" });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).json({ error: "Something went wrong" });
+    }
+};
+
 module.exports = {
     addCookmate,
     acceptCookmate,
@@ -242,5 +275,6 @@ module.exports = {
     getCookmates,
     getUserProfile,
     getProfileBasicInfo,
-    getTopCookmates
+    getTopCookmates,
+    checkCookmateStatus,
 };
