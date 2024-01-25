@@ -67,7 +67,7 @@ const getUserPosts = async (req, res) => {
     try {
         const user = await User.findById(id);
         const posts = await Post.find({ posted_by: user }).sort({
-            updatedAt: -1,
+            updatedAt: 1,
         });
         return res.status(200).json({ posts });
     } catch (e) {
@@ -296,4 +296,5 @@ module.exports = {
     getSaves,
     getAllSavedPosts,
     getPosts,
+    getPostUploaderId,
 };
