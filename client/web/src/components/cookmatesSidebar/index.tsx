@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import CookmateType from "@/types/cookmate";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
+import default_profile_pic from "@images/default_profile_pic.png"
 
 const CookmatesSidebar: React.FC = () => {
     const [topCookmates, setTopCookmates] = useState<CookmateType[]>([]);
@@ -32,8 +33,8 @@ const CookmatesSidebar: React.FC = () => {
     };
     // get user cookmates
     useEffect(() => {
-       getTopCookmates();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        getTopCookmates();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     return (
@@ -53,6 +54,15 @@ const CookmatesSidebar: React.FC = () => {
                                 <div className="flex align-center gap-5">
                                     <img
                                         src={`${serverURL}uploads/images/${cookmate.profile_pic}`}
+                                        onError={(e) => {
+                                            const imgElement =
+                                                e.target as HTMLImageElement;
+                                            if (imgElement) {
+                                                imgElement.onerror = null;
+                                                imgElement.src =
+                                                    default_profile_pic;
+                                            }
+                                        }}
                                         alt={username + "'s pic"}
                                     />
                                     <p>{username}</p>
