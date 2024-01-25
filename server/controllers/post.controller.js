@@ -137,35 +137,74 @@ const getSaves = async (req, res) => {
 };
 
 const getAllSavedPosts = async (req, res) => {
-    const user = req.user
-    try{
-        const savedPostsIds = await User.findById(user._id).select("saved_recipes")
-        const savedPosts = []
-        for (let i=0;i<savedPostsIds.saved_recipes.length; i++){
-            const savedPost = await Post.findById(savedPostsIds.saved_recipes[i])
-            if(!savedPost){
-                console.log('saved post not found')
-                continue
+    const user = req.user;
+    try {
+        const savedPostsIds = await User.findById(user._id).select(
+            "saved_recipes"
+        );
+        const savedPosts = [];
+        for (let i = 0; i < savedPostsIds.saved_recipes.length; i++) {
+            const savedPost = await Post.findById(
+                savedPostsIds.saved_recipes[i]
+            );
+            if (!savedPost) {
+                console.log("saved post not found");
+                continue;
             }
-            const savedPostUser = await User.findById(savedPost.posted_by)
+            const savedPostUser = await User.findById(savedPost.posted_by);
             const savedPostObject = savedPost.toObject();
-            savedPostObject.uploader = savedPostUser.firstname + " " + savedPostUser.lastname
-            savedPostObject.profile_pic = savedPostUser.profile_pic
+            savedPostObject.uploader =
+                savedPostUser.firstname + " " + savedPostUser.lastname;
+            savedPostObject.profile_pic = savedPostUser.profile_pic;
 
-            console.log(savedPostObject)
-            savedPosts.push(savedPostObject)
+            console.log(savedPostObject);
+            savedPosts.push(savedPostObject);
         }
 
-        return res.status(200).json(savedPosts)
-    } catch(e){
+        return res.status(200).json(savedPosts);
+    } catch (e) {
         console.log(e);
-        return res.status(500).send('server error')
+        return res.status(500).send("server error");
     }
-}
+};
 
-const getTopPosts = async (req, res) => {
-    const user = req.user;
-}
+const getPosts = async (req, res) => {
+    const page = req.query.page || 1;
+    const pageSize = req.query.pageSize || 3;
+
+    try {
+        const totalPosts = await Post.countDocuments(); // Get total number of posts
+
+        const posts = await Post.find()
+            .sort({ createdAt: -1 }) // Sort by createdAt in descending order (new to old)
+            .skip((page - 1) * pageSize) // Skip records based on the page number
+            .limit(pageSize) // Limit the number of records per page
+            .exec();
+
+        const postsWithUserInfo = await Promise.all(
+            posts.map(async (post) => {
+                const user = await User.findById(post.posted_by).select(
+                    "_id firstname lastname profile_pic"
+                );
+
+                return {
+                    ...post.toObject(),
+                    uploader: user.firstname + " " + user.lastname,
+                    profile_pic: user.profile_pic,
+                };
+            })
+        );
+
+        return res.status(200).json({
+            posts: postsWithUserInfo,
+            totalPages: Math.ceil(totalPosts / pageSize),
+            currentPage: page,
+        });
+    } catch (e) {
+        console.log(e);
+        return res.status(500).send("server error");
+    }
+};
 
 const addOrRemoveLike = async (req, res) => {
     const user = req.user;
@@ -256,4 +295,5 @@ module.exports = {
     getLikes,
     getSaves,
     getAllSavedPosts,
+    getPosts,
 };
