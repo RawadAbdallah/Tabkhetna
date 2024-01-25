@@ -33,6 +33,12 @@
     gap: 8px;
 }
 
+.media-item{
+    width:100%;
+    display: flex;
+    align-items: center;
+}
+
 .post-media {
     flex: 1;
     max-width: 100%;
