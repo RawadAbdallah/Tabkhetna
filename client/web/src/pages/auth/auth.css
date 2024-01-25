@@ -30,7 +30,7 @@
     padding: 160px 75px;
     gap: 20px;
     transition: all 0.25s ease-in-out;
-    overflow-x:hidden;
+    overflow-x: hidden;
 }
 
 .auth-container.register .auth-form {
@@ -64,11 +64,11 @@
     justify-content: space-between;
 }
 
-.auth-header div{
+.auth-header div {
     width: 50%;
 }
 
-.auth-header h1{
+.auth-header h1 {
     width: 100%;
 }
 
@@ -161,6 +161,10 @@
     gap: 15px;
 }
 
+.register .auth-footer a{
+    color: white;
+}
+
 .auth-form button {
     width: 100%;
     background-color: var(--teal-color);
@@ -177,22 +181,39 @@
     color: var(--teal-color);
 }
 
-/* Errors Styling */
-.login .field-missing{
-    color: rgb(165, 0, 0)
+.select-wrapper {
+    width: 100%;
 }
-.field-missing{
+
+.select {
+    flex: 1;
+    padding: 25px;
+    background-color: var(--teal-color);
+    color: var(--secondary-color);
+    border-radius: 12px;
+    border: 1px solid var(--secondary-color);
+    font-size: 1.2rem;
+}
+
+/* Errors Styling */
+.login .field-missing {
+    color: rgb(165, 0, 0);
+}
+.field-missing {
     color: rgb(255, 38, 0);
 }
 
-.login input.error{
-    outline:3px solid rgb(165, 0, 0);
+.login input.error {
+    outline: 3px solid rgb(165, 0, 0);
 }
 
-input.error{
+input.error {
     outline: 3px solid red;
 }
 
+select.error {
+    outline: 3px solid red;
+}
 
 /* Media Queries */
 
@@ -209,8 +230,8 @@ input.error{
         border-radius: 0px;
     }
 
-    .register .auth-form{
-      border-radius: 0px;
+    .register .auth-form {
+        border-radius: 0px;
     }
 
     .auth-body {
@@ -222,34 +243,41 @@ input.error{
 }
 
 /* Mini Tablets and Mobile Screens */
-@media (max-width:500px) {
+@media (max-width: 500px) {
+    .auth-container.register .auth-form {
+        padding: 25px 20px;
+    }
 
-  .auth-container.register .auth-form {
-    padding: 25px 20px;
-  }
+    .auth-container.login .auth-form {
+        padding: 60px 20px;
+    }
 
-  .auth-container.login .auth-form {
-    padding: 60px 20px;
-  }
-  
-  .auth-form h1 {
-    font-size: 1.4rem;
-  }
+    .auth-form h1 {
+        font-size: 1.4rem;
+    }
 
-  .auth-form input{
-    padding: 15px;
-  }
+    .auth-form input {
+        padding: 15px;
+    }
 
-  .auth-form button{
-    padding: 15px;
-  }
+    .auth-form button {
+        padding: 15px;
+    }
 
-  .auth-form .profile_pic{
-    width: 80px;
-    height: 80px;
-  }
+    .auth-form .profile_pic {
+        width: 80px;
+        height: 80px;
+    }
 
-  .auth-header img{
-    width: 100px;
-  }
+    .auth-header img {
+        width: 100px;
+    }
+
+    .select-options{
+        flex-direction: column;
+    }
+
+    .select-wrapper select{
+        padding: 15px;
+    }
 }
