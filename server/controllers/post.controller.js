@@ -31,10 +31,11 @@ const addPost = async (req, res) => {
         if (!cuisine) {
             return res.status(400).json({ error: "Cuisine is required" });
         }
-
+        console.log("BEFORE:", req.files)
         const media = req.files.map((file) =>
             file.path.replace(/^storage\\/, "")
         );
+        console.log("AFTER:", req.files)
         const newPost = new Post({
             title,
             ingredients,
@@ -161,6 +162,10 @@ const getAllSavedPosts = async (req, res) => {
         console.log(e);
         return res.status(500).send('server error')
     }
+}
+
+const getTopPosts = async (req, res) => {
+    const user = req.user;
 }
 
 const addOrRemoveLike = async (req, res) => {
