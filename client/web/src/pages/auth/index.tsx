@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import Loader from "@components/loader";
 import upload_icon from "@images/upload_icon.svg";
 import Credentials from "@/types/credentials";
-import { getUser, saveUser, validateForm} from "@/utils/helpers";
+import { getUser, saveUser, validateForm } from "@/utils/helpers";
 import SEO from "@utils/seo";
 import { request } from "@services/request";
 import { setUser } from "@/redux/userSlice";
@@ -15,14 +15,32 @@ const Auth: React.FC = () => {
     //Use States
     const [isLoading, setIsLoading] = useState(false);
     const [isLogin, setIsLogin] = useState<boolean>(true);
+    const countries = [
+        "Country",
+        "Lebanon",
+        "United State",
+        "France",
+        "Iraq",
+        "Palestine",
+        "Saudi Arabia",
+        "Jordan",
+        "Italy",
+        "Mexico",
+        "Spain",
+        "Portogul",
+        "Germany",
+        "Other",
+    ];
     const [credentials, setCredentials] = useState<Credentials>({
         firstname: "",
         lastname: "",
         email: "",
         password: "",
+        gender: "",
         confirm_password: "",
         profile_pic: undefined,
         keep_me_logged_in: false,
+        country: "",
     });
     const [formText, setFormText] = useState({
         header_title: "Welcome Back! Let's Start Cooking",
@@ -35,8 +53,10 @@ const Auth: React.FC = () => {
         firstname: "",
         lastname: "",
         email: "",
+        gender: "",
         password: "",
         confirm_password: "",
+        country: "",
     });
 
     const navigate = useNavigate();
@@ -57,7 +77,7 @@ const Auth: React.FC = () => {
 
     useEffect(() => {
         //Check if user is saved in localStorage
-        if(getUser()){
+        if (getUser()) {
             navigate("/");
         }
         setFormText(getFormText);
@@ -68,10 +88,12 @@ const Auth: React.FC = () => {
         setIsLogin(!isLogin);
         setIsInvalid({
             firstname: "",
+            gender: "",
             lastname: "",
             email: "",
             password: "",
             confirm_password: "",
+            country: "",
         });
     };
 
@@ -149,7 +171,9 @@ const Auth: React.FC = () => {
     };
 
     //Handles form change
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
         const name = e.target.name;
         setCredentials((prev) => ({ ...prev, [`${name}`]: e.target.value }));
         setIsInvalid((prev) => ({ ...prev, [`${name}`]: "" }));
@@ -182,7 +206,7 @@ const Auth: React.FC = () => {
                         response.data.user;
                     dispatch(
                         setUser({
-                            id:_id,
+                            id: _id,
                             token,
                             firstname,
                             lastname,
@@ -190,7 +214,14 @@ const Auth: React.FC = () => {
                             profile_pic,
                         })
                     );
-                    saveUser(_id, email, firstname, lastname, profile_pic, token)
+                    saveUser(
+                        _id,
+                        email,
+                        firstname,
+                        lastname,
+                        profile_pic,
+                        token
+                    );
                     navigate("/");
                 } else if (response && response.status === 401) {
                     setIsInvalid((prev) => ({
@@ -200,7 +231,7 @@ const Auth: React.FC = () => {
                 } else {
                     setIsInvalid((prev) => ({
                         ...prev,
-                        email: "Something went wrong. Try refreshing the page",
+                        email: JSON.stringify(response?.data.error),
                     }));
                 }
             } else {
@@ -211,19 +242,25 @@ const Auth: React.FC = () => {
                     confirm_password,
                     lastname,
                     firstname,
+                    gender,
+                    country,
                 } = isInvalid;
                 if (
                     !email &&
                     !password &&
                     !confirm_password &&
                     !lastname &&
-                    !firstname
+                    !firstname &&
+                    !gender &&
+                    !country
                 ) {
                     const formData = new FormData();
                     formData.append("email", credentials.email);
                     formData.append("password", credentials.password);
                     formData.append("firstname", credentials.firstname);
                     formData.append("lastname", credentials.lastname);
+                    formData.append("gender", credentials.gender);
+                    formData.append("country", credentials.country);
 
                     if (credentials.profile_pic instanceof File) {
                         formData.append(
@@ -239,9 +276,8 @@ const Auth: React.FC = () => {
                         body: formData,
                         method: "POST",
                         headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                        
+                            "Content-Type": "multipart/form-data",
+                        },
                     });
 
                     if (response && response.status === 200) {
@@ -325,6 +361,46 @@ const Auth: React.FC = () => {
                         </div>
                     )}
                     <p>Enter your credentials</p>
+
+                    {!isLogin && (
+                        <div className="flex gap-3">
+                            <div className="w-50">
+                                {isInvalid.firstname && (
+                                    <span className="field-missing">
+                                        {isInvalid.firstname}
+                                    </span>
+                                )}
+                                <input
+                                    type="text"
+                                    placeholder="Firstname"
+                                    id="firstname"
+                                    name="firstname"
+                                    onChange={handleChange}
+                                    className={
+                                        isInvalid.firstname ? "error" : ""
+                                    }
+                                />
+                            </div>
+                            <div className="w-50">
+                                {isInvalid.lastname && (
+                                    <span className="field-missing">
+                                        {isInvalid.lastname}
+                                    </span>
+                                )}
+                                <input
+                                    type="text"
+                                    placeholder="Lastname"
+                                    id="lastname"
+                                    name="lastname"
+                                    onChange={handleChange}
+                                    className={
+                                        isInvalid.lastname ? "error" : ""
+                                    }
+                                />
+                            </div>
+                        </div>
+                    )}
+
                     {isInvalid.email && (
                         <span className="field-missing">{isInvalid.email}</span>
                     )}
@@ -336,6 +412,7 @@ const Auth: React.FC = () => {
                         onChange={handleChange}
                         className={isInvalid.email ? "error" : ""}
                     />
+
                     {isInvalid.password && (
                         <span className="field-missing">
                             {isInvalid.password}
@@ -371,42 +448,66 @@ const Auth: React.FC = () => {
                         </>
                     )}
                     {!isLogin && (
-                        <div>
-                            <div className="flex gap-3">
-                                <div className="w-50">
-                                    {isInvalid.firstname && (
-                                        <span className="field-missing">
-                                            {isInvalid.firstname}
-                                        </span>
-                                    )}
-                                    <input
-                                        type="text"
-                                        placeholder="Firstname"
-                                        id="firstname"
-                                        name="firstname"
-                                        onChange={handleChange}
-                                        className={
-                                            isInvalid.firstname ? "error" : ""
-                                        }
-                                    />
-                                </div>
-                                <div className="w-50">
-                                    {isInvalid.lastname && (
-                                        <span className="field-missing">
-                                            {isInvalid.lastname}
-                                        </span>
-                                    )}
-                                    <input
-                                        type="text"
-                                        placeholder="Lastname"
-                                        id="lastname"
-                                        name="lastname"
-                                        onChange={handleChange}
-                                        className={
-                                            isInvalid.lastname ? "error" : ""
-                                        }
-                                    />
-                                </div>
+                        <div className="select-options flex gap-3">
+                            <div className="select-wrapper flex flex-column gap-3">
+                                {isInvalid.gender && (
+                                    <span className="field-missing">
+                                        {isInvalid.gender}
+                                    </span>
+                                )}
+                                <select
+                                    title="Gender"
+                                    className={`${
+                                        isInvalid.gender ? "error" : ""
+                                    } select`}
+                                    name="gender"
+                                    onChange={handleChange}
+                                    defaultValue={""}
+                                >
+                                    <option value="" disabled>
+                                        Gender
+                                    </option>
+                                    <option value={"male"}>Male</option>
+                                    <option value={"female"}>Female</option>
+                                </select>
+                            </div>
+                            <div className="select-wrapper flex flex-column gap-3">
+                                {isInvalid.country && (
+                                    <span className="field-missing">
+                                        {isInvalid.country}
+                                    </span>
+                                )}
+                                <select
+                                    title="Country"
+                                    className={`${
+                                        isInvalid.country ? "error" : ""
+                                    } select`}
+                                    name="country"
+                                    id="country"
+                                    defaultValue={""}
+                                    onChange={handleChange}
+                                >
+                                    {countries.map((item, index) => {
+                                        if (index === 0)
+                                            return (
+                                                <option
+                                                    key={item + index}
+                                                    value=""
+                                                    disabled
+                                                >
+                                                    {item}
+                                                </option>
+                                            );
+                                        return (
+                                            <option
+                                                key={item + index}
+                                                value={item.toLowerCase()}
+                                            >
+                                                {item}
+                                            </option>
+                                        );
+                                    })}
+                                </select>
                             </div>
                         </div>
                     )}
