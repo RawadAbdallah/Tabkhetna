@@ -5,7 +5,6 @@ import axios, { AxiosResponse, AxiosError } from "axios";
 axios.defaults.baseURL = `http://${import.meta.env.VITE_BASE_URL}/`;
 export const serverURL =  `http://${import.meta.env.VITE_SERVER_URL}/`;
 
-console.log(axios.defaults.baseURL)
 type RequestOptions = {
     route: string;
     method?: string;
@@ -33,11 +32,7 @@ export const request = async ({
             const axiosError = error as AxiosError;
             if (axiosError.response) {
                 // There is a response from the server
-                const { status, data } = axiosError.response;
-                console.log(
-                    `Error in API Request - Status: ${status}, Message: ${data}`
-                );
-                return axiosError.response;
+                    return axiosError.response;
             } else {
                 // The error is not a server response error
                 console.log("Error in API Request:", axiosError.message);
