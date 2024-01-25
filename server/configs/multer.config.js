@@ -17,12 +17,12 @@ const getDestination = function (req, file, cb) {
     }
 
     // Ensure that the destination folder exists
-    const fullPath = path.join(__dirname, "..", "storage", "uploads", destinationFolder);
+    const fullPath = path.join(__dirname, "..", "uploads", destinationFolder);
     if (!fs.existsSync(fullPath)) {
         fs.mkdirSync(fullPath, { recursive: true });
     }
 
-    cb(null, path.join("storage", "uploads", destinationFolder));
+    cb(null, path.join("uploads", destinationFolder));
 };
 
 const storage = multer.diskStorage({
