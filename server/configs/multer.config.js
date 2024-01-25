@@ -22,7 +22,7 @@ const getDestination = function (req, file, cb) {
         fs.mkdirSync(fullPath, { recursive: true });
     }
 
-    cb(null, path.join("uploads", destinationFolder));
+    cb(null, path.join("storage", "uploads", destinationFolder));
 };
 
 const storage = multer.diskStorage({
