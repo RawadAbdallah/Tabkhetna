@@ -6,7 +6,7 @@ import bell_icon from "@images/bell_icon.svg";
 import message_icon from "@images/message_icon.svg";
 import default_profile_pic from "@images/default_profile_pic.png";
 import "./header.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import { serverURL } from "@/services/request";
@@ -16,10 +16,12 @@ const Header: React.FC = () => {
     const user = useSelector((state: RootState) => {
         return state.user;
     });
+    
     const showMenu = () => {
         setIsMenuClicked(!isMenuClicked);
     };
 
+    useEffect(()=>{}, [user])
     return (
         <div className="header-wrapper">
             <Link to={"/"} className="logo-wrapper">
@@ -40,8 +42,15 @@ const Header: React.FC = () => {
                 <Link to={`/profile/${user.id}`}>
                     <img
                         className="icon"
-                        src={`${serverURL}uploads/images/${user.profile_pic}` || default_profile_pic}
-                        alt="profile"
+                        src={`${serverURL}uploads/images/${user.profile_pic}`}
+                        onError={(e) => {
+                            const imgElement =
+                                e.target as HTMLImageElement;
+                            if (imgElement) {
+                                imgElement.onerror = null;
+                                imgElement.src = default_profile_pic;
+                            }
+                        }}alt="profile"
                     />
                 </Link>
             </div>
