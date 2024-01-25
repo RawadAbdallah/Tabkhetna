@@ -7,7 +7,8 @@ const {
     getUserProfile,
     getTopCookmates,
     getProfileBasicInfo,
-    checkCookmateStatus
+    checkCookmateStatus,
+    getPendingCookmates
 } = require("../controllers/user.controller");
 const router = express.Router();
 
@@ -17,6 +18,7 @@ router.post("/cookmates/reject/:id", rejectCookmate);
 router.get("/cookmates", getCookmates);
 router.get('/cookmates/top/:id', getTopCookmates)
 router.get('/cookmates/checkStatus', checkCookmateStatus)
+router.get("/cookmates/pending", getPendingCookmates)
 router.get("/profile/:userId", getUserProfile);
 router.get('/profile/basicInfo/:id', getProfileBasicInfo)
 
