@@ -31,11 +31,10 @@ const addPost = async (req, res) => {
         if (!cuisine) {
             return res.status(400).json({ error: "Cuisine is required" });
         }
-        console.log("BEFORE:", req.files)
-        const media = req.files.map((file) =>
-            file.path.replace('storage\\', "")
-        );
-        console.log("AFTER:", req.files)
+        req.files.forEach((file) => {
+            file.path = file.path.replace('storage\\', "");
+        });
+        
         const newPost = new Post({
             title,
             ingredients,
