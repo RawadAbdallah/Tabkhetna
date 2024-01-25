@@ -82,6 +82,13 @@ const register = async (req, res) => {
         .json({ error: "Gender is required" });
     }
 
+    if(!country){
+        return res
+        .status(400)
+        .json({ error: "Country is required" });
+    }
+
+
     // Check if email is already registered
     let user = await User.findOne({ email: email }).catch((e) => {
         console.log(e);
