@@ -3,6 +3,8 @@ type Credentials = {
   lastname: string;
   email: string;
   password: string;
+  gender: string,
+  country: string,
   confirm_password: string;
   profile_pic?: File;
   keep_me_logged_in?: boolean;
