@@ -34,8 +34,6 @@ const Cookmates: React.FC = () => {
                             "Content-Type": "application/json",
                         },
                     });
-                    console.log(result?.data.cookmates);
-                    // Update state with cookmates
                     setCookmates(result?.data.cookmates || []);
                     setIsLoading(false);
                 }
@@ -59,14 +57,14 @@ const Cookmates: React.FC = () => {
                         <div className="flex gap-5 align-center justify-between">
                             <Search />
                             <Link
-                                to="/pending-cookmates"
+                                to="/cookmates/pending"
                                 className="pending-cookmates-link"
                             >
                                 Pending cookmates requests
                             </Link>
                         </div>
                         <div className="cookmates-wrapper">
-                            <ul className="flex flex-wrap">
+                            <ul className="flex flex-wrap gap-5">
                                 {cookmates && cookmates.length > 0 ? (
                                     cookmates.map((cookmate) => {
                                         return (
