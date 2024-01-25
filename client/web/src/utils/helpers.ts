@@ -18,8 +18,15 @@ export const validateForm = (
     credentials: Credentials,
     setIsInvalid: React.Dispatch<React.SetStateAction<Credentials>>
 ) => {
-    const { email, firstname, lastname, password, confirm_password } =
-        credentials;
+    const {
+        email,
+        firstname,
+        lastname,
+        password,
+        confirm_password,
+        gender,
+        country,
+    } = credentials;
     //email validation
     const emailError = validateEmail(email);
     if (emailError) {
@@ -72,6 +79,20 @@ export const validateForm = (
             lastname: "Lastname should be at least 2 characters",
         }));
     }
+
+    if (!gender) {
+        setIsInvalid((prev) => ({
+            ...prev,
+            gender: "Select a gender",
+        }));
+    }
+
+    if (!country) {
+        setIsInvalid((prev) => ({
+            ...prev,
+            country: "Please select your Country",
+        }));
+    }
 };
 
 // Go back feature function
@@ -79,7 +100,6 @@ export const validateForm = (
 export const goBack = () => {
     window.history.back();
 };
-
 
 // Authentication helpers
 
@@ -105,10 +125,10 @@ export const getUser = (): string | null => {
 export const checkAuthentication = (): boolean => {
     const user = getUser();
     return user !== null && isValidSession(user);
-  };
-  
-  const isValidSession = (user: string): boolean => {
+};
+
+const isValidSession = (user: string): boolean => {
     const parsedUser = JSON.parse(user);
-    const token = parsedUser.token
+    const token = parsedUser.token;
     return parsedUser && token;
-  };
+};
