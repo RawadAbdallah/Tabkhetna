@@ -14,9 +14,13 @@ import UserDetailsType from "@/types/userDetailsType";
 import PostItemList from "../postItemList";
 import Loader from "../loader";
 
+import default_profile_pic from "@images/default_profile_pic.png";
+import { Link } from "react-router-dom";
+
 const Post: React.FC<PostType> = ({
     _id,
     uploader,
+    posted_by,
     profile_pic,
     createdAt,
     title,
@@ -35,7 +39,7 @@ const Post: React.FC<PostType> = ({
     const [comment, setComment] = useState<string>("");
     const [comments, setComments] = useState<CommentType[]>(initialComments);
     const [commentError, setCommentError] = useState<string>("");
-    const [likeCounter, setLikeCounter] = useState<number>(likes.length);
+    const [likeCounter, setLikeCounter] = useState<number>(likes?.length || 0);
     const [saveCounter, setSaveCounter] = useState<number>(0);
     const user = useSelector((state: RootState) => state.user);
 
@@ -50,7 +54,7 @@ const Post: React.FC<PostType> = ({
             });
             if (response && response.status === 200)
                 setLikeCounter(response.data);
-            else setLikeCounter(likes.length);
+            else setLikeCounter(likes?.length || 0);
         } catch (e) {
             console.log(e);
         }
@@ -67,7 +71,7 @@ const Post: React.FC<PostType> = ({
             });
             if (response && response.status === 200)
                 setSaveCounter(response.data);
-            else setSaveCounter(saves.length);
+            else setSaveCounter(saves?.length || 0);
         } catch (e) {
             console.log(e);
         }
@@ -253,9 +257,19 @@ const Post: React.FC<PostType> = ({
     return (
         <div className="post flex flex-column gap-5">
             {isLoading && <Loader />}
-            <div className="post-header flex align-center gap-5">
+            <Link
+                to={`/profile/${posted_by}`}
+                className="post-header flex align-center gap-5"
+            >
                 <img
                     src={`${serverURL}uploads/images/${profile_pic}`}
+                    onError={(e) => {
+                        const imgElement = e.target as HTMLImageElement;
+                        if (imgElement) {
+                            imgElement.onerror = null;
+                            imgElement.src = default_profile_pic;
+                        }
+                    }}
                     alt={`${uploader}'s profile`}
                     className="profile-pic"
                 />
@@ -263,16 +277,22 @@ const Post: React.FC<PostType> = ({
                     <p>{uploader}</p>
                     <p>{getTimeDifference(createdAt)}</p>
                 </div>
-            </div>
+            </Link>
             <div className="post-content">
                 <h2>{title}</h2>
                 <div className="media-container">
                     {media &&
                         media.map((mediaItem) => (
-                            <div key={mediaItem + commentsKey}>
+                            <div
+                                key={mediaItem + commentsKey}
+                                className="media-item"
+                            >
                                 {isImage(mediaItem) ? (
                                     <img
-                                        src={`${serverURL}${mediaItem.replace('storage/', '')}`}
+                                        src={`${serverURL}${mediaItem.replace(
+                                            "storage/",
+                                            ""
+                                        )}`}
                                         alt={`Recipe Image: ${title}`}
                                         className="post-media"
                                     />
@@ -290,7 +310,6 @@ const Post: React.FC<PostType> = ({
                         ))}
                 </div>
                 <div className="post-description flex align-center justify-between">
-
                     <div className="flex flex-column align-center gap-5">
                         {ingredients ? (
                             <div className="ingredients">
@@ -377,6 +396,15 @@ const Post: React.FC<PostType> = ({
                                     >
                                         <img
                                             src={`${serverURL}uploads/images/${userCommentDetails.profile_pic}`}
+                                            onError={(e) => {
+                                                const imgElement =
+                                                    e.target as HTMLImageElement;
+                                                if (imgElement) {
+                                                    imgElement.onerror = null;
+                                                    imgElement.src =
+                                                        default_profile_pic;
+                                                }
+                                            }}
                                             alt={`${userCommentDetails.firstname}'s profile`}
                                             className="comment-pic"
                                         />
