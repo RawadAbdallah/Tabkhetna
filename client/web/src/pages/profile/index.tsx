@@ -17,7 +17,12 @@ const Profile: React.FC = () => {
     const user = useSelector((state: RootState) => {
         return state.user;
     });
+
+    const [cookmateMessage, setCookmateMessage] = useState("Add Cookmate");
+    const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
     const { userId } = useParams();
+    const [cookmateStatus, setCookmateStatus] =
+        useState<string>("not cookmates");
     const [profileData, setProfileData] = useState<UserType>({
         _id: "",
         firstname: "",
@@ -117,12 +122,57 @@ const Profile: React.FC = () => {
             console.log(e);
         }
     };
+
+    const getCookmateStatus = async () => {
+        try {
+            const response = await request({
+                route: `/cookmates/checkStatus?userId=${userId}`,
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                },
+            });
+            setCookmateStatus(response?.data.status);
+            console.log("Cookmates status: ", cookmateStatus)
+        } catch (e) {
+            return null;
+        }
+    };
+
+    const addCookmate = async () => {
+        try {
+            const response = await request({
+                route: `/cookmates/add/${userId}`,
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                    "Content-Type": "application/json",
+                    "Access-Control-Allow-Origin": "*",
+                },
+            });
+            if (response && response.status === 200)
+                setCookmateMessage("Pending accept");
+            else if (response && response.status === 409)
+            {
+                setCookmateMessage("Cookmates already");
+                alert(response.data.error)
+            }
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     useEffect(() => {
-        getProfileData();
-        getTopCookmates();
-        getProfilePosts();
+        if (userId == user.id) setIsMyProfile(true);
+        else setIsMyProfile(false);
+        if (user.token) {
+            getProfileData();
+            getTopCookmates();
+            getProfilePosts();
+            getCookmateStatus();
+        }
+        console.log(cookmateStatus)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user]);
+    }, [user, cookmateStatus]);
 
     return (
         <div className="profile-page">
@@ -145,9 +195,32 @@ const Profile: React.FC = () => {
                                     }
                                 }}
                             />
+
                             <h2 className="profile-username">
                                 {profileData.firstname} {profileData.lastname}
                             </h2>
+                            {!isMyProfile && (
+                                <div
+                                    className="add-cookmate-wrapper"
+                                    onClick={addCookmate}
+                                >
+                                    <button
+                                        className="add-cookmate-button"
+                                        onClick={addCookmate}
+                                        disabled={
+                                            cookmateStatus === "not cookmates"
+                                                ? false
+                                                : true
+                                        }
+                                    >
+                                        {cookmateStatus === "not cookmates"
+                                            ? "Add Cookmates"
+                                            : cookmateStatus === "cookmates"
+                                            ? "Cookmates"
+                                            : "Pending request"}
+                                    </button>
+                                </div>
+                            )}
                         </div>
                         <div className="achievements-wrapper flex align-center gap-5">
                             <div className="flex flex-column align-center">
@@ -178,8 +251,11 @@ const Profile: React.FC = () => {
                             {profileData.posts &&
                             profileData.posts.length > 0 ? (
                                 profileData.posts.map((post, index) => {
-                                    if(!post.ingredients && !post.instructions){
-                                        return null
+                                    if (
+                                        !post.ingredients &&
+                                        !post.instructions
+                                    ) {
+                                        return null;
                                     }
                                     return (
                                         <Post
@@ -188,6 +264,7 @@ const Profile: React.FC = () => {
                                                 post.uploader +
                                                 index
                                             }
+                                            posted_by={post.posted_by}
                                             _id={post._id}
                                             title={post.title}
                                             uploader={
@@ -224,7 +301,7 @@ const Profile: React.FC = () => {
                                     src="/src/assets/images/cookmates_icon.svg"
                                     alt="cookmates icon"
                                 />
-                                <p>{topCookmates.length} cookmate(s)</p>
+                                <p>{topCookmates?.length | 0} cookmate(s)</p>
                             </div>
                             {topCookmates && topCookmates.length > 0 ? (
                                 <ul className="profile-cookmates-list">
