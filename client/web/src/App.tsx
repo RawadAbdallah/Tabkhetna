@@ -6,16 +6,17 @@ import Home from "@pages/home";
 import Cookmates from "@pages/cookmates";
 import Profile from "@pages/profile";
 import Support from '@pages/support';
-import Error from "@components/error";
+import SavedRecipes from "@pages/savedRecipes";
+import Challenges from "@pages/challenges";
+import PendingCookmates from "@pages/pendingCookmates";
+import AdminPage from "@pages/admin";
+import Error from "@/components/error";
 
 // importing styles
 import "@styles/reset.css";
 import "@styles/global.css";
-import AdminPage from "@pages/admin";
 
 import withAuthentication from "@utils/withAuthentication";
-import SavedRecipes from "./pages/savedRecipes";
-import Challenges from "./pages/challenges";
 
 // passing pages to the authentication HOC
 const AuthenticatedHome = withAuthentication(Home);
@@ -24,6 +25,7 @@ const AuthenticatedProfile = withAuthentication(Profile);
 const AuthenticatedAdminPage = withAuthentication(AdminPage);
 const AuthenticatedSavedRecipesPage = withAuthentication(SavedRecipes);
 const AuthenticatedChallengesPage = withAuthentication(Challenges);
+const AuthenticatedPendingCookmates = withAuthentication(PendingCookmates);
 const AuthenticatedSupportPage = withAuthentication(Support);
 function App() {
     return (
@@ -37,6 +39,7 @@ function App() {
                 <Route path="/support" element={<AuthenticatedSupportPage />} />
                 <Route path="/challenges" element={<AuthenticatedChallengesPage />} />
                 <Route path="/savedRecipes" element={<AuthenticatedSavedRecipesPage/>} />
+                <Route path="/cookmates/pending" element={<AuthenticatedPendingCookmates/>} />
                 <Route
                     path="/unauthorized"
                     element={
