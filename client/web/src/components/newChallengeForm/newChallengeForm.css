@@ -1,0 +1,75 @@
+.challenge-form {
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: var(--teal-color);
+  color: white;
+}
+
+.challenge-form .form-group {
+  margin-bottom: 15px;
+}
+
+.challenge-form label {
+  display: block;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.challenge-form input,
+textarea {
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  width: 100%;
+  font-size: 1rem;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  color: var(--teal-color);
+  transition: all 0.25s ease-in-out;
+}
+
+.file-label {
+  display: inline-block;
+  padding: 10px;
+  background-color: white;
+  max-width: 300px;
+  margin:0 auto;
+  color: var(--teal-color);
+  cursor: pointer;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+.file-label:hover {
+  transform: scale(1.04);
+}
+
+.form-group .selected-image {
+  width:80%;
+  aspect-ratio: 1/1;
+  height: auto;
+  margin: 10px auto;
+  border-radius: 5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+
+.challenge-form button {
+  display: block;
+  background-color: var(--secondary-color);
+  color: var(--teal-color);
+  font-weight: bold;
+  padding: 10px 20px;
+  font-family: 'Poppins', Arial, Helvetica, sans-serif;
+  font-size: 1rem;
+  margin: 0 auto;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.challenge-form button:hover {
+  transform: scale(1.04);
+}
