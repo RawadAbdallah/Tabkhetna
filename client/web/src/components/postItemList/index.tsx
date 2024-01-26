@@ -6,7 +6,7 @@ interface ItemListProps {
 
 
 const PostItemList: React.FC<ItemListProps> = ({ inputString }) => {
-  const items = inputString.split(",").filter((item) => item.trim() !== "");
+  const items = inputString.split("-").filter((item) => item.trim() !== "");
 
   return (
       <ul className="post-item-list">
