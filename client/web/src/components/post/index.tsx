@@ -31,7 +31,6 @@ const Post: React.FC<PostType> = ({
     saves,
     media,
 }) => {
-    const [commentsKey, setCommentsKey] = useState<number>(0);
     const [isLoading, setIsLoading] = useState(false);
     const [ingredients, setIngredients] = useState(ingredientList);
     const [instructions, setInstructions] = useState(instructionsList);
@@ -42,6 +41,18 @@ const Post: React.FC<PostType> = ({
     const [likeCounter, setLikeCounter] = useState<number>(likes?.length || 0);
     const [saveCounter, setSaveCounter] = useState<number>(0);
     const user = useSelector((state: RootState) => state.user);
+
+
+    useEffect(() => {
+      const fetchUserDetailsForComments = async () => {
+          const details = await fetchUserDetails(comments);
+          setUserDetails(details);
+      };
+      getLikes();
+      getSaves();
+      fetchUserDetailsForComments();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [comments, likeCounter, saveCounter, instructions, ingredients]);
 
     const getLikes = async () => {
         try {
@@ -76,16 +87,6 @@ const Post: React.FC<PostType> = ({
             console.log(e);
         }
     };
-    useEffect(() => {
-        const fetchUserDetailsForComments = async () => {
-            const details = await fetchUserDetails(comments);
-            setUserDetails(details);
-        };
-        getLikes();
-        getSaves();
-        fetchUserDetailsForComments();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [comments, likeCounter, saveCounter, instructions, ingredients]);
 
     const checkCommentKeyStrokes = (
         e: React.KeyboardEvent<HTMLInputElement>
@@ -99,15 +100,10 @@ const Post: React.FC<PostType> = ({
     };
 
     const handleCommentSubmit = async () => {
-        const { firstname, lastname, profile_pic } = user;
         if (!comment) {
             setCommentError("Comment cannot be empty");
         } else {
-            setComments((prev) => [
-                { firstname, lastname, profile_pic, comment },
-                ...prev,
-            ]);
-            setCommentsKey((prevKey) => prevKey + 1);
+      
             try {
                 const response = await request({
                     route: "/post/add-comment",
@@ -117,7 +113,13 @@ const Post: React.FC<PostType> = ({
                         Authorization: `Bearer ${user.token}`,
                     },
                 });
+                if (response && response.status === 200){
 
+                  console.log(response.data.comment)
+                  setComments(prev => {
+                    return [...prev, response.data.comment];
+                  })
+                }
                 if (response && response.status === 400)
                     setCommentError(`Error: ${response?.data.error}`);
             } catch (e) {
@@ -125,6 +127,7 @@ const Post: React.FC<PostType> = ({
             }
 
             setComment("");
+            window.location.reload()
         }
     };
 
@@ -284,7 +287,7 @@ const Post: React.FC<PostType> = ({
                     {media &&
                         media.map((mediaItem) => (
                             <div
-                                key={mediaItem + commentsKey}
+                                key={mediaItem}
                                 className="media-item"
                             >
                                 {isImage(mediaItem) ? (
@@ -385,7 +388,7 @@ const Post: React.FC<PostType> = ({
                     </div>
                 </div>
                 <div className="comments">
-                    {comments &&
+                    {comments.length > 0 &&
                         comments.map((comment, index) => {
                             const userCommentDetails = userDetails[index];
                             if (userCommentDetails) {
