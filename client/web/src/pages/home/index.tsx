@@ -5,7 +5,7 @@ import CookmatesSidebar from "@/components/cookmatesSidebar";
 import Post from "@components/post";
 import "./home.css";
 import SEO from "@/utils/seo";
-import { useEffect, useState } from "react";
+import { HtmlHTMLAttributes, useEffect, useRef, useState } from "react";
 import PostType from "@/types/post";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -17,13 +17,15 @@ const Home: React.FC = () => {
         description: "Tabkhetna's home page",
     });
     const user = useSelector((state: RootState) => state.user);
-    const [scrollPage, setScrollPage] = useState<number>(1);
+    const [page, setPage] = useState<number>(1);
     const [posts, setPosts] = useState<PostType[]>([]);
-    console.log(posts.length)
+    const postContainerRef = useRef<HTMLDivElement>(null);
+    const [scrollY, setScrollY] = useState(0);
+    const [isAtBottom, setIsAtBottom] = useState<boolean>(false);
     const getPosts = async () => {
         try {
             const response = await request({
-                route: `/post?page=${scrollPage}`,
+                route: `/post?page=${page}`,
                 headers: {
                     Authorization: `Bearer ${user.token}`,
                 },
@@ -31,13 +33,11 @@ const Home: React.FC = () => {
 
             if (response && response.status === 200) {
                 setPosts((prev) => {
-                    const newPosts = [...prev]
-                    newPosts.push(...response.data.posts)
-                    return newPosts
-                 });
+                    const newPosts = [...prev];
+                    newPosts.push(...response.data.posts);
+                    return newPosts;
+                });
             }
-
-            console.log("POSTS", [...posts])
         } catch (e) {
             return null;
         }
@@ -45,21 +45,51 @@ const Home: React.FC = () => {
 
     useEffect(() => {
         if (user.token) getPosts();
+       
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
+
+     useEffect(() => {
+        // Log the updated scrollY value
+        const handleScroll = () => {
+            const newY = postContainerRef.current?.scrollTop;
+            const maxScroll =(
+                (postContainerRef.current?.scrollHeight || 0) -
+                (postContainerRef.current?.clientHeight || 0) - 100);
+
+                if(newY){
+                    setScrollY(newY);
+                    setIsAtBottom(newY >= maxScroll);
+                }
+        };
+
+        if(isAtBottom){
+            setPage(prev=> prev + 1)
+            getPosts();
+        }
+
+        postContainerRef.current?.addEventListener("scroll", handleScroll);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [scrollY, isAtBottom]);
     return (
         <div className="home-page">
             <Header />
             <div className="home-main flex">
                 <Sidebar current_page="home" />
-                <section className="main-section flex flex-column gap-5">
+                <section
+                    className="main-section flex flex-column gap-5"
+                    ref={postContainerRef}
+                >
                     <CreatePost />
                     <div className="posts-container flex flex-column gap-5">
-                        {posts && posts.length > 0 &&
+                        {posts &&
+                            posts.length > 0 &&
                             posts.map((post, i) => {
                                 return (
                                     <Post
                                         key={i}
                                         _id={post._id}
+                                        posted_by={post.posted_by}
                                         title={post.title}
                                         uploader={post.uploader}
                                         profile_pic={post.profile_pic}
