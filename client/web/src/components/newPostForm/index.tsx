@@ -144,7 +144,7 @@ const NewPostForm = () => {
                         value={postDetails.title}
                         onChange={handleInputChange}
                     />
-                    <p className="form-tip">For Each instruction/ingredient item seperate it by a comma (i.e: eggs, flour)</p>
+                    <p className="form-tip">For Each instruction/ingredient item seperate it by a dash (i.e: eggs -flour)</p>
                     <input
                         type="text"
                         placeholder="Instructions List"
