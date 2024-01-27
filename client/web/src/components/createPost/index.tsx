@@ -11,13 +11,18 @@ import { RootState } from "@/store";
 import { serverURL } from "@/services/request";
 import { useState } from "react";
 import NewPostForm from "../newPostForm";
-
+import NewChallengeForm from "../newChallengeForm";
 const CreatePost: React.FC = () => {
     const user = useSelector((state: RootState) => state.user);
     const [showPostForm, setShowPostForm] = useState(false);
-
+    const [showChallengeForm, setShowChallengeForm] = useState(false)
     const togglePostForm = () => {
+        setShowChallengeForm(false);
         setShowPostForm(!showPostForm);
+    };  
+    const toggleChallengeForm = () => {
+        setShowPostForm(false);
+        setShowChallengeForm(!showChallengeForm);
     };
 
     return (
@@ -39,6 +44,7 @@ const CreatePost: React.FC = () => {
             </div>
 
             {showPostForm && <NewPostForm />}
+            {showChallengeForm && <NewChallengeForm />}
 
             <div className="create-post-types-container">
                 <ul className="post-types flex justify-between">
@@ -72,7 +78,7 @@ const CreatePost: React.FC = () => {
                         />
                         Video
                     </li>
-                    <li className="flex align-center gap-1">
+                    <li className="flex align-center gap-1" onClick={toggleChallengeForm}>
                         <Icon
                             img={challenge_icon}
                             alt="challenge icon"
