@@ -44,7 +44,7 @@ const Cookmates: React.FC = () => {
 
         getCookmates();
     }, [user]);
-    
+
     return (
         <div className="cookmates-page">
             {isLoading && <Loader />}
@@ -75,6 +75,16 @@ const Cookmates: React.FC = () => {
                                                             `${serverURL}uploads/images/${cookmate.profile_pic}` ||
                                                             default_profile_pic
                                                         }
+                                                        onError={(e) => {
+                                                            const imgElement =
+                                                                e.target as HTMLImageElement;
+                                                            if (imgElement) {
+                                                                imgElement.onerror =
+                                                                    null;
+                                                                imgElement.src =
+                                                                    default_profile_pic;
+                                                            }
+                                                        }}
                                                         alt={
                                                             cookmate.firstname +
                                                             "'s profile pic"
