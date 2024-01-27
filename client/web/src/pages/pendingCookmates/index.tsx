@@ -58,8 +58,28 @@ const PendingCookmates: React.FC = () => {
 
             console.log(response)
 
-        } catch (e) {}
+        } catch (e) {
+            return null
+        }
     };
+
+    const rejectCookmate = async (cookmateId: string) => {
+        try {
+            const response = await request({
+                route: `/cookmates/reject/${cookmateId}`,
+                method: "POST",
+                headers: {
+                    Authorization: `Bearer ${user.token}`,
+                    "Content-Type": "application/json",
+                },
+            });
+
+            console.log(response)
+
+        } catch (e) {
+            return null
+        }
+    }
 
     return (
         <div className="cookmates-page">
