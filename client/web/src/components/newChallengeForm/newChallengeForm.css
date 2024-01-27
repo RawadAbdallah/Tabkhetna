@@ -73,3 +73,7 @@ textarea {
 .challenge-form button:hover {
   transform: scale(1.04);
 }
+
+.challenge-error{
+  color: tomato
+}
