@@ -95,6 +95,80 @@ export const validateForm = (
     }
 };
 
+//Shows uploaded image
+export const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>, setCredentials:React.Dispatch<React.SetStateAction<Credentials>>) => {
+    const file = e.target.files && e.target.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+
+        reader.onload = (e) => {
+            const imageSrc = e.target?.result as string;
+            const img = new Image();
+
+            img.onload = () => {
+                const aspectRatio = img.width / img.height;
+
+                let squareSize: number = img.width;
+                let startX: number = 0;
+                let startY: number = 0;
+
+                //Converts image aspect ratio to 1:1 and centers it
+                if (aspectRatio > 1) {
+                    squareSize = img.height;
+                    startX = (img.width - squareSize) / 2;
+                } else {
+                    startY = (img.height - squareSize) / 2;
+                }
+
+                const canvas = document.createElement("canvas");
+                const ctx = canvas.getContext("2d");
+
+                canvas.width = squareSize;
+                canvas.height = squareSize;
+
+                ctx?.drawImage(
+                    img,
+                    startX,
+                    startY,
+                    squareSize,
+                    squareSize,
+                    0,
+                    0,
+                    squareSize,
+                    squareSize
+                );
+
+                canvas.toBlob((blob) => {
+                    if (blob) {
+                        const croppedFile = new File(
+                            [blob],
+                            "profile_pic.png",
+                            { type: "image/png" }
+                        );
+                        console.log(croppedFile);
+
+                        setCredentials((prev) => ({
+                            ...prev,
+                            profile_pic: croppedFile,
+                        }));
+                    }
+                }, "image/png");
+            };
+            img.src = imageSrc;
+            setCredentials((prev) => {
+                return {
+                    ...prev,
+                    profileSrc: img.src,
+                };
+            });
+        };
+
+        reader.readAsDataURL(file);
+    }
+};
+
+
 // Go back feature function
 
 export const goBack = () => {
