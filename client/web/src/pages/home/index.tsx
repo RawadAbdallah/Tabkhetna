@@ -5,7 +5,7 @@ import CookmatesSidebar from "@/components/cookmatesSidebar";
 import Post from "@components/post";
 import "./home.css";
 import SEO from "@/utils/seo";
-import { HtmlHTMLAttributes, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import PostType from "@/types/post";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
@@ -20,9 +20,8 @@ const Home: React.FC = () => {
     const [page, setPage] = useState<number>(1);
     const [posts, setPosts] = useState<PostType[]>([]);
     const postContainerRef = useRef<HTMLDivElement>(null);
-    const [scrollY, setScrollY] = useState(0);
     const [isAtBottom, setIsAtBottom] = useState<boolean>(false);
-    const getPosts = async () => {
+    const getPosts = useCallback(async () => {
         try {
             const response = await request({
                 route: `/post?page=${page}`,
@@ -41,16 +40,16 @@ const Home: React.FC = () => {
         } catch (e) {
             return null;
         }
-    };
+    }, [user.token, page, setPosts])
 
     useEffect(() => {
-        if (user.token) getPosts();
-       
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user]);
+        const fetchData = async() =>{
+            if (user.token) await getPosts();
+        }
+        fetchData()
+    }, [user, getPosts, isAtBottom]);
 
      useEffect(() => {
-        // Log the updated scrollY value
         const handleScroll = () => {
             const newY = postContainerRef.current?.scrollTop;
             const maxScroll =(
@@ -58,19 +57,16 @@ const Home: React.FC = () => {
                 (postContainerRef.current?.clientHeight || 0) - 100);
 
                 if(newY){
-                    setScrollY(newY);
                     setIsAtBottom(newY >= maxScroll);
                 }
         };
 
         if(isAtBottom){
             setPage(prev=> prev + 1)
-            getPosts();
         }
 
         postContainerRef.current?.addEventListener("scroll", handleScroll);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [scrollY, isAtBottom]);
+    }, [isAtBottom]);
     return (
         <div className="home-page">
             <Header />
