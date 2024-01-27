@@ -32,24 +32,28 @@ const Challenges = () => {
         setIsChallengeDetailsVisible(false);
     };
 
-    const getChallenges = async () => {
-        try {
-            const response = await request({
-                route: "/challenges",
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
-            });
-
-            if(response && response.status === 200){
-                setChallenges(response.data.challenges as Challenge[])
-            }
-        } catch (e) {
-            return null;
-        }
-    };
+    
     useEffect(() => {
-        if (user.token) getChallenges();
+        const getChallenges = async () => {
+            try {
+                const response = await request({
+                    route: "/challenges",
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
+    
+                console.log(response?.data)
+                if(response && response.status === 200){
+                    setChallenges(response.data.challenges as Challenge[])
+                }
+            } catch (e) {
+                return null;
+            }
+        };
+        if (user.token) {
+            getChallenges()
+        }
     }, [user]);
 
     return (
@@ -150,18 +154,16 @@ const Challenges = () => {
                                                 <div className="challenger flex flex-column align-center justify-between">
                                                     <p>
                                                         Challenger: <br />
-                                                        {challenge.challenger
-                                                            .firstname +
+                                                        {challenge?.challenger?.firstname +
                                                             " " +
-                                                            challenge.challenger
-                                                                .lastname}
+                                                            challenge?.challenger?.lastname}
                                                     </p>
                                                     <Link
-                                                        to={`/profile/${challenge.challenger._id}`}
+                                                        to={`/profile/${challenge?.challenger?._id}`}
                                                     >
                                                         <img
                                                             className="challenger-img"
-                                                            src={`${serverURL}uploads/images/${challenge.challenger.profile_pic}`}
+                                                            src={`${serverURL}uploads/images/${challenge?.challenger?.profile_pic}`}
                                                         />
                                                     </Link>
                                                 </div>
