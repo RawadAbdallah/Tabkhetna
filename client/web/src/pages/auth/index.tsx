@@ -5,7 +5,12 @@ import { useDispatch } from "react-redux";
 import Loader from "@components/loader";
 import upload_icon from "@images/upload_icon.svg";
 import Credentials from "@/types/credentials";
-import { getUser, saveUser, validateForm } from "@/utils/helpers";
+import {
+    getUser,
+    handleProfilePicChange,
+    saveUser,
+    validateForm,
+} from "@/utils/helpers";
 import SEO from "@utils/seo";
 import { request } from "@services/request";
 import { setUser } from "@/redux/userSlice";
@@ -95,79 +100,6 @@ const Auth: React.FC = () => {
             confirm_password: "",
             country: "",
         });
-    };
-
-    //Shows uploaded image
-    const handleProfilePicChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files && e.target.files[0];
-
-        if (file) {
-            const reader = new FileReader();
-
-            reader.onload = (e) => {
-                const imageSrc = e.target?.result as string;
-                const img = new Image();
-
-                img.onload = () => {
-                    const aspectRatio = img.width / img.height;
-
-                    let squareSize: number = img.width;
-                    let startX: number = 0;
-                    let startY: number = 0;
-
-                    //Converts image aspect ratio to 1:1 and centers it
-                    if (aspectRatio > 1) {
-                        squareSize = img.height;
-                        startX = (img.width - squareSize) / 2;
-                    } else {
-                        startY = (img.height - squareSize) / 2;
-                    }
-
-                    const canvas = document.createElement("canvas");
-                    const ctx = canvas.getContext("2d");
-
-                    canvas.width = squareSize;
-                    canvas.height = squareSize;
-
-                    ctx?.drawImage(
-                        img,
-                        startX,
-                        startY,
-                        squareSize,
-                        squareSize,
-                        0,
-                        0,
-                        squareSize,
-                        squareSize
-                    );
-
-                    canvas.toBlob((blob) => {
-                        if (blob) {
-                            const croppedFile = new File(
-                                [blob],
-                                "profile_pic.png",
-                                { type: "image/png" }
-                            );
-                            console.log(croppedFile);
-
-                            setCredentials((prev) => ({
-                                ...prev,
-                                profile_pic: croppedFile,
-                            }));
-                        }
-                    }, "image/png");
-                };
-                img.src = imageSrc;
-                setCredentials((prev) => {
-                    return {
-                        ...prev,
-                        profileSrc: img.src,
-                    };
-                });
-            };
-
-            reader.readAsDataURL(file);
-        }
     };
 
     //Handles form change
@@ -354,7 +286,9 @@ const Auth: React.FC = () => {
                                 type="file"
                                 name="profile_pic"
                                 id="profile_pic"
-                                onChange={handleProfilePicChange}
+                                onChange={(e) =>
+                                    handleProfilePicChange(e, setCredentials)
+                                }
                                 hidden={true}
                                 accept="image/png, image/jpeg"
                             />
