@@ -52,7 +52,7 @@ const addPost = async (req, res) => {
             { $push: { posts: newPost } }
         );
 
-        await updateAchievements(req.user._idreq);
+        await updateAchievements(req.user._id);
 
         res.status(201).json({
             message: "Post created successfully",
@@ -201,14 +201,11 @@ const getPosts = async (req, res) => {
 
     try {
         const totalPosts = await Post.countDocuments();
-        console.log(page);
-        console.log(pageSize);
         const posts = await Post.find()
             .sort({ createdAt: -1 })
             .skip((page - 2) * pageSize)
             .limit(pageSize)
             .exec();
-        console.log(posts);
         const postsWithUserInfo = await Promise.all(
             posts.map(async (post) => {
                 const user = await User.findById(post.posted_by).select(

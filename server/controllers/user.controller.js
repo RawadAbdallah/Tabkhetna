@@ -1,4 +1,5 @@
 const User = require("../models/user.model");
+const { search } = require("../routes/auth.routes");
 
 //All functions in this file use the Express request and response objects (req, res).
 
@@ -32,6 +33,16 @@ const getProfileBasicInfo = async (req, res) => {
         return res.status(500).json({ message: "Something went wrong" });
     }
 };
+
+const searchProfile = async (req, res) => {
+    try {
+        const query = req.query.q;
+       console.log("Search query for user", queryc)
+    } catch (e) {
+        console.log("error: ", e);
+        return res.status(500).json({ error: `Something went wrong. ${e}` });
+    }
+}
 
 /**
  * Get the cookmates of the currently authenticated user.
@@ -255,7 +266,6 @@ const rejectCookmate = async (req, res) => {
 const getPendingCookmates = async (req, res) => {
     const user = req.user;
     try {
-        
         const { pending_cookmates } = await User.findById(
             user._id,
             "pending_cookmates"
@@ -309,4 +319,5 @@ module.exports = {
     getTopCookmates,
     checkCookmateStatus,
     getPendingCookmates,
+    searchProfile
 };

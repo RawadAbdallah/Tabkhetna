@@ -50,7 +50,7 @@ const createChallenge = async (req, res) => {
 
         if (media) {
             newChallenge.challengeImg = media[0];
-            console.log(media[0])
+            console.log(media[0]);
         } else {
             return res
                 .status(400)
