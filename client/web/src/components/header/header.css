@@ -29,7 +29,7 @@
 .icons-wrapper {
     flex: 1;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-end;
 }
 
 .hamburger-menu {
@@ -79,4 +79,45 @@
     .header-wrapper .icons-wrapper {
         display: none;
     }
+}
+
+.profile-icon-container {
+    position: relative;
+    display: inline-block; /* Make sure it behaves like an inline element */
+}
+
+.profile-card {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    width: 120px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.profile-card button {
+    font-size: 0.9rem;
+    width: 100%;
+    padding: 10px;
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
+.profile-card button:first-child:hover {
+    background-color: var(--teal-color);
+    color: white;
+}
+
+
+.profile-card button:last-child:hover {
+    background-color: red;
+    color: white;
 }
