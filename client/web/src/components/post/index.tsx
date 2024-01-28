@@ -16,6 +16,7 @@ import Loader from "../loader";
 
 import default_profile_pic from "@images/default_profile_pic.png";
 import { Link } from "react-router-dom";
+import { getTimeDifference } from "@/utils/helpers";
 
 const Post: React.FC<PostType> = ({
     _id,
@@ -42,68 +43,21 @@ const Post: React.FC<PostType> = ({
     const [saveCounter, setSaveCounter] = useState<number>(0);
     const user = useSelector((state: RootState) => state.user);
 
-
-    useEffect(() => {
-      const fetchUserDetailsForComments = async () => {
-          const details = await fetchUserDetails(comments);
-          setUserDetails(details);
-      };
-      getLikes();
-      getSaves();
-      fetchUserDetailsForComments();
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [comments, likeCounter, saveCounter, instructions, ingredients]);
-
-    const getLikes = async () => {
-        try {
-            const response = await request({
-                route: `/post/like/get/${_id}`,
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
-            });
-            if (response && response.status === 200)
-                setLikeCounter(response.data);
-            else setLikeCounter(likes?.length || 0);
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
-    const getSaves = async () => {
-        try {
-            const response = await request({
-                route: `/post/save/get/${_id}`,
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
-            });
-            if (response && response.status === 200)
-                setSaveCounter(response.data);
-            else setSaveCounter(saves?.length || 0);
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
     const checkCommentKeyStrokes = (
         e: React.KeyboardEvent<HTMLInputElement>
     ) => {
-        if (e.code === "Enter" || e.keyCode === 13) {
+        if (e.key === "Enter") {
             handleCommentSubmit();
         }
     };
+
     const handleCommentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setComment(e.target.value);
     };
-
     const handleCommentSubmit = async () => {
         if (!comment) {
             setCommentError("Comment cannot be empty");
         } else {
-      
             try {
                 const response = await request({
                     route: "/post/add-comment",
@@ -113,21 +67,21 @@ const Post: React.FC<PostType> = ({
                         Authorization: `Bearer ${user.token}`,
                     },
                 });
-                if (response && response.status === 200){
 
-                  console.log(response.data.comment)
-                  setComments(prev => {
-                    return [...prev, response.data.comment];
-                  })
-                }
-                if (response && response.status === 400)
+                if (response && response.status === 200) {
+                    // Set comments directly without relying on the previous state
+                    setComments([...comments, response.data.comment]);
+                } else if (response && response.status === 400) {
                     setCommentError(`Error: ${response?.data.error}`);
+                } else {
+                    setCommentError("An unexpected error occurred");
+                }
             } catch (e) {
-                setCommentError(`Error: ${e}`);
+                console.error("An unexpected error occurred:", e);
+                setCommentError("An unexpected error occurred");
             }
 
             setComment("");
-            window.location.reload()
         }
     };
 
@@ -139,10 +93,9 @@ const Post: React.FC<PostType> = ({
                     Authorization: `Bearer ${user.token}`,
                 },
             });
-            if (response) return response.data;
-            if (!response) return [];
+            return response?.data || null;
         } catch (e) {
-            console.log(e);
+            console.error("Error fetching user info:", e);
             return null;
         }
     };
@@ -161,32 +114,6 @@ const Post: React.FC<PostType> = ({
             })
         );
         return userDetailsArray.filter(Boolean);
-    };
-    const getTimeDifference = (createdAt: string): string => {
-        const now = new Date();
-        const postDate = new Date(createdAt);
-        const timeDifferenceInSeconds = Math.floor(
-            (now.getTime() - postDate.getTime()) / 1000
-        );
-
-        if (timeDifferenceInSeconds <= 60) {
-            return "just now";
-        } else if (timeDifferenceInSeconds < 3600) {
-            const minutes = Math.floor(timeDifferenceInSeconds / 60);
-            return `${minutes} ${minutes === 1 ? "minute" : "minutes"} ago`;
-        } else if (timeDifferenceInSeconds < 86400) {
-            const hours = Math.floor(timeDifferenceInSeconds / 3600);
-            return `${hours} ${hours === 1 ? "hour" : "hours"} ago`;
-        } else if (timeDifferenceInSeconds < 2592000) {
-            const days = Math.floor(timeDifferenceInSeconds / 86400);
-            return `${days} ${days === 1 ? "day" : "days"} ago`;
-        } else if (timeDifferenceInSeconds < 31536000) {
-            const months = Math.floor(timeDifferenceInSeconds / 2592000);
-            return `${months} ${months === 1 ? "month" : "months"} ago`;
-        } else {
-            const years = Math.floor(timeDifferenceInSeconds / 31536000);
-            return `${years} ${years === 1 ? "year" : "years"} ago`;
-        }
     };
 
     const isImage = (mediaItem: string): boolean => {
@@ -230,6 +157,53 @@ const Post: React.FC<PostType> = ({
             console.log(e);
         }
     };
+
+    useEffect(() => {
+        const fetchUserDetailsForComments = async () => {
+            const details = await fetchUserDetails(comments);
+            setUserDetails(details);
+        };
+
+        const getLikes = async () => {
+            try {
+                const response = await request({
+                    route: `/post/like/get/${_id}`,
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
+                if (response && response.status === 200)
+                    setLikeCounter(response.data);
+                else setLikeCounter(likes?.length || 0);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        const getSaves = async () => {
+            try {
+                const response = await request({
+                    route: `/post/save/get/${_id}`,
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
+                if (response && response.status === 200)
+                    setSaveCounter(response.data);
+                else setSaveCounter(saves?.length || 0);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+
+        getLikes();
+        getSaves();
+        fetchUserDetailsForComments();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [likeCounter, saveCounter, user, _id, comments, comment, likes, saves]);
 
     const generateMissingInfo = async () => {
         const missing = instructions ? "ingredients" : "instructions";
@@ -286,10 +260,7 @@ const Post: React.FC<PostType> = ({
                 <div className="media-container">
                     {media &&
                         media.map((mediaItem) => (
-                            <div
-                                key={mediaItem}
-                                className="media-item"
-                            >
+                            <div key={mediaItem} className="media-item">
                                 {isImage(mediaItem) ? (
                                     <img
                                         src={`${serverURL}${mediaItem.replace(
@@ -312,7 +283,7 @@ const Post: React.FC<PostType> = ({
                             </div>
                         ))}
                 </div>
-                <div className="post-description flex align-center justify-between">
+                <div className="post-description flex justify-between">
                     <div className="flex flex-column align-center gap-5">
                         {ingredients ? (
                             <div className="ingredients">
@@ -320,7 +291,7 @@ const Post: React.FC<PostType> = ({
                                 <PostItemList inputString={ingredients} />
                             </div>
                         ) : (
-                            <>
+                            <div className="no-post-info">
                                 <p>Ingredients not posted?</p>
                                 <button
                                     className="generate-btn"
@@ -328,7 +299,7 @@ const Post: React.FC<PostType> = ({
                                 >
                                     Generate it!
                                 </button>
-                            </>
+                            </div>
                         )}
                     </div>
                     <div className="flex flex-column align-center gap-5">
@@ -338,7 +309,7 @@ const Post: React.FC<PostType> = ({
                                 <PostItemList inputString={instructions} />
                             </div>
                         ) : (
-                            <>
+                            <div className="no-post-info">
                                 <p>Instructions not posted?</p>
                                 <button
                                     className="generate-btn"
@@ -346,7 +317,7 @@ const Post: React.FC<PostType> = ({
                                 >
                                     Generate it!
                                 </button>
-                            </>
+                            </div>
                         )}
                     </div>
                 </div>
@@ -388,7 +359,8 @@ const Post: React.FC<PostType> = ({
                     </div>
                 </div>
                 <div className="comments">
-                    {comments.length > 0 &&
+                    {comments &&
+                        comments.length > 0 &&
                         comments.map((comment, index) => {
                             const userCommentDetails = userDetails[index];
                             if (userCommentDetails) {
