@@ -2,16 +2,24 @@ import { Link, useNavigate } from "react-router-dom";
 
 import Search from "@components/search";
 import Icon from "@components/icon";
-import bell_icon from "@images/bell_icon.svg";
 import message_icon from "@images/message_icon.svg";
 import default_profile_pic from "@images/default_profile_pic.png";
+import home_icon from "@images/home_icon.svg";
+import question_icon from "@images/question_icon.svg";
+import book_icon from "@images/book_icon.svg";
+import cookmates_icon from "@images/cookmates_icon.svg";
+import challenge_icon from "@images/challenge_icon.svg";
 import "./header.css";
 import { useEffect, useState } from "react";
 import { RootState } from "@/store";
 import { useSelector } from "react-redux";
 import { serverURL } from "@/services/request";
 
-const Header: React.FC = () => {
+type SidebarPropType = {
+    current_page?: string;
+};
+
+const Header: React.FC<SidebarPropType> = ({ current_page }) => {
     const [isMenuClicked, setIsMenuClicked] = useState<boolean>(false);
     const [showCard, setShowCard] = useState(false);
     const navigate = useNavigate();
@@ -27,9 +35,9 @@ const Header: React.FC = () => {
     });
 
     const handleLogout = () => {
-        localStorage.removeItem("tabkhetna_user")
-        navigate('/auth')
-    }
+        localStorage.removeItem("tabkhetna_user");
+        navigate("/auth");
+    };
     const showMenu = () => {
         setIsMenuClicked(!isMenuClicked);
     };
@@ -46,9 +54,6 @@ const Header: React.FC = () => {
             <Search placeholder="Search for recipes, cookmates and cuisines" />
 
             <div className="icons-wrapper flex gap-5">
-                <Link to={"/"}>
-                    <Icon img={bell_icon} alt={"notifications"} />
-                </Link>
                 <Link to={"/messages"}>
                     <Icon img={message_icon} alt={"messages"} />
                 </Link>
@@ -93,6 +98,108 @@ const Header: React.FC = () => {
                 <span></span>
                 <span></span>
                 <span></span>
+            </div>
+            <div
+                className={`mobile-header-menu ${
+                    isMenuClicked ? "show-menu" : ""
+                }`}
+            >
+                <ul>
+                    <li
+                        className={`sidebar-item ${
+                            current_page && current_page === "home"
+                                ? "active"
+                                : ""
+                        }`}
+                    >
+                        <Link to="/" className="sidebar-link">
+                            <Icon img={home_icon} alt="home" />
+                            Home
+                        </Link>
+                    </li>
+                    <li
+                        className={`sidebar-item ${
+                            current_page && current_page === "cookmates"
+                                ? "active"
+                                : ""
+                        }`}
+                    >
+                        <Link to="/cookmates" className="sidebar-link">
+                            <Icon img={cookmates_icon} alt="cookmates" />
+                            Cookmates
+                        </Link>
+                    </li>
+                    <li className={`sidebar-item`}>
+                        <Link to="/messages" className="sidebar-link">
+                            <Icon img={message_icon} alt="messages" />
+                            Messages
+                        </Link>
+                    </li>
+                    <li
+                        className={`sidebar-item ${
+                            current_page && current_page === "savedRecipes"
+                                ? "active"
+                                : ""
+                        }`}
+                    >
+                        <Link to="/savedRecipes" className="sidebar-link">
+                            <Icon img={book_icon} alt="recipes" />
+                            Saved Recipes
+                        </Link>
+                    </li>
+                    <li
+                        className={`sidebar-item ${
+                            current_page && current_page === "profile"
+                                ? "active"
+                                : ""
+                        }`}
+                    >
+                        <Link
+                            to={`/profile/${user.id}`}
+                            className="sidebar-link"
+                        >
+                            <Icon
+                                img={`${serverURL}uploads/images/${user.profile_pic}`}
+                                alt="profile"
+                            />
+                            Profile
+                        </Link>
+                    </li>
+                    <li
+                        className={`sidebar-item ${
+                            current_page && current_page === "challenges"
+                                ? "active"
+                                : ""
+                        }`}
+                    >
+                        <Link to="/challenges" className="sidebar-link">
+                            <Icon img={challenge_icon} alt="challenges" />
+                            Challenges
+                        </Link>
+                    </li>
+
+                    <div className="line-seperator"></div>
+
+                    <li
+                        className={`sidebar-item ${
+                            current_page && current_page === "support"
+                                ? "active"
+                                : ""
+                        }`}
+                    >
+                        <Link to="/support" className="sidebar-link">
+                            <Icon img={question_icon} alt="?" />
+                            Support
+                        </Link>
+                    </li>
+                    <li>
+                        {" "}
+                        <p>
+                            Copyrights &copy; 2024 All rights reserved by
+                            Tabkhetna
+                        </p>
+                    </li>
+                </ul>
             </div>
         </div>
     );

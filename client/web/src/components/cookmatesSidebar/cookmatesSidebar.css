@@ -3,7 +3,7 @@
     flex-direction: column;
     flex: 0.4;
     padding: 20px;
-    color: var(--secondary-color);
+    color: white;
     gap:15px;
 }
 
@@ -19,8 +19,15 @@
     border-radius: 100px;
 }
 
-.cookmates-sidebar .search-wrapper{
-    max-width: 250px;
+.no-cookmates-sidebar{
+    height: 100%;    
+    filter: saturate(0) brightness(0.7) opacity(.5);
+    font-size:1.1rem;
+    gap: 20px;
+}
+
+.no-cookmates-sidebar img{
+    width: 120px;
 }
 
 .online-circle {

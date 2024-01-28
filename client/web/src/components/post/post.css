@@ -84,6 +84,7 @@
 }
 
 .post-actions-wrapper {
+    width:100%;
     display: flex;
     padding: 10px 0;
 
@@ -91,6 +92,15 @@
 
 .post-actions {
     padding: 10px 0;
+    width:100%;
+}
+
+.post-action-btn{
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;   
+}
+
+.post-actions button:last-child{
+    margin-left: auto;    
 }
 
 .post-add-comment input {

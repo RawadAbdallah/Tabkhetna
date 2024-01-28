@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PostType from "@/types/post";
-import HeartIcon from "@images/heart_icon.svg";
+import HeartIconFilled from "@images/heart_icon.svg";
+import HeartIconTransparent from "@images/heart_icon_transparent.svg";
 import CommentIcon from "@images/comment_icon.svg";
 import BookmarkIcon from "@images/bookmark_icon.svg";
 import { request, serverURL } from "@/services/request";
@@ -42,6 +43,7 @@ const Post: React.FC<PostType> = ({
     const [likeCounter, setLikeCounter] = useState<number>(likes?.length || 0);
     const [saveCounter, setSaveCounter] = useState<number>(0);
     const user = useSelector((state: RootState) => state.user);
+    const [isLiked, setIsLiked] = useState(false);
 
     const checkCommentKeyStrokes = (
         e: React.KeyboardEvent<HTMLInputElement>
@@ -135,6 +137,7 @@ const Post: React.FC<PostType> = ({
             });
             if (response && response.status === 200) {
                 setLikeCounter((prev) => prev + 1);
+                setIsLiked(true);
             }
         } catch (e) {
             console.log(e);
@@ -198,11 +201,10 @@ const Post: React.FC<PostType> = ({
             }
         };
 
-
         getLikes();
         getSaves();
         fetchUserDetailsForComments();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [likeCounter, saveCounter, user, _id, comments, comment, likes, saves]);
 
     const generateMissingInfo = async () => {
@@ -326,36 +328,29 @@ const Post: React.FC<PostType> = ({
                 <div className="post-actions-wrapper flex align-center justify-between">
                     <div className="post-actions flex gap-5">
                         <button
-                            className="flex gap-3 align-center"
+                            className="flex gap-3 align-center post-action-btn"
                             onClick={handleLike}
                         >
-                            <img src={HeartIcon} /> {likeCounter}
+                            {isLiked ? (
+                                <img src={HeartIconFilled} alt="Liked" />
+                            ) : (
+                                <img
+                                    src={HeartIconTransparent}
+                                    alt="Not Liked"
+                                />
+                            )}
+                            {likeCounter}
                         </button>
-                        <button className="flex gap-3 align-center">
+                        <button className="flex gap-3 align-center post-action-btn">
                             <img src={CommentIcon} />{" "}
                             {comments && comments.length}
                         </button>
                         <button
-                            className="flex gap-3 align-center"
+                            className="flex gap-3 align-center post-action-btn"
                             onClick={handleSave}
                         >
                             <img src={BookmarkIcon} /> {saveCounter}
                         </button>
-                    </div>
-                    <div className="post-add-comment flex flex-column align-center">
-                        {commentError && (
-                            <p className="comment-error">
-                                Comment can't be empty!
-                            </p>
-                        )}
-                        <input
-                            type="text"
-                            name="new-comment"
-                            id="new-comment"
-                            placeholder="Write a comment"
-                            onChange={handleCommentChange}
-                            onKeyDown={checkCommentKeyStrokes}
-                        />
                     </div>
                 </div>
                 <div className="comments">
@@ -396,6 +391,19 @@ const Post: React.FC<PostType> = ({
 
                             return null;
                         })}
+                </div>
+                <div className="post-add-comment flex flex-column align-center">
+                    {commentError && (
+                        <p className="comment-error">Comment can't be empty!</p>
+                    )}
+                    <input
+                        type="text"
+                        name="new-comment"
+                        id="new-comment"
+                        placeholder="Write a comment"
+                        onChange={handleCommentChange}
+                        onKeyDown={checkCommentKeyStrokes}
+                    />
                 </div>
             </div>
         </div>

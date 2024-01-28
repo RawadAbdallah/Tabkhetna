@@ -70,17 +70,6 @@
     transform: translateY(-8.5px) rotate(-135deg);
 }
 
-@media (max-width: 880px) {
-    .hamburger-menu {
-        display: flex;
-    }
-
-    .header-wrapper .search-wrapper,
-    .header-wrapper .icons-wrapper {
-        display: none;
-    }
-}
-
 .profile-icon-container {
     position: relative;
     display: inline-block; /* Make sure it behaves like an inline element */
@@ -108,7 +97,7 @@
     font-size: 0.9rem;
     width: 100%;
     padding: 10px;
-    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+    font-family: "Poppins", Arial, Helvetica, sans-serif;
 }
 
 .profile-card button:first-child:hover {
@@ -116,8 +105,50 @@
     color: white;
 }
 
-
 .profile-card button:last-child:hover {
     background-color: red;
     color: white;
+}
+
+.mobile-header-menu {
+    display:none;
+}
+
+.mobile-header-menu.show-menu {
+    transform: translate(0);
+}
+
+.mobile-header-menu ul {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px;
+}
+
+@media (max-width: 880px) {
+    .hamburger-menu {
+        display: flex;
+    }
+
+    .header-wrapper .search-wrapper,
+    .header-wrapper .icons-wrapper {
+        display: none;
+    }
+    .mobile-header-menu {
+        display:block;
+        position: absolute;
+        top: 138px;
+        right: 0;
+        height: calc(100vh - 138px);
+        z-index: 10;
+        background-color: rgb(53, 53, 53);
+        border-radius: 12px;
+        color: white;
+        width: 80%;
+        overflow-y: auto;
+        transform: translateX(1000px);
+        transition: all 0.25s ease-in-out;
+    }
 }

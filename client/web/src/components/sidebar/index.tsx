@@ -7,14 +7,17 @@ import book_icon from "@images/book_icon.svg";
 import cookmates_icon from "@images/cookmates_icon.svg";
 import challenge_icon from "@images/challenge_icon.svg";
 import calendar_icon from "@images/calendar_icon.svg";
-
+import { useSelector } from "react-redux";
 import "./sidebar.css";
+import { RootState } from "@/store";
+import { serverURL } from "@/services/request";
 
 type SidebarPropType = {
     current_page?: string,
 }
 
 const Sidebar: React.FC<SidebarPropType> = ({current_page}) => {
+    const user = useSelector((state:RootState) => state.user)
     return (
         <div className="sidebar">
             <ul className="sidebar-items">
@@ -42,10 +45,10 @@ const Sidebar: React.FC<SidebarPropType> = ({current_page}) => {
                         Challenges
                     </Link>
                 </li>
-                <li className={`sidebar-item ${!current_page && current_page === "events" ? "active" : ""}`}>
-                    <Link to="/profile" className="sidebar-link">
-                        <Icon img={calendar_icon} alt="events" />
-                        Events
+                <li className={`sidebar-item ${current_page && current_page === "profile" ? "active" : ""}`}>
+                    <Link to={`/profile/${user.id}`} className="sidebar-link">
+                        <Icon img={`${serverURL}uploads/images/${user.profile_pic}`} alt="profile" />
+                        Profile
                     </Link>
                 </li>
 

@@ -7,7 +7,11 @@
   padding: 10px;
 }
 
-.post-item-list li:nth-child(even){
+.instructions  .post-item-list li:nth-child(even){
+  background-color: #d4d4d4;
+}
+
+.ingredients  .post-item-list li:nth-child(odd){
   background-color: #d4d4d4;
 }
 

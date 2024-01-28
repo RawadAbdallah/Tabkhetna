@@ -3,7 +3,6 @@ import Icon from "../icon";
 import "./createPost.css";
 import default_profile_pic from "@images/default_profile_pic.png";
 import book_icon from "@images/book_dark_icon.svg";
-import camera_icon from "@images/camera_icon.svg";
 import video_icon from "@images/video_icon.svg";
 import challenge_icon from "@images/challenge_dark_icon.svg";
 import { useSelector } from "react-redux";
@@ -48,14 +47,6 @@ const CreatePost: React.FC = () => {
 
             <div className="create-post-types-container">
                 <ul className="post-types flex justify-between">
-                    <li className="flex align-center gap-1">
-                        <Icon
-                            img={camera_icon}
-                            alt="camera icon"
-                            noBackground={true}
-                        />
-                        Go Live
-                    </li>
                     <li
                         className="flex align-center gap-1"
                         onClick={togglePostForm}
