@@ -90,7 +90,7 @@ const PendingCookmates: React.FC = () => {
                 <section className="main-section flex flex-column gap-5">
                     <div className="posts-container flex flex-column gap-5">
                         <h1>Cookmates Pending Requests</h1>
-                        <div className="cookmates-wrapper">
+                        <div className="cookmates-wrapper pending-requests">
                             <ul className="flex flex-wrap gap-5">
                                 {cookmates && cookmates.length > 0 ? (
                                     cookmates.map((cookmate) => {
