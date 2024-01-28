@@ -18,7 +18,7 @@ const Challenges = () => {
         title: "",
         description: "",
         _id: "",
-        challenge_img: "",
+        challengeImg: "",
         challenger: null,
     });
 
@@ -32,7 +32,6 @@ const Challenges = () => {
         setIsChallengeDetailsVisible(false);
     };
 
-    
     useEffect(() => {
         const getChallenges = async () => {
             try {
@@ -42,17 +41,16 @@ const Challenges = () => {
                         Authorization: `Bearer ${user.token}`,
                     },
                 });
-    
-                console.log(response?.data)
-                if(response && response.status === 200){
-                    setChallenges(response.data.challenges as Challenge[])
+
+                if (response && response.status === 200) {
+                    setChallenges(response.data.challenges as Challenge[]);
                 }
             } catch (e) {
                 return null;
             }
         };
         if (user.token) {
-            getChallenges()
+            getChallenges();
         }
     }, [user]);
 
@@ -71,7 +69,7 @@ const Challenges = () => {
                             </button>
                             <img
                                 className="challenge-details-img"
-                                src={`${serverURL}uploads/images/${challengeDetails.challenge_img}`}
+                                src={`${serverURL}${challengeDetails.challengeImg}`}
                                 alt="challenge image"
                             />
                             <div className="challenge-info">
@@ -83,16 +81,19 @@ const Challenges = () => {
                                 </p>
                                 <ul className="desc-list">
                                     {challengeDetails.description
-                                        .split("- ")
-                                        .slice(1)
-                                        .map((desc, index) => (
-                                            <li
-                                                key={index}
-                                                className="description-item"
-                                            >
-                                                {desc} <br />
-                                            </li>
-                                        ))}
+                                        .split("-")
+                                        .slice(0)
+                                        .map((desc, index) => {
+                                            if (desc.length > 0)
+                                                return (
+                                                    <li
+                                                        key={index}
+                                                        className="description-item"
+                                                    >
+                                                        {desc.trim()}
+                                                    </li>
+                                                );
+                                        })}
                                 </ul>
 
                                 <div className="more-details-footer flex align-center justify-between">
@@ -101,8 +102,8 @@ const Challenges = () => {
                                             <img
                                                 src={`${serverURL}uploads/images/${challengeDetails.challenger.profile_pic}`}
                                             />
-                                            {challengeDetails
-                                                .challenger.firstname +
+                                            {challengeDetails.challenger
+                                                .firstname +
                                                 " " +
                                                 challengeDetails.challenger
                                                     .lastname}
@@ -122,60 +123,62 @@ const Challenges = () => {
             <main className="main-challenges flex">
                 <Sidebar current_page="challenges" />
                 <div className="main-challenges-section">
-                    <h1>Challenges</h1>
-                    <section className="main-section flex flex-column gap-5">
-                        <div className="challenges-container flex flex-column gap-5">
-                            {challenges && challenges.length > 0 ? (
-                                <>
-                                    {challenges.map((challenge, index) => {
-                                        return (
-                                            <div
-                                                className="challenge flex align-center gap-5"
-                                                key={challenge.title + index}
-                                            >
-                                                <img
-                                                    className={"challenge-img"}
-                                                    src={`${serverURL}uploads/images/${challenge.challenge_img}`}
-                                                    alt="challenge image"
-                                                />
-                                                <div className="challenge-info flex flex-column gap-4">
-                                                    <h3>{challenge.title}</h3>
-                                                    <button
-                                                        className="more-details-btn"
-                                                        onClick={() =>
-                                                            showChallengeDetails(
-                                                                challenge
-                                                            )
-                                                        }
-                                                    >
-                                                        More details
-                                                    </button>
-                                                </div>
-                                                <div className="challenger flex flex-column align-center justify-between">
-                                                    <p>
-                                                        Challenger: <br />
-                                                        {challenge?.challenger?.firstname +
-                                                            " " +
-                                                            challenge?.challenger?.lastname}
-                                                    </p>
-                                                    <Link
-                                                        to={`/profile/${challenge?.challenger?._id}`}
-                                                    >
-                                                        <img
-                                                            className="challenger-img"
-                                                            src={`${serverURL}uploads/images/${challenge?.challenger?.profile_pic}`}
-                                                        />
-                                                    </Link>
-                                                </div>
+                    {challenges && challenges.length > 0 ? (
+                        <section className="main-section flex flex-column gap-5">
+                            <h1>Challenges</h1>
+                            <div className="challenges-container flex flex-column gap-5">
+                                {challenges.map((challenge, index) => {
+                                    return (
+                                        <div
+                                            className="challenge flex align-center gap-5"
+                                            key={challenge.title + index}
+                                        >
+                                            <img
+                                                className={"challenge-img"}
+                                                src={`${serverURL}${challenge.challengeImg}`}
+                                                alt="challenge image"
+                                            />
+                                            <div className="challenge-info flex flex-column gap-4">
+                                                <h3>{challenge.title}</h3>
+                                                <button
+                                                    className="more-details-btn"
+                                                    onClick={() =>
+                                                        showChallengeDetails(
+                                                            challenge
+                                                        )
+                                                    }
+                                                >
+                                                    More details
+                                                </button>
                                             </div>
-                                        );
-                                    })}
-                                </>
-                            ) : (
-                                "No Challenges at the moment"
-                            )}
+                                            <div className="challenger flex flex-column align-center justify-between">
+                                                <p>
+                                                    Challenger: <br />
+                                                    {challenge?.challenger
+                                                        ?.firstname +
+                                                        " " +
+                                                        challenge?.challenger
+                                                            ?.lastname}
+                                                </p>
+                                                <Link
+                                                    to={`/profile/${challenge?.challenger?._id}`}
+                                                >
+                                                    <img
+                                                        className="challenger-img"
+                                                        src={`${serverURL}uploads/images/${challenge?.challenger?.profile_pic}`}
+                                                    />
+                                                </Link>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </section>
+                    ) : (
+                        <div className="no-challenges">
+                            No Challenges posted yet.
                         </div>
-                    </section>
+                    )}
                 </div>
                 <CookmatesSidebar />
             </main>
