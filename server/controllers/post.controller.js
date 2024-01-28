@@ -1,10 +1,10 @@
 const Post = require("../models/post.model");
 const User = require("../models/user.model");
+const { updateAchievements } = require("./achievement.controller");
 // Function to add a new post
 const addPost = async (req, res) => {
     try {
-        const { title, description, ingredients, instructions, cuisine } =
-            req.body;
+        const { title, ingredients, instructions, cuisine } = req.body;
 
         if (!title) {
             return res.status(400).json({ error: "Title is required" });
@@ -35,6 +35,7 @@ const addPost = async (req, res) => {
         const media = req.files.map((file) =>
             file.path.replace(/^storage\\/, "")
         );
+
         const newPost = new Post({
             title,
             ingredients,
@@ -51,6 +52,8 @@ const addPost = async (req, res) => {
             { $push: { posts: newPost } }
         );
 
+        await updateAchievements(req.user._idreq);
+
         res.status(201).json({
             message: "Post created successfully",
             post: newPost,
@@ -61,13 +64,38 @@ const addPost = async (req, res) => {
     }
 };
 
+const searchPosts = async (req, res) => {
+    try {
+        const query = req.query.q;
+        const posts = await Post.find({
+            $or: [
+                { title: new RegExp(query, "i") },
+                { ingredients: new RegExp(query, "i") },
+                { instructions: new RegExp(query, "i") },
+            ],
+        });
+        const postsModified = [];
+        for (let i = 0; i < posts.length; i++) {
+            const postUser = await User.findById(posts[i].posted_by);
+            const postObject = posts[i].toObject();
+            postObject.uploader = postUser.firstname + " " + postUser.lastname;
+            postObject.profile_pic = postUser.profile_pic;
+            postsModified.push(postObject);
+        }
+        res.status(200).json({ posts: postsModified });
+    } catch (e) {
+        console.log(e);
+        res.status(500).json({ message: e.message });
+    }
+};
+
 const getUserPosts = async (req, res) => {
     const { id } = req.params;
 
     try {
         const user = await User.findById(id);
         const posts = await Post.find({ posted_by: user }).sort({
-            updatedAt: 1,
+            createdAt: -1,
         });
         return res.status(200).json({ posts });
     } catch (e) {
@@ -96,8 +124,7 @@ const addComment = async (req, res) => {
             { _id: post_id },
             { $push: { comments: { user, comment } } }
         );
-        console.log("comment added");
-        return res.status(200).json({ message: "Comment added successfully" });
+        return res.status(200).json({ comments: post.comments, comment });
     } catch (e) {
         console.log(e);
         return res.status(500).json({ error: "Internal Server Error" });
@@ -169,18 +196,19 @@ const getAllSavedPosts = async (req, res) => {
 };
 
 const getPosts = async (req, res) => {
-    const page = req.query.page || 1;
-    const pageSize = req.query.pageSize || 3;
+    const page = parseInt(req.query.page) || 1;
+    const pageSize = parseInt(req.query.pageSize) || 3;
 
     try {
-        const totalPosts = await Post.countDocuments(); // Get total number of posts
-
+        const totalPosts = await Post.countDocuments();
+        console.log(page);
+        console.log(pageSize);
         const posts = await Post.find()
-            .sort({ createdAt: -1 }) // Sort by createdAt in descending order (new to old)
-            .skip((page - 1) * pageSize) // Skip records based on the page number
-            .limit(pageSize) // Limit the number of records per page
+            .sort({ createdAt: -1 })
+            .skip((page - 2) * pageSize)
+            .limit(pageSize)
             .exec();
-
+        console.log(posts);
         const postsWithUserInfo = await Promise.all(
             posts.map(async (post) => {
                 const user = await User.findById(post.posted_by).select(
@@ -296,4 +324,5 @@ module.exports = {
     getSaves,
     getAllSavedPosts,
     getPosts,
+    searchPosts,
 };
