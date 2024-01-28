@@ -40,7 +40,7 @@
 <br><br>
 
 <!-- Implementation -->
-<img src="./readme/title4.svg"/>
+<img src="./readme/title5.svg"/>
 
 > Using the wireframes and mockups as a guide, we implemented the Tabkhetna app with the following features:
 
@@ -57,7 +57,7 @@
 <br><br>
 
 <!-- Tech stack -->
-<img src="./readme/title5.svg"/>
+<img src="./readme/title4.svg"/>
 
 ### Tabkhetna is built using the following technologies:
 
