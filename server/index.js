@@ -2,7 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const { authMiddleware } = require("./middlewares/auth.middleware");
 const { connectToMongoDB } = require("./configs/mongodb.config");
-const upload = require("./configs/multer.config");
+const http = require('http')
+const { initializeSocket } = require("./configs/socket.config");
 const bodyParser = require("body-parser");
 const path = require("path");
 require("dotenv").config();
@@ -16,6 +17,11 @@ app.use(cors());
 app.use("/uploads", express.static(path.join(__dirname, "storage/uploads")));
 
 app.options("*", cors);
+
+const server = http.createServer(app)
+const io = initializeSocket(server);
+console.log(io)
+app.set('socketio', io)
 
 //Auth routes login & register
 const authRoutes = require("./routes/auth.routes");
@@ -33,11 +39,15 @@ app.use("/api/challenges", authMiddleware, challengeRoutes);
 const postRoutes = require("./routes/post.routes");
 app.use("/api/post", authMiddleware, postRoutes);
 
-//Gemeni route
-const gemeniRoute = require("./routes/gemeni.routes");
-app.use("/api/ai", gemeniRoute);
+//Gemeni routes
+const gemeniRoutes = require("./routes/gemini.routes");
+app.use("/api/ai", gemeniRoutes);
 
-app.listen(process.env.PORT, process.env.IP, () => {
+//Message routes
+const messageRoutes = require('./routes/message.routes');
+app.use('/api/messages', messageRoutes);
+
+server.listen(process.env.PORT, process.env.IP, () => {
     console.log(
         "Server listening on ip" + process.env.IP + "on port: ",
         process.env.PORT
