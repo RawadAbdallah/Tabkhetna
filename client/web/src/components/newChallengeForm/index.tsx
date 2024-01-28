@@ -3,6 +3,7 @@ import "./newChallengeForm.css";
 import { request } from "@/services/request";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store";
+import { useNavigate } from "react-router-dom";
 
 const NewChallengeForm = () => {
     const user = useSelector((state: RootState) => state.user);
@@ -10,6 +11,8 @@ const NewChallengeForm = () => {
     const [description, setDescription] = useState("");
     const [image, setImage] = useState<File | null>(null);
     const [challengeError, setChallengeError] = useState<string>("");
+
+    const navigate = useNavigate()
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value);
@@ -58,7 +61,7 @@ const NewChallengeForm = () => {
             });
             console.log(response);
             if (response && response.status === 200) {
-                console.log("ok");
+                navigate('/challenges')
             }
 
             if (response && response.status === 400) {
