@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Search from "@components/search";
 import Icon from "@components/icon";
@@ -13,15 +13,28 @@ import { serverURL } from "@/services/request";
 
 const Header: React.FC = () => {
     const [isMenuClicked, setIsMenuClicked] = useState<boolean>(false);
+    const [showCard, setShowCard] = useState(false);
+    const navigate = useNavigate();
+    const handleMouseEnter = () => {
+        setShowCard(true);
+    };
+
+    const handleMouseLeave = () => {
+        setShowCard(false);
+    };
     const user = useSelector((state: RootState) => {
         return state.user;
     });
-    
+
+    const handleLogout = () => {
+        localStorage.removeItem("tabkhetna_user")
+        navigate('/auth')
+    }
     const showMenu = () => {
         setIsMenuClicked(!isMenuClicked);
     };
 
-    useEffect(()=>{}, [user])
+    useEffect(() => {}, [user]);
     return (
         <div className="header-wrapper">
             <Link to={"/"} className="logo-wrapper">
@@ -36,23 +49,41 @@ const Header: React.FC = () => {
                 <Link to={"/"}>
                     <Icon img={bell_icon} alt={"notifications"} />
                 </Link>
-                <Link to={"/"}>
+                <Link to={"/messages"}>
                     <Icon img={message_icon} alt={"messages"} />
                 </Link>
-                <Link to={`/profile/${user.id}`}>
-                    <img
-                        className="icon"
-                        src={`${serverURL}uploads/images/${user.profile_pic}`}
-                        onError={(e) => {
-                            const imgElement =
-                                e.target as HTMLImageElement;
-                            if (imgElement) {
-                                imgElement.onerror = null;
-                                imgElement.src = default_profile_pic;
-                            }
-                        }}alt="profile"
-                    />
-                </Link>
+                <div
+                    className="profile-icon-container"
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                >
+                    <Link to={`/profile/${user.id}`}>
+                        <img
+                            className="icon"
+                            src={`${serverURL}uploads/images/${user.profile_pic}`}
+                            onError={(e) => {
+                                const imgElement = e.target as HTMLImageElement;
+                                if (imgElement) {
+                                    imgElement.onerror = null;
+                                    imgElement.src = default_profile_pic;
+                                }
+                            }}
+                            alt="profile"
+                        />
+                    </Link>
+                    {showCard && (
+                        <div className="profile-card">
+                            <button
+                                onClick={() => {
+                                    navigate(`/profile/${user.id}`);
+                                }}
+                            >
+                                View Profile
+                            </button>
+                            <button onClick={handleLogout}>Logout</button>
+                        </div>
+                    )}
+                </div>
             </div>
 
             <div
