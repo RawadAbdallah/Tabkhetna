@@ -23,46 +23,49 @@ const Home: React.FC = () => {
     const [isAtBottom, setIsAtBottom] = useState<boolean>(false);
     const getPosts = useCallback(async () => {
         try {
+            const nextPage = page + 1; // Increment the page to fetch the next set of posts
             const response = await request({
-                route: `/post?page=${page}`,
+                route: `/post?page=${nextPage}`,
                 headers: {
                     Authorization: `Bearer ${user.token}`,
                 },
             });
 
             if (response && response.status === 200) {
-                setPosts((prev) => {
-                    const newPosts = [...prev];
-                    newPosts.push(...response.data.posts);
-                    return newPosts;
-                });
+                const newPosts = response.data.posts;
+
+                if (newPosts.length > 0) {
+                    setPosts((prev) => [...prev, ...newPosts]);
+                    setPage(nextPage);
+                } 
             }
         } catch (e) {
-            return null;
+            console.error("Error fetching posts:", e);
         }
-    }, [user.token, page, setPosts])
+    }, [user.token, page, setPosts, setPage]);
 
     useEffect(() => {
-        const fetchData = async() =>{
+        const fetchData = async () => {
             if (user.token) await getPosts();
-        }
-        fetchData()
+        };
+        fetchData();
     }, [user, getPosts, isAtBottom]);
 
-     useEffect(() => {
+    useEffect(() => {
         const handleScroll = () => {
             const newY = postContainerRef.current?.scrollTop;
-            const maxScroll =(
+            const maxScroll =
                 (postContainerRef.current?.scrollHeight || 0) -
-                (postContainerRef.current?.clientHeight || 0) - 100);
+                (postContainerRef.current?.clientHeight || 0) -
+                100;
 
-                if(newY){
-                    setIsAtBottom(newY >= maxScroll);
-                }
+            if (newY) {
+                setIsAtBottom(newY >= maxScroll);
+            }
         };
 
-        if(isAtBottom){
-            setPage(prev=> prev + 1)
+        if (isAtBottom) {
+            setPage((prev) => prev + 1);
         }
 
         postContainerRef.current?.addEventListener("scroll", handleScroll);
