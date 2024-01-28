@@ -4,7 +4,7 @@ type Challenge = {
   _id: string,
   title: string,
   description: string,
-  challenge_img: string,
+  challengeImg: string,
   challenger: UserType | null,
 }
 
