@@ -1,5 +1,14 @@
 .post-item-list{
-  list-style: disc inside;
+  list-style-type: none;
+  width:100%;
+}
+
+.post-item-list li{
+  padding: 10px;
+}
+
+.post-item-list li:nth-child(even){
+  background-color: #d4d4d4;
 }
 
 .ingredients p, .instructions p{
