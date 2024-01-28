@@ -29,29 +29,25 @@
 
 | Login screen  | Register screen |  Landing screen |
 | ---| ---| ---|
-| ![Landing](./readme/demo/wireframes/login_wireframe.png) | ![fsdaf](./readme/demo/wireframes/register_wireframe.png) | ![fsdaf](./readme/demo/wireframes/home_wireframe.png) |
-
-<img src="./readme/title5.svg"/>
+| ![Landing](./readme/demo/login_wireframe.png) | ![fsdaf](./readme/demo/register_wireframe.png) | ![fsdaf](./readme/demo/home_wireframe.png) |
 
 ### Mockups
 
-
-| Login Screen  | Profile Screen | Cookmates Screen |
+| Home screen  | Menu Screen | Order Screen |
 | ---| ---| ---|
-| ![Login](./readme/demo/mockups/login.png) | ![profile](./readme/demo/mockups/profile.png) | ![cookmates](./readme/demo/mockups/cookmates.png) 
-
+| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) 
 <br><br>
 
 <!-- Implementation -->
-<img src="./readme/title4.svg"/>
+<img src="./readme/title5.svg"/>
 
 > Using the wireframes and mockups as a guide, we implemented the Tabkhetna app with the following features:
 
 ### User Screens (Web)
 
-| Login screen  | Register screen |
+| Login & Register Screen |  AI Going in Action |
 | ---| ---|
-| ![Login](./readme/demo/login.png) | ![register](./readme/demo/register.png) |
+| ![Login](./readme/demo/login.png) | ![register](./readme/demo/screens/ai-video.gif) |
 | Home screen  | Profile screen |
 | ![Home](./readme/demo/home.png) | ![profile](./readme/demo/profile.png) |
 | Loading screen | Login & Register animation
@@ -71,8 +67,7 @@
 
 
 <!-- Tech stack -->
-<img src="./readme/title3.svg"/>
-
+<img src="./readme/title5.svg"/>
 
 ### Tabkhetna is built using the following technologies:
 
