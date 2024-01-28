@@ -2,7 +2,9 @@ const Challenge = require("../models/challenge.model");
 const User = require("../models/user.model");
 const getChallenges = async (req, res) => {
     try {
-        const challenges = await Challenge.find();
+        const challenges = await Challenge.find().sort({
+            updatedAt: -1,
+        });
         if (!challenges) {
             return res
                 .status(404)
@@ -12,7 +14,7 @@ const getChallenges = async (req, res) => {
             const user = await User.findById(challenge.challenger).select(
                 "-password"
             );
-            challenge.challenger = user
+            challenge.challenger = user;
         }
         return res.status(200).json({ challenges });
     } catch (e) {
@@ -42,9 +44,13 @@ const createChallenge = async (req, res) => {
         });
 
         // Handling the profile_pic
-        if (req.file) {
-            const image = req.file.filename;
-            newChallenge.challenge_img = image;
+        const media = req.files.map((file) =>
+            file.path.replace(/^storage\\/, "")
+        );
+
+        if (media) {
+            newChallenge.challengeImg = media[0];
+            console.log(media[0])
         } else {
             return res
                 .status(400)
