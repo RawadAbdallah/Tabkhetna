@@ -18,7 +18,6 @@ const Profile: React.FC = () => {
         return state.user;
     });
 
-    const [cookmateMessage, setCookmateMessage] = useState("Add Cookmate");
     const [isMyProfile, setIsMyProfile] = useState<boolean>(false);
     const { userId } = useParams();
     const [cookmateStatus, setCookmateStatus] =
@@ -46,97 +45,6 @@ const Profile: React.FC = () => {
     ]);
 
     const [isLoading, setIsLoading] = useState(true);
-    const getProfileData = async () => {
-        try {
-            if (user && user.token) {
-                setIsLoading(true);
-
-                // Use userId from params if available, otherwise use current user's ID
-                const idToFetch = userId;
-
-                const { token } = user;
-                const result = await request({
-                    route: `/profile/${idToFetch}`, // Use the appropriate route to fetch user data by ID
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                    },
-                });
-                setProfileData(result?.data || []);
-                setIsLoading(false);
-            }
-        } catch (e) {
-            console.log(e);
-            setIsLoading(false);
-        }
-    };
-
-    const getTopCookmates = async () => {
-        try {
-            if (user && user.token) {
-                setIsLoading(true);
-                const { token } = user;
-                const result = await request({
-                    route: `/cookmates/top/${userId}`,
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                    },
-                });
-                setTopCookmates(result?.data.cookmates);
-                setIsLoading(false);
-            }
-        } catch (e) {
-            console.log(e);
-            setIsLoading(false);
-        }
-    };
-    const getProfilePosts = async () => {
-        const { token } = user;
-        try {
-            if (user && token) {
-                setIsLoading(true);
-                const result = await request({
-                    route: `/post/${userId}`,
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                        "Content-Type": "application/json",
-                        "Access-Control-Allow-Origin": "*",
-                    },
-                });
-                if (result && result.data) {
-                    const { posts } = result.data;
-                    if (posts.length > 0) {
-                        setProfileData((prev) => {
-                            return {
-                                ...prev,
-                                posts,
-                            };
-                        });
-                    }
-                }
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    };
-
-    const getCookmateStatus = async () => {
-        try {
-            const response = await request({
-                route: `/cookmates/checkStatus?userId=${userId}`,
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
-            });
-            setCookmateStatus(response?.data.status);
-            console.log("Cookmates status: ", cookmateStatus)
-        } catch (e) {
-            return null;
-        }
-    };
 
     const addCookmate = async () => {
         try {
@@ -149,12 +57,8 @@ const Profile: React.FC = () => {
                     "Access-Control-Allow-Origin": "*",
                 },
             });
-            if (response && response.status === 200)
-                setCookmateMessage("Pending accept");
-            else if (response && response.status === 409)
-            {
-                setCookmateMessage("Cookmates already");
-                alert(response.data.error)
+            if(response && response.status === 200){
+                setCookmateStatus("Pending Request")
             }
         } catch (e) {
             console.log(e);
@@ -164,15 +68,103 @@ const Profile: React.FC = () => {
     useEffect(() => {
         if (userId == user.id) setIsMyProfile(true);
         else setIsMyProfile(false);
+        const getProfileData = async () => {
+            try {
+                if (user && user.token) {
+                    setIsLoading(true);
+
+                    // Use userId from params if available, otherwise use current user's ID
+                    const idToFetch = userId;
+
+                    const { token } = user;
+                    const result = await request({
+                        route: `/profile/${idToFetch}`, // Use the appropriate route to fetch user data by ID
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                            "Access-Control-Allow-Origin": "*",
+                        },
+                    });
+                    setProfileData(result?.data || []);
+                    setIsLoading(false);
+                }
+            } catch (e) {
+                console.log(e);
+                setIsLoading(false);
+            }
+        };
+
+        const getTopCookmates = async () => {
+            try {
+                if (user && user.token) {
+                    setIsLoading(true);
+                    const { token } = user;
+                    const result = await request({
+                        route: `/cookmates/top/${userId}`,
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                            "Access-Control-Allow-Origin": "*",
+                        },
+                    });
+                    setTopCookmates(result?.data.cookmates);
+                    setIsLoading(false);
+                }
+            } catch (e) {
+                console.log(e);
+                setIsLoading(false);
+            }
+        };
+        const getProfilePosts = async () => {
+            const { token } = user;
+            try {
+                if (user && token) {
+                    setIsLoading(true);
+                    const result = await request({
+                        route: `/post/${userId}`,
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                            "Content-Type": "application/json",
+                            "Access-Control-Allow-Origin": "*",
+                        },
+                    });
+                    if (result && result.data) {
+                        const { posts } = result.data;
+                        if (posts.length > 0) {
+                            setProfileData((prev) => {
+                                return {
+                                    ...prev,
+                                    posts,
+                                };
+                            });
+                        }
+                    }
+                }
+            } catch (e) {
+                console.log(e);
+            }
+        };
+
+        const getCookmateStatus = async () => {
+            try {
+                const response = await request({
+                    route: `/cookmates/checkStatus?userId=${userId}`,
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
+                setCookmateStatus(response?.data.status);
+            } catch (e) {
+                return null;
+            }
+        };
         if (user.token) {
             getProfileData();
             getTopCookmates();
             getProfilePosts();
             getCookmateStatus();
         }
-        console.log(cookmateStatus)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [user, cookmateStatus]);
+    }, [user, userId, cookmateStatus]);
 
     return (
         <div className="profile-page">
@@ -206,7 +198,6 @@ const Profile: React.FC = () => {
                                 >
                                     <button
                                         className="add-cookmate-button"
-                                        onClick={addCookmate}
                                         disabled={
                                             cookmateStatus === "not cookmates"
                                                 ? false
