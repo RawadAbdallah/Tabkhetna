@@ -22,7 +22,6 @@
 <br>
 
 <!-- Prototyping -->
-<img src="./readme/title3.svg"/>
 
 > I designed Tabkhetna using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience, I've gone during the coding process through some changes, so it might look a bit different in the app(in a better way).
 
@@ -30,13 +29,17 @@
 
 | Login screen  | Register screen |  Landing screen |
 | ---| ---| ---|
-| ![Landing](./readme/demo/login_wireframe.png) | ![fsdaf](./readme/demo/register_wireframe.png) | ![fsdaf](./readme/demo/home_wireframe.png) |
+| ![Landing](./readme/demo/wireframes/login_wireframe.png) | ![fsdaf](./readme/demo/wireframes/register_wireframe.png) | ![fsdaf](./readme/demo/wireframes/home_wireframe.png) |
+
+<img src="./readme/title5.svg"/>
 
 ### Mockups
 
-| Home screen  | Menu Screen | Order Screen |
+
+| Login Screen  | Profile Screen | Cookmates Screen |
 | ---| ---| ---|
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) 
+| ![Login](./readme/demo/mockups/login.png) | ![profile](./readme/demo/mockups/profile.png) | ![cookmates](./readme/demo/mockups/cookmates.png) 
+
 <br><br>
 
 <!-- Implementation -->
@@ -51,13 +54,25 @@
 | ![Login](./readme/demo/login.png) | ![register](./readme/demo/register.png) |
 | Home screen  | Profile screen |
 | ![Home](./readme/demo/home.png) | ![profile](./readme/demo/profile.png) |
-| Loading screen |
-| ![Loading](./readme/demo/loading.png) |
+| Loading screen | Login & Register animation
+| ![Loading](./readme/demo/screens/loading.gif) | ![Auth Page](./readme/demo/screens/loginregister.gif)
 
 <br><br>
 
+### User Screens (Mobile)
+
+| Login screen  | Header screen |
+| ---| ---|
+| ![Login](./readme/demo/screens/login-mobile.png) | ![header](./readme/demo/screens/header.gif) |
+| Chat screen  | Profile screen |
+| ![chat](./readme/demo/screens/chat-mobile.gif) | ![profile](./readme/demo/screens/profile-mobile.png) 
+
+
+
+
 <!-- Tech stack -->
-<img src="./readme/title5.svg"/>
+<img src="./readme/title3.svg"/>
+
 
 ### Tabkhetna is built using the following technologies:
 
