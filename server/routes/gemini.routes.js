@@ -1,5 +1,5 @@
 const express = require("express");
-const generateRecipeMissingInfo = require("../controllers/gemeni.controller");
+const generateRecipeMissingInfo = require("../controllers/gemini.controller");
 
 const router = express.Router();
 
