@@ -30,13 +30,13 @@
 
 | Login screen  | Register screen |  Landing screen |
 | ---| ---| ---|
-| ![Landing](./readme/demo/login_wireframe.png) | ![fsdaf](./readme/demo/register_wireframe.png) | ![fsdaf](./readme/demo/home_wireframe.png) |
+| ![Landing](./readme/demo/wireframes/login_wireframe.png) | ![fsdaf](./readme/demo/wireframes/register_wireframe.png) | ![fsdaf](./readme/demo/wireframes/home_wireframe.png) |
 
 ### Mockups
 
-| Home screen  | Menu Screen | Order Screen |
+| Login Screen  | Profile Screen | Cookmates Screen |
 | ---| ---| ---|
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) 
+| ![Login](./readme/demo/mockups/login.png) | ![profile](./readme/demo/mockups/profile.png) | ![cookmates](./readme/demo/mockups/cookmates.png) 
 <br><br>
 
 <!-- Implementation -->
@@ -46,9 +46,9 @@
 
 ### User Screens (Web)
 
-| Login screen  | Register screen |
+| Login & Register Screen |  AI Going in Action |
 | ---| ---|
-| ![Login](./readme/demo/login.png) | ![register](./readme/demo/register.png) |
+| ![Login](./readme/demo/login.png) | ![register]("./readme/demo/screens/AI VIDEO.gif") |
 | Home screen  | Profile screen |
 | ![Home](./readme/demo/home.png) | ![profile](./readme/demo/profile.png) |
 | Loading screen |
