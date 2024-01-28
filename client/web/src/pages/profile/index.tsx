@@ -57,8 +57,8 @@ const Profile: React.FC = () => {
                     "Access-Control-Allow-Origin": "*",
                 },
             });
-            if(response && response.status === 200){
-                setCookmateStatus("Pending Request")
+            if (response && response.status === 200) {
+                setCookmateStatus("Pending Request");
             }
         } catch (e) {
             console.log(e);
@@ -171,7 +171,7 @@ const Profile: React.FC = () => {
             {isLoading && <Loader />}
             <Header />
             <main className="home-main flex">
-                <Sidebar />
+                <Sidebar current_page="profile" />
                 <section className="profile-section flex flex-column gap-5">
                     <div className="profile-info-wrapper flex gap-5">
                         <div className="profile-pic-wrapper flex flex-column gap-3">
@@ -214,7 +214,7 @@ const Profile: React.FC = () => {
                             )}
                         </div>
                         <div className="achievements-wrapper flex align-center gap-5">
-                            <div className="flex flex-column align-center">
+                            <div className="     flex flex-column align-center justify-center">
                                 <img loading="lazy" src={starIcon} alt="⭐" />
                                 <h2>Achievements</h2>
                             </div>
@@ -224,8 +224,11 @@ const Profile: React.FC = () => {
                                     {profileData.achievements.map(
                                         (achievement, index) => {
                                             return (
-                                                <li key={index}>
-                                                    {achievement}
+                                                <li
+                                                    key={index}
+                                                >
+                                                    {achievement.title}<br></br>(
+                                                    {achievement.description})
                                                 </li>
                                             );
                                         }
@@ -328,7 +331,9 @@ const Profile: React.FC = () => {
                             ) : (
                                 <p> No cookmates yet!</p>
                             )}
-                            <Link to={`/cookmates`}>See All {">"}</Link>
+                            <Link className="see-all" to={`/cookmates`}>
+                                See All {">"}
+                            </Link>
                         </div>
                     </div>
                 </section>

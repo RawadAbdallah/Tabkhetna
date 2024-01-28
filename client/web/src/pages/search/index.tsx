@@ -58,8 +58,8 @@ const Search = () => {
         console.log(users)
 
         if (user.token) {
-            // searchUsers();
-            // searchPosts();
+            searchUsers();
+            searchPosts();
         }
         setSearchParams(new URLSearchParams(location.search));
         // eslint-disable-next-line react-hooks/exhaustive-deps

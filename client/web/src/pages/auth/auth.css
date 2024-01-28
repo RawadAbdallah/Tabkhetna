@@ -34,8 +34,13 @@
 }
 
 .auth-container.register .auth-form {
-    padding: 90px 75px;
+    padding: 30px 50px;
 }
+
+.auth-container.register .auth-form input {
+    padding: 15px;
+}
+
 
 .auth-form h1 {
     font-size: 1.8rem;
@@ -129,6 +134,10 @@
     transition: all 0.25s ease-in-out;
 }
 
+.auth-body input::placeholder{
+    font-family: 'Poppins', Arial, Helvetica, sans-serif;
+}
+
 .register .auth-body input {
     border: 1px solid var(--secondary-color);
 }
@@ -168,7 +177,7 @@
 .auth-form button {
     width: 100%;
     background-color: var(--teal-color);
-    padding: 20px;
+    padding: 15px;
     border-radius: 12px;
     font-size: 1.4rem;
     font-family: "Poppins", Arial, Helvetica, sans-serif;
@@ -187,7 +196,7 @@
 
 .select {
     flex: 1;
-    padding: 25px;
+    padding: 15px;
     background-color: var(--teal-color);
     color: var(--secondary-color);
     border-radius: 12px;

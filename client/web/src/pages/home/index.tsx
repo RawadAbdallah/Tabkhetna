@@ -37,7 +37,7 @@ const Home: React.FC = () => {
                 if (newPosts.length > 0) {
                     setPosts((prev) => [...prev, ...newPosts]);
                     setPage(nextPage);
-                } 
+                }
             }
         } catch (e) {
             console.error("Error fetching posts:", e);
@@ -86,7 +86,7 @@ const Home: React.FC = () => {
                             posts.map((post, i) => {
                                 return (
                                     <Post
-                                        key={i}
+                                        key={(i + post._id)}
                                         _id={post._id}
                                         posted_by={post.posted_by}
                                         title={post.title}
