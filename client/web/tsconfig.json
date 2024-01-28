@@ -32,7 +32,7 @@
         "@services/*": ["./src/services/*"],
       }
     },
-    "include": ["**/*.ts", "**/*.tsx"],
+    "include": ["**/*.ts", "**/*.tsx", "src/services/serviceWorker.js"],
   
     "references": [{ "path": "./tsconfig.node.json" }]
   }
