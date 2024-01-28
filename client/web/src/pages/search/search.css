@@ -1,0 +1,30 @@
+.search-page {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.search-main {
+  position: relative;
+  display: flex;
+  flex: 1;
+  background: linear-gradient(110deg, #2F4F4F -0.46%, #1F2222 91.99%);
+  padding: 0 30px;
+  gap: 30px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.main-section  {
+  flex:1;
+  padding: 20px 0;
+  overflow-y: auto;
+}
+
+.search-page h2, .search-page h1{
+  color: white;
+}
+
+.search-page .posts-container h2{
+  font-size: 1.3rem;
+}
