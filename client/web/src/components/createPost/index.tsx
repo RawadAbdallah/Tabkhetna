@@ -78,7 +78,7 @@ const CreatePost: React.FC = () => {
                         />
                         Video
                     </li>
-                    <li className="flex align-center gap-1" onClick={toggleChallengeForm}>
+                    <li className="flex align-center gap-1" onClick={() => toggleChallengeForm()}>
                         <Icon
                             img={challenge_icon}
                             alt="challenge icon"
