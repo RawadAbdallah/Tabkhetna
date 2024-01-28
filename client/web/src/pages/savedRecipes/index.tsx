@@ -12,29 +12,29 @@ import { RootState } from "@/store";
 const SavedRecipes = () => {
     const [posts, setPosts] = useState<PostType[]>([]);
     const user = useSelector((state: RootState) => state.user);
-    const getSavedPosts = async () => {
-        try {
-            console.log("TOKEN ", user.token);
-            const response = await request({
-                route: `/post/save/all`,
-                method: "GET",
-                headers: {
-                    Authorization: `Bearer ${user.token}`,
-                },
-            });
-            if (response && response.status === 200) setPosts(response.data);
-        } catch (e) {
-            console.log(e);
-        }
-    };
 
     useEffect(() => {
+        const getSavedPosts = async () => {
+            try {
+                const response = await request({
+                    route: `/post/save/all`,
+                    method: "GET",
+                    headers: {
+                        Authorization: `Bearer ${user.token}`,
+                    },
+                });
+                if (response && response.status === 200)
+                    setPosts(response.data);
+            } catch (e) {
+                console.log(e);
+            }
+        };
+        
         try {
             if (user.token) getSavedPosts();
         } catch (e) {
             console.log(e);
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     return (
