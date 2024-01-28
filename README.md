@@ -13,27 +13,18 @@
 
 #### User
 
-- As a user, I want to share live videos and events as a classes on the application.
 - As a user, I want to to share my recipes to everyone.
-- As a user, I want to participate in an events and challenges to gain more achievements to grab much more attention.
+- As a user, I want to to gain more achievements to grab much more attention.
 - As a user, I want to chat with others.
 - As a user, I want to share my comments on other recipes.
-- As a user, I want to contact the help supporters.
+- As a user, I want to contact for help.
 
 <br>
-
-#### Admin
-
-- As a admin, I can ban users who violated the rules.
-- As a admin, I can approve or disapprove an event posted.
-- As a admin, I can post FAQs in the Help & Support section.
-
-<br><br>
 
 <!-- Prototyping -->
 <img src="./readme/title3.svg"/>
 
-> I designed Tabkhetna using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience.
+> I designed Tabkhetna using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience, I've gone during the coding process through some changes, so it might look a bit different in the app(in a better way).
 
 ### Wireframes
 
@@ -63,14 +54,6 @@
 | Loading screen |
 | ![Loading](./readme/demo/loading.png) |
 
-### Admin Screens (Web)
-
-| Login screen  | Register screen |  Landing screen |
-| ---| ---| ---|
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
-| Home screen  | Menu Screen | Order Screen |
-| ![Landing](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) | ![fsdaf](./readme/demo/1440x1024.png) |
-
 <br><br>
 
 <!-- Tech stack -->
@@ -80,11 +63,18 @@
 
 - This project uses the MERN stack. The MERN stack is a full-stack JavaScript solution, comprising MongoDB as the database, Express.js as the web application framework, React as the front-end library, and Node.js as the server runtime. The MERN stack enables the development of cross-platform applications with a unified codebase for mobile, desktop, and web environments.
 - For persistent storage (database), the app uses the MongoDB database. MongoDB allows the app to create a custom storage schema and save it to a local database, providing a flexible and scalable solution for data management.
-  - 🚨 Currently, notifications aren't working on macOS. This is a known issue that we are working to resolve!
 - The app uses the font ["Poppins"](https://fonts.google.com/specimen/Poppins) as its main font, and the design of the app adheres to the material design guidelines.
 
 <br><br>
 
+<!-- Prompt Engineering -->
+<img src="./readme/title7.svg"/>
+
+### Crafting words for better recipes with Gemini AI
+
+- In my project, I made sure that AI understands and respond better. By choosing words carefully, I help the AI give you the right recipe info when you use Gemini AI. It's like telling it exactly what you want, and I do that to make it work better for you.
+- AI would respond with either the missing ingredients or instructions for the chosen recipe post.
+<br><br>
 <!-- How to run -->
 <img src="./readme/title6.svg"/>
 
@@ -102,18 +92,28 @@ This is an example of how to list things you need to use the software and how to
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/RawadAbdallah/Tabkhetna.git
+1. Get a free Gemini API Key at [Gemini](https://www.gemini.com/).
+2. Clone the repository:
+
+    ```bash
+    git clone https://github.com/RawadAbdallah/Tabkhetna.git
+    ```
+
+3. Install NPM packages:
+
+    ```bash
+    npm install
+    ```
+
+4. Copy `.example.env` and fill in the required information.
+5. Run the frontend app:
+   ```bash
+   npm run dev
    ```
-3. Install NPM packages
-   ```sh
-   npm install
+6. Run the backend app:
+   ```bash
+   npm start
    ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
+
 
 Now, you should be able to run Express locally and explore its features.
