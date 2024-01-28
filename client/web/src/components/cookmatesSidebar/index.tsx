@@ -1,6 +1,5 @@
 import { request, serverURL } from "@/services/request";
 import "./cookmatesSidebar.css";
-import Search from "@components/search";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CookmateType from "@/types/cookmate";
@@ -13,7 +12,10 @@ const CookmatesSidebar: React.FC = () => {
     const user = useSelector((state: RootState) => {
         return state.user;
     });
-    const getTopCookmates = async () => {
+   
+    // get user cookmates
+    useEffect(() => {
+         const getTopCookmates = async () => {
         try {
             if (user && user.token) {
                 const { token } = user;
@@ -31,17 +33,13 @@ const CookmatesSidebar: React.FC = () => {
             console.log(e);
         }
     };
-    // get user cookmates
-    useEffect(() => {
         getTopCookmates();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [user]);
 
     return (
         <div className="cookmates-sidebar">
-            <Search />
             <h2>Cookmates</h2>
-            {topCookmates &&
+            {topCookmates && topCookmates?.length > 1 ?
                 topCookmates.map((cookmate, index) => {
                     const username =
                         cookmate.firstname + " " + cookmate.lastname;
@@ -77,7 +75,10 @@ const CookmatesSidebar: React.FC = () => {
                             </div>
                         </div>
                     );
-                })}
+                }) : <>
+                You have no cookmates yet
+                </>
+            }
         </div>
     );
 };
