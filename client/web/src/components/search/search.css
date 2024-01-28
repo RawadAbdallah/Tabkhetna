@@ -7,9 +7,14 @@
   font-family: 'Poppins', Arial, Helvetica, sans-serif;
 }
 
+.search-container{
+  flex: 1;
+}
+
 .search-wrapper{
   display: flex;
   position: relative;
+  width:100%;
 }
 
 .search-wrapper img{
@@ -17,4 +22,10 @@
   top: 50%;
   left: 12px;
   transform: translateY(-50%);
+}
+
+.search-error{
+  color: tomato;
+  font-size:.9rem;
+  font-weight: bold;
 }
