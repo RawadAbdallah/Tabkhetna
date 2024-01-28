@@ -53,6 +53,15 @@
     gap: 20px;
 }
 
+.post-description .ingredients,
+.post-description .instructions{
+    width: 100%;
+}
+
+.post-description .ingredients p, 
+.post-description .instructions p{
+    font-weight: bold;
+}
 .post-description div{
     flex: 1;
 }
@@ -66,9 +75,18 @@
     border-radius: 12px;
 }
 
+.no-post-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:10px;
+}
+
 .post-actions-wrapper {
     display: flex;
     padding: 10px 0;
+
 }
 
 .post-actions {
