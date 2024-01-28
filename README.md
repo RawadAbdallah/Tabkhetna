@@ -48,7 +48,7 @@
 
 | Login & Register Screen |  AI Going in Action |
 | ---| ---|
-| ![Login](./readme/demo/login.png) | ![register]("./readme/demo/screens/AI VIDEO.gif") |
+| ![Login](./readme/demo/login.png) | ![register](./readme/demo/screens/ai-video.gif) |
 | Home screen  | Profile screen |
 | ![Home](./readme/demo/home.png) | ![profile](./readme/demo/profile.png) |
 | Loading screen |
