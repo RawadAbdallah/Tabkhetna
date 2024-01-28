@@ -96,7 +96,7 @@ const userSchema = new mongoose.Schema({
     is_banned: {
         type: Boolean,
         default: false
-    }
+    },
 });
 
 userSchema.pre(
