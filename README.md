@@ -78,10 +78,11 @@
 
 
 ### Tabkhetna is built using the following technologies:
-
-- This project uses the MERN stack. The MERN stack is a full-stack JavaScript solution, comprising MongoDB as the database, Express.js as the web application framework, React as the front-end library, and Node.js as the server runtime. The MERN stack enables the development of cross-platform applications with a unified codebase for mobile, desktop, and web environments.
-- For persistent storage (database), the app uses the MongoDB database. MongoDB allows the app to create a custom storage schema and save it to a local database, providing a flexible and scalable solution for data management.
-- The app uses the font ["Poppins"](https://fonts.google.com/specimen/Poppins) as its main font, and the design of the app adheres to the material design guidelines.
+<img src="./readme/mern.png" />
+- MongoDB (Databaes)
+- Express.js (web app framework)
+- React (Front-end libarary)
+- Node.js (Server runtime)
 
 <br><br>
 
@@ -96,7 +97,8 @@
 <!-- AWS Deployment -->
 <img src="./readme/title8.svg"/>
 
-###   Unleashing the Potential with AWS deploying:
+###   AWS deploying:
+
 - This project backend is hosted on an AWS EC2 server, ensuring reliable and scalable deployment. Here's my server ip address 13.39.86.160, check it out.
 
 
@@ -104,8 +106,6 @@
 
 <!-- Unit Testing -->
 <img src="./readme/title9.svg"/>
-
-###  Precision in Development: Harnessing the Power of Unit Testing:
 
 - In this project, I tested my APIs to make sure my code works well. I checked each part of the software step by step, found and fixed problems early on. For testing my Node.js app, I used Jest and SuperTest. Here's a snapshot from my testing: 
 
