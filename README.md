@@ -78,7 +78,7 @@
 
 
 ### Tabkhetna is built using the following technologies:
-<img src="./readme/mern.png" />
+<img src="./readme/demo/mern.png" />
 - MongoDB (Databaes)
 - Express.js (web app framework)
 - React (Front-end libarary)
