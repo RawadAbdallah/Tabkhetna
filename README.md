@@ -279,4 +279,7 @@ Now, you are good to go and be able to run the Express app locally.
 
 ## Video Demo
 
-[Preview Link Here](https://youtu.be/WztcHcW6gvE)
+
+https://github.com/RawadAbdallah/Tabkhetna/assets/84904014/bcf88271-a7a6-43bb-934e-c979ed4fde2e
+
+
