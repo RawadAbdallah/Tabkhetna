@@ -27,12 +27,6 @@
 
 > I designed Tabkhetna using wireframes and mockups, iterating on the design until we reached the ideal layout for easy navigation and a seamless user experience, I've gone during the coding process through some changes, so it might look a bit different in the app(in a better way).
 
-### Wireframes
-
-| Login screen  | Register screen |  Landing screen |
-| ---| ---| ---|
-| ![Landing](./readme/demo/wireframes/login_wireframe.png) | ![fsdaf](./readme/demo/wireframes/register_wireframe.png) | ![fsdaf](./readme/demo/wireframes/home_wireframe.png) |
-
 
 
 ### Mockups
@@ -42,6 +36,22 @@
 | ---| ---| ---|
 | ![Login](./readme/demo/mockups/login.png) | ![profile](./readme/demo/mockups/profile.png) | ![cookmates](./readme/demo/mockups/cookmates.png) 
 <br><br>
+
+<!-- Tech stack -->
+<img src="./readme/title4.svg"/>
+
+
+### Tabkhetna is built using the following technologies:
+- Frontend:
+  - React (Typescript)
+- Backend:
+  - Node.js: A Javascript runtime for executing server-side code.
+  - Express: A web application framework for Node.js.
+  - MongoDB: A NoSQL database for storing and managing app data.
+<img src="./readme/demo/mern.png" />
+
+<br><br>
+
 
 <!-- Implementation -->
 <img src="./readme/title5.svg"/>
@@ -70,22 +80,6 @@
 | Challenges Screen | Home Screen
 | ![challenges](./readme/demo/screens/challenges-mobile.png) | ![home](./readme/demo/screens/home-mobile.png)
 
-
-
-
-<!-- Tech stack -->
-<img src="./readme/title4.svg"/>
-
-
-### Tabkhetna is built using the following technologies:
-<img src="./readme/demo/mern.png" />
-- MongoDB (Databaes)
-- Express.js (web app framework)
-- React (Front-end libarary)
-- Node.js (Server runtime)
-
-<br><br>
-
 <!-- Prompt Engineering -->
 <img src="./readme/title7.svg"/>
 
@@ -93,6 +87,17 @@
 
 - In my project, I made sure that AI understands and respond better. By choosing words carefully, I help the AI give you the right recipe info when you use Gemini AI. It's like telling it exactly what you want, and I do that to make it work better for you.
 - AI would respond with either the missing ingredients or instructions for the chosen recipe post.
+
+- The prompt: 
+```bash
+ As a food chef, generate a basic set of instructions for a ${title} with the provided ${currentInfo}. Please provide clear and concise steps, avoiding additional phrases and don't generate any ${currentInfo}, just generate the ${missing}. Don't make it as a vertical list, use a dash '-' to seperate each ${missing}, so only use dash characters whenever you need to separate each item. Omit numbers, and if you want to a dash character in a sentence, use space instead, in example don't write for example 12-inch write it instead 12 inch. Format the instructions as follows: (${missing} -${missing}- ...). Keep it within 300 characters. I repeat dashes are only written when item seperation is needed. Here's the ${currentInfo} list: ${listOfCurrentInfo}
+```
+| AI going in action  |
+| -- |
+ ![AI Web](./readme/demo/screens/aivideo-mobile.gif) | 
+
+
+
 <br><br>
 <!-- AWS Deployment -->
 <img src="./readme/title8.svg"/>
