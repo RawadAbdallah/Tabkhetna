@@ -35,6 +35,14 @@
 | Login Screen  | Profile Screen | Cookmates Screen |
 | ---| ---| ---|
 | ![Login](./readme/demo/mockups/login.png) | ![profile](./readme/demo/mockups/profile.png) | ![cookmates](./readme/demo/mockups/cookmates.png) 
+
+
+<img src="./readme/title10.svg">
+
+### MongoDB Schema Design:
+
+<img src="./readme/dbdesign.png">
+
 <br><br>
 
 <!-- Tech stack -->
@@ -88,10 +96,9 @@
 - In my project, I made sure that AI understands and respond better. By choosing words carefully, I help the AI give you the right recipe info when you use Gemini AI. It's like telling it exactly what you want, and I do that to make it work better for you.
 - AI would respond with either the missing ingredients or instructions for the chosen recipe post.
 
-- The prompt: 
-```bash
- As a food chef, generate a basic set of instructions for a ${title} with the provided ${currentInfo}. Please provide clear and concise steps, avoiding additional phrases and don't generate any ${currentInfo}, just generate the ${missing}. Don't make it as a vertical list, use a dash '-' to seperate each ${missing}, so only use dash characters whenever you need to separate each item. Omit numbers, and if you want to a dash character in a sentence, use space instead, in example don't write for example 12-inch write it instead 12 inch. Format the instructions as follows: (${missing} -${missing}- ...). Keep it within 300 characters. I repeat dashes are only written when item seperation is needed. Here's the ${currentInfo} list: ${listOfCurrentInfo}
-```
+- The feeded prompt:
+  > As a food chef, generate a basic set of instructions for a \${title} with the provided \${currentInfo}. Please provide clear and concise steps,   avoiding additional phrases and don't generate any \${currentInfo}, just generate the \${missing}. Don't make it as a vertical list, use a dash '-' to seperate each ${missing}, so only use dash characters whenever you need to separate each item. Omit numbers, and if you want to a dash character in a sentence, use space instead, in example don't write for example 12-inch write it instead 12 inch. Format the instructions as follows: (\${missing} -\${missing}- ...). Keep it within 300 characters. I repeat dashes are only written when item seperation is needed. Here's the \${currentInfo} list: \${listOfCurrentInfo}
+
 | AI going in action  |
 | -- |
  ![AI Web](./readme/demo/screens/aivideo-mobile.gif) | 
@@ -194,14 +201,24 @@
   ```
   > If mongod service is failing, check this fix [here](https://stackoverflow.com/questions/9884233/mongodb-service-is-not-starting-up)
 
+- **An example for running a correctly configured server:**
+  <img src="./readme/server.png">
 <br><br>
 
 <!-- Unit Testing -->
 <img src="./readme/title9.svg"/>
 
-- In this project, I tested my APIs to make sure my code works well. I checked each part of the software step by step, found and fixed problems early on. For testing my Node.js app, I used Jest and SuperTest. Here's a snapshot from my testing: 
+- In this project, I tested my APIs to make sure my code works well. I checked each part of the software step by step, found and fixed problems early on. For testing my Node.js app, I used [Jest](https://jestjs.io/) and [SuperTest](https://www.npmjs.com/package/supertest). 
 
-<img src="./readme/tests.png">
+- Here's some snapshots from my testing:
+
+| Feature 1 | Feature 2 |
+| --- | --- |
+| <img src="./readme/test1.png"/> | <img src="./readme/test3.png">
+| Feature 3 | Feature 4 |
+| <img src="./readme/test2.png"> | <img src="./readme/test5.png">
+| Feature 5 | Test Result|
+| <img src="./readme/test4.png"> | <img src="./readme/tests.png">
 
 <br><br>
 
@@ -212,28 +229,27 @@
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * npm
   ```sh
   npm install npm@latest -g
   ```
-
+* Gemini API key
+  >  Get a free Gemini API Key at [Gemini](https://www.gemini.com/). 
 ### Installation
 
-1. Get a free Gemini API Key at [Gemini](https://www.gemini.com/).
-2. Clone the repository:
+1. Clone the repository:
 
     ```bash
     git clone https://github.com/RawadAbdallah/Tabkhetna.git
     ```
 
-3. Install NPM packages:
+2. Install NPM packages:
 
     ```bash
     npm install
     ```
 
-4. Copy `.example.env` and fill in the required information:
+3. Copy `.example.env` and fill in the required information:
     - Frontend environments (Inside the client/web folder):
       ```js
       //client/web/.example.env
@@ -249,11 +265,11 @@ This is an example of how to list things you need to use the software and how to
       MONGODB_URL = "mongodb://YOUR_IP_HERE:27017/tabkhetna"
       JWT_SECRET = SECRET KEY
       ```
-5. Run the frontend app:
+4. Run the frontend app:
    ```bash
    npm run dev
    ```
-6. Run the backend app:
+5. Run the backend app:
    ```bash
    npm start
    ```
