@@ -106,6 +106,93 @@
 
 - This project backend is hosted on an AWS EC2 server, ensuring reliable and scalable deployment. Here's my server ip address 13.39.86.160, check it out.
 
+## Connecting to EC2 instance via SSH
+
+1. Open your terminal on your local machine.
+
+2. Use the following command to connect to your EC2 instance. Replace `your-instance-ip` with your actual EC2 instance's public IP address:
+
+    ```bash
+    ssh -i /path/to/your/private-key-file.pem ec2-user@your-instance-ip
+    ```
+
+## Installing Git, Node, NPM, and MongoDB
+
+3. Update the system:
+
+    ```bash
+    sudo yum update -y
+    ```
+
+5. Install Git:
+
+    ```bash
+    sudo yum install git -y
+    ```
+
+6. Install Node.js and NPM:
+
+    ```bash
+    sudo yum install nodejs -y
+    ```
+
+7. Install and configuring MongoDB:
+    - **Installation**:
+      - create a new file:
+        
+      ```bash
+        sudo vi /etc/yum.repos.d/mongodb-org-7.0.repo
+      ```
+
+      - copy/paste the following content into the created file:
+      ```bash
+      sudo tee /etc/yum.repos.d/mongodb-org-4.4.repo << EOF
+      [mongodb-org-4.4]
+      name=MongoDB Repository
+      baseurl=https://repo.mongodb.org/yum/amazon/2/mongodb-org/4.4/x86_64/
+      gpgcheck=1
+      enabled=1
+      gpgkey=https://www.mongodb.org/static/pgp/server-4.4.asc
+      EOF
+
+      sudo yum install -y mongodb-org
+      sudo service mongod start
+      ```
+
+- **MongoDB Configuration:**
+  - open mongo configuration file:
+    ```bash
+    sudo vi /etc/mongod.conf
+    ```
+  -  change the bindIp to 0.0.0.0  to bind to all IPv4 and IPv6 addresses.
+      ```bash
+      # network interfaces
+        net:
+          port: 27017
+          bindIp: 0.0.0.0  # <--- change here
+      ```
+  - save and exit.
+- **start the mongod service**
+  ```bash
+  sudo service mongod start
+  ```
+
+- **check mongod service status**
+  ```bash 
+  sudo service mongod status
+  ```
+  You should have a active(running) status by now:
+  ```bash
+   mongod.service - MongoDB Database Server
+     Loaded: loaded (/usr/lib/systemd/system/mongod.service; enabled; preset: d>
+     Active: active (running) since Wed 2024-01-24 12:04:09 UTC; 5 days ago
+       Docs: https://docs.mongodb.org/manual
+   Main PID: 2618 (mongod)
+     Memory: 116.4M
+        CPU: 32min 49.962s
+     CGroup: /system.slice/mongod.service
+  ```
+  > If mongod service is failing, check this fix [here](https://stackoverflow.com/questions/9884233/mongodb-service-is-not-starting-up)
 
 <br><br>
 
@@ -122,7 +209,6 @@
 <!-- How to run -->
 <img src="./readme/title6.svg"/>
 
-> To set up Tabkhetna locally, follow these steps:
 
 ### Prerequisites
 
@@ -149,7 +235,22 @@ _Below is an example of how you can instruct your audience on installing and set
     npm install
     ```
 
-4. Copy `.example.env` and fill in the required information.
+4. Copy `.example.env` and fill in the required information:
+    - Frontend environments (Inside the client/web folder):
+      ```js
+      //client/web/.example.env
+      VITE_SERVER_URL = YOUR SERVER URL
+      VITE_APP_BASE_URL = YOUR APP BASE URL
+      ```
+    - Backend environments (Inside the server folder):
+      ```js
+      //server/.example.env
+      PORT = YOUR PORT
+      IP = YOUR IP HERE
+      GEMENI_API_KEY = ENTER API KEY 
+      MONGODB_URL = "mongodb://YOUR_IP_HERE:27017/tabkhetna"
+      JWT_SECRET = SECRET KEY
+      ```
 5. Run the frontend app:
    ```bash
    npm run dev
@@ -160,4 +261,4 @@ _Below is an example of how you can instruct your audience on installing and set
    ```
 
 
-Now, you should be able to run Express locally and explore its features.
+Now, you are good to go and be able to run the Express app locally.
